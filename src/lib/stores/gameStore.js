@@ -1,4 +1,5 @@
 import { writable, derived } from 'svelte/store';
+import { base } from '$app/paths';
 import { generateSchedule, createInitialStandings, simulateMatch, applyMatchToStandings, sortStandings } from '../utils/matchEngine.js';
 import { transitionSeason } from '../utils/seasonManager.js';
 import { buildTransportRoute } from '../utils/geoUtils.js';
@@ -15,6 +16,12 @@ export const error = writable(null);
 // Game progression state
 export const currentSeason = writable(1);
 export const currentLeagues = writable(null);
+
+// Season Transition Review Modal & Wizard states
+export const lastTransitionSummary = writable(null);
+export const showSeasonModal = writable(false);
+export const wizardDataStore = writable(null);
+export const showWizardModal = writable(false);
 
 // UI Navigation selections
 export const selectedDivision = writable('serie_A'); // 'serie_A', 'serie_B', 'serie_C', 'serie_D'
@@ -36,11 +43,12 @@ export async function loadGameData() {
   error.set(null);
 
   try {
+    const basePath = base ? base.replace(/\/$/, '') : '';
     const [teamsRes, leaguesRes, airportsRes, hubsRes] = await Promise.all([
-      fetch('/json/teams_db.json'),
-      fetch('/json/leagues_init.json'),
-      fetch('/json/airports_db.json'),
-      fetch('/json/city_hubs.json')
+      fetch(`${basePath}/json/teams_db.json`),
+      fetch(`${basePath}/json/leagues_init.json`),
+      fetch(`${basePath}/json/airports_db.json`),
+      fetch(`${basePath}/json/city_hubs.json`)
     ]);
 
     if (!teamsRes.ok || !leaguesRes.ok || !airportsRes.ok || !hubsRes.ok) {
@@ -286,7 +294,6 @@ export function simulateOneRound() {
     return standingsMap;
   });
 
-  // Advance progress for all leagues that had remaining rounds
   roundProgressStore.update(p => {
     leagueKeys.forEach(key => {
       const schedule = allSchedules[key] || [];
@@ -315,12 +322,13 @@ export function simulateFullSeasonActive() {
 }
 
 /**
- * Advances to next season with promotion, relegation, and greedy re-clustering
+ * Advances to next season with promotion, relegation, and Hungarian algorithm re-clustering
  */
 export function advanceToNextSeason() {
   let cLeagues = null;
   let sMap = {};
   let tDb = {};
+  let cSeason = 1;
 
   currentLeagues.subscribe(v => cLeagues = v)();
   standingsStore.subscribe(map => {
@@ -329,12 +337,21 @@ export function advanceToNextSeason() {
     });
   })();
   teamsDb.subscribe(v => tDb = v)();
+  currentSeason.subscribe(v => cSeason = v)();
 
   if (!cLeagues || !sMap) return;
 
-  const nextLeagues = transitionSeason(cLeagues, sMap, tDb);
+  const { nextLeagues, summary, wizardData } = transitionSeason(cLeagues, sMap, tDb, cSeason);
+
   currentLeagues.set(nextLeagues);
   currentSeason.update(s => s + 1);
+
+  // Store transition summary and wizard data
+  lastTransitionSummary.set(summary);
+  wizardDataStore.set(wizardData);
+
+  // Trigger Season Review Modal first
+  showSeasonModal.set(true);
 
   // Re-initialize schedules and standings for the new season
   initializeSeasonState(nextLeagues, tDb);

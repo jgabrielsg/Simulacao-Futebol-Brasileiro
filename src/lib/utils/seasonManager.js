@@ -1,64 +1,77 @@
 import { haversineDistance, calculateCentroid } from './geoUtils.js';
+import { assignTeamsHungarian } from './hungarian.js';
 
 /**
- * Season Transition and Re-clustering Manager
+ * Season Transition and Re-clustering Manager (Linear Assignment / Hungarian Algorithm)
  */
 
+function formatTeamInfo(teamId, teamsDb, extra = {}) {
+  const team = teamsDb[teamId] || {};
+  const parts = teamId ? teamId.split('/') : [];
+  return {
+    teamId,
+    name: team.nome || parts[0] || teamId,
+    state: team.uf || team.estado || parts[1] || '',
+    lat: team.lat,
+    lon: team.lon,
+    pagerank: team.pagerank || 0,
+    ...extra
+  };
+}
+
 /**
- * Executes a full season transition with strict Brazilian Football Logistics rules:
- * 
- * - Serie A <-> Serie B: 4 teams swapped (Bottom 4 A <-> Top 4 B).
- * - Serie B <-> Serie C: 
- *   - 4 bottom teams of B fall to Serie C.
- *   - Exactly 1 team (champion) from EACH of the 4 Serie C macro-regions (macro_0..3) ascends to Serie B (4 total).
- *   - Exactly 3 teams (bottom 3) from EACH of the 4 Serie C macro-regions fall to Serie D (12 total).
- * - Serie C <-> Serie D:
- *   - Exactly 1 team (champion) from EACH of the 12 Serie D micro-regions (micro_0..11) ascends to Serie C (12 total).
- *   - Exactly 3 teams (bottom 3) from EACH of the 12 Serie D micro-regions fall to Amateur (36 total).
- * - Serie D <-> Amateur (YO-YO EFFECT PREVENTED):
- *   - Step 1: Identify 3 relegated teams from each micro_K of Serie D and isolate them.
- *   - Step 2: Select 3 promoted teams from amador[micro_K] that ARE NOT the relegated teams.
- *   - Step 3: Remove promoted teams from amador[micro_K] and insert into Serie D.
- *   - Step 4: Insert relegated teams into amador[micro_K] pool ONLY AFTER promotions are finalized.
+ * Executes a full season transition using Hungarian Algorithm (LAP) for regional re-clustering,
+ * returning nextLeagues, transitionSummary (for Modal), and wizardData (for ReclusteringWizard).
  */
-export function transitionSeason(currentLeagues, standingsMap, teamsDb) {
-  // Deep clone current leagues structure
+export function transitionSeason(currentLeagues, standingsMap, teamsDb, currentSeasonNum = 1) {
   const nextLeagues = JSON.parse(JSON.stringify(currentLeagues));
-  const centroids = currentLeagues.centroids || {};
-  
-  // Clone amador dictionary so we can update it in place without side effects
+  const precomputedCentroids = currentLeagues.centroids || {};
   const amadorDb = currentLeagues.amador ? JSON.parse(JSON.stringify(currentLeagues.amador)) : {};
 
   // -------------------------------------------------------------
-  // 1. Serie A <-> Serie B
+  // 1. Serie A <-> Serie B (4 teams swapped)
   // -------------------------------------------------------------
   const standingsA = standingsMap['serie_A'] || [];
   const standingsB = standingsMap['serie_B'] || [];
 
-  const relegatedFromA = standingsA.slice(-4).map(s => s.teamId);
-  const promotedFromB = standingsB.slice(0, 4).map(s => s.teamId);
-  const relegatedFromB = standingsB.slice(-4).map(s => s.teamId);
+  const relegatedFromA_Ids = standingsA.slice(-4).map(s => s.teamId);
+  const promotedFromB_Ids = standingsB.slice(0, 4).map(s => s.teamId);
+  const relegatedFromB_Ids = standingsB.slice(-4).map(s => s.teamId);
 
   const stayInA = standingsA.slice(0, standingsA.length - 4).map(s => s.teamId);
-  nextLeagues.serie_A = [...stayInA, ...promotedFromB];
+  nextLeagues.serie_A = [...stayInA, ...promotedFromB_Ids];
 
   const stayInB = standingsB.slice(4, standingsB.length - 4).map(s => s.teamId);
 
   // -------------------------------------------------------------
   // 2. Serie B <-> Serie C (4 promoted to B, 12 relegated to D)
   // -------------------------------------------------------------
-  const promotedFromC = [];  // 4 champions (1 per macro region)
-  const relegatedFromC = []; // 12 bottom teams (3 per macro region)
+  const macroKeys = ['macro_0', 'macro_1', 'macro_2', 'macro_3'];
+  const oldCentroidsC = {};
+  const oldTeamsCByMacro = {};
+
+  macroKeys.forEach(mKey => {
+    const teamsInMacro = currentLeagues.serie_C[mKey] || [];
+    oldTeamsCByMacro[mKey] = [...teamsInMacro];
+    const teamObjs = teamsInMacro.map(id => teamsDb[id]).filter(Boolean);
+    oldCentroidsC[mKey] = precomputedCentroids[mKey] || calculateCentroid(teamObjs);
+  });
+
+  const promotedFromC_Info = [];  // 4 champions (1 per macro region)
+  const relegatedFromC_Info = []; // 12 bottom teams (3 per macro region)
   const lockedInC = { macro_0: [], macro_1: [], macro_2: [], macro_3: [] };
 
-  ['macro_0', 'macro_1', 'macro_2', 'macro_3'].forEach(mKey => {
+  macroKeys.forEach(mKey => {
     const sC = standingsMap[`serie_C.${mKey}`] || [];
     if (sC.length >= 4) {
-      promotedFromC.push(sC[0].teamId); // Top 1 team promoted to Serie B
-      const bottom3 = sC.slice(-3).map(s => s.teamId); // Bottom 3 teams relegated to Serie D
-      relegatedFromC.push(...bottom3);
+      const champId = sC[0].teamId;
+      promotedFromC_Info.push(formatTeamInfo(champId, teamsDb, { regionKey: mKey, regionLabel: mKey.replace('macro_', 'Macro ') }));
 
-      // Remaining 16 teams stay LOCKED in this macro-region
+      const bottom3 = sC.slice(-3);
+      bottom3.forEach(b => {
+        relegatedFromC_Info.push(formatTeamInfo(b.teamId, teamsDb, { regionKey: mKey, regionLabel: mKey.replace('macro_', 'Macro ') }));
+      });
+
       const stay = sC.slice(1, sC.length - 3).map(s => s.teamId);
       lockedInC[mKey] = stay;
     } else {
@@ -66,28 +79,43 @@ export function transitionSeason(currentLeagues, standingsMap, teamsDb) {
     }
   });
 
+  const promotedFromC_Ids = promotedFromC_Info.map(t => t.teamId);
+  const relegatedFromC_Ids = relegatedFromC_Info.map(t => t.teamId);
+
   // Assemble new Serie B (20 teams)
-  nextLeagues.serie_B = [...stayInB, ...relegatedFromA, ...promotedFromC];
+  nextLeagues.serie_B = [...stayInB, ...relegatedFromA_Ids, ...promotedFromC_Ids];
 
   // -------------------------------------------------------------
-  // 3. Serie C <-> Serie D (12 promoted to C, 36 relegated to Amateur)
+  // 3. Serie D PRE-TRANSITION: Compute Old Centroids & Identify Promoted/Relegated
   // -------------------------------------------------------------
-  const promotedFromD = [];  // 12 champions (1 per micro region)
-  const relegatedFromDByMicro = {}; // Store 3 relegated teams per micro-region
-  const lockedInD = {};
-
   const microKeys = Array.from({ length: 12 }, (_, i) => `micro_${i}`);
+  const oldCentroidsD = {};
+  const oldTeamsDByMicro = {};
+
+  microKeys.forEach(dKey => {
+    const teamsInMicro = currentLeagues.serie_D[dKey] || [];
+    oldTeamsDByMicro[dKey] = [...teamsInMicro];
+    const teamObjs = teamsInMicro.map(id => teamsDb[id]).filter(Boolean);
+    oldCentroidsD[dKey] = precomputedCentroids[dKey] || calculateCentroid(teamObjs);
+  });
+
+  const promotedFromD_Info = [];  // 12 champions (1 per micro region)
+  const relegatedFromD_Info = []; // 36 bottom teams (3 per micro region)
+  const relegatedFromDByMicro = {};
+  const lockedInD = {};
 
   microKeys.forEach(dKey => {
     const sD = standingsMap[`serie_D.${dKey}`] || [];
     if (sD.length >= 4) {
-      promotedFromD.push(sD[0].teamId); // Top 1 team promoted to Serie C
+      const champId = sD[0].teamId;
+      promotedFromD_Info.push(formatTeamInfo(champId, teamsDb, { regionKey: dKey, regionLabel: dKey.replace('micro_', 'Micro ') }));
 
-      // STEP 1: Identify the 3 relegated teams from micro_K of Serie D
-      const bottom3 = sD.slice(-3).map(s => s.teamId);
-      relegatedFromDByMicro[dKey] = bottom3;
+      const bottom3 = sD.slice(-3);
+      bottom3.forEach(b => {
+        relegatedFromD_Info.push(formatTeamInfo(b.teamId, teamsDb, { regionKey: dKey, regionLabel: dKey.replace('micro_', 'Macro ') }));
+      });
+      relegatedFromDByMicro[dKey] = bottom3.map(b => b.teamId);
 
-      // Remaining teams stay LOCKED in this micro-region
       const stay = sD.slice(1, sD.length - 3).map(s => s.teamId);
       lockedInD[dKey] = stay;
     } else {
@@ -96,14 +124,37 @@ export function transitionSeason(currentLeagues, standingsMap, teamsDb) {
     }
   });
 
-  // Incoming to Serie C = 4 relegated from B + 12 promoted from D = 16 new teams
-  const incomingToC = [...relegatedFromB, ...promotedFromD];
+  const promotedFromD_Ids = promotedFromD_Info.map(t => t.teamId);
 
-  // Re-cluster incoming teams into Serie C macro-regions (target 20 teams per macro-region)
-  nextLeagues.serie_C = assignTeamsGreedy(lockedInC, incomingToC, 20, teamsDb, centroids);
+  // Incoming to Serie C = 4 relegated from B + 12 promoted from D = 16 new teams
+  const incomingToC = [...relegatedFromB_Ids, ...promotedFromD_Ids];
 
   // -------------------------------------------------------------
-  // 4. Serie D <-> Amateur (YO-YO EFFECT PREVENTED)
+  // 4. HUNGARIAN ALGORITHM RE-CLUSTERING FOR SERIE C
+  // Pool of 80 teams = 64 locked in C + 4 from B + 12 from D
+  // Target: EXACTLY 20 slots per macro-region (80 total slots)
+  // -------------------------------------------------------------
+  const poolTeamsC = [
+    ...Object.values(lockedInC).flat(),
+    ...relegatedFromB_Ids,
+    ...promotedFromD_Ids
+  ];
+
+  const targetSlotsC = { macro_0: 20, macro_1: 20, macro_2: 20, macro_3: 20 };
+  const newLeaguesC = assignTeamsHungarian(poolTeamsC, targetSlotsC, oldCentroidsC, teamsDb, haversineDistance);
+  nextLeagues.serie_C = newLeaguesC;
+
+  // Recalculate new real centroids for Serie C
+  const newCentroidsC = {};
+  macroKeys.forEach(mKey => {
+    const teamObjs = (newLeaguesC[mKey] || []).map(id => teamsDb[id]).filter(Boolean);
+    newCentroidsC[mKey] = calculateCentroid(teamObjs);
+  });
+
+  // -------------------------------------------------------------
+  // 5. SERIE D <-> AMATEUR (Yo-Yo Effect Prevented) & HUNGARIAN RE-CLUSTERING
+  // Pool of 216 teams = 168 locked in D + 12 from C + 36 from Amateur
+  // Target: EXACTLY 18 slots per micro-region (12 * 18 = 216 total slots!)
   // -------------------------------------------------------------
   const activeTeamsSet = new Set([
     ...nextLeagues.serie_A,
@@ -112,97 +163,79 @@ export function transitionSeason(currentLeagues, standingsMap, teamsDb) {
     ...Object.values(lockedInD).flat()
   ]);
 
-  const promotedFromAmateur = [];
+  const promotedFromAmateur_Ids = [];
 
   microKeys.forEach(dKey => {
     const relegatedFromThisMicro = relegatedFromDByMicro[dKey] || [];
     const pool = amadorDb[dKey] || [];
 
-    // STEP 2: Filter out any team that was just relegated from this micro-region or is active
     const eligibleForPromotion = pool.filter(
       id => !relegatedFromThisMicro.includes(id) && !activeTeamsSet.has(id)
     );
 
-    // Take top 3 eligible amateur teams
     const top3ToPromote = eligibleForPromotion.slice(0, 3);
-    promotedFromAmateur.push(...top3ToPromote);
+    promotedFromAmateur_Ids.push(...top3ToPromote);
 
-    // STEP 3: Remove promoted teams from amadorDb[dKey]
     amadorDb[dKey] = pool.filter(id => !top3ToPromote.includes(id));
-
-    // STEP 4: ONLY NOW add the 3 relegated teams into amadorDb[dKey]
     amadorDb[dKey].push(...relegatedFromThisMicro);
   });
 
-  // Incoming to Serie D = 12 relegated from C + 36 promoted from Amateur = 48 new teams
-  const incomingToD = [...relegatedFromC, ...promotedFromAmateur];
+  const poolTeamsD = [
+    ...Object.values(lockedInD).flat(),
+    ...relegatedFromC_Ids,
+    ...promotedFromAmateur_Ids
+  ];
 
-  const targetPerMicro = Math.ceil(
-    (Object.values(lockedInD).flat().length + incomingToD.length) / microKeys.length
-  );
+  // EXACTLY 18 slots per micro-region (12 * 18 = 216 teams!)
+  const targetSlotsD = {};
+  microKeys.forEach(dKey => targetSlotsD[dKey] = 18);
 
-  // Re-cluster incoming teams into Serie D micro-regions
-  nextLeagues.serie_D = assignTeamsGreedy(lockedInD, incomingToD, targetPerMicro, teamsDb, centroids);
+  const newLeaguesD = assignTeamsHungarian(poolTeamsD, targetSlotsD, oldCentroidsD, teamsDb, haversineDistance);
+  nextLeagues.serie_D = newLeaguesD;
 
-  // Preserve updated amador database and centroids in nextLeagues object
-  nextLeagues.amador = amadorDb;
-  nextLeagues.centroids = centroids;
-
-  return nextLeagues;
-}
-
-/**
- * Greedy Centroid Assignment Algorithm
- */
-export function assignTeamsGreedy(lockedRegions, incomingTeamIds, targetCapacity, teamsDb, precomputedCentroids = {}) {
-  const resultRegions = {};
-  const regionCentroids = {};
-  const unassigned = [...incomingTeamIds];
-
-  Object.keys(lockedRegions).forEach(rKey => {
-    resultRegions[rKey] = [...lockedRegions[rKey]];
-
-    if (precomputedCentroids[rKey] && typeof precomputedCentroids[rKey].lat === 'number') {
-      regionCentroids[rKey] = precomputedCentroids[rKey];
-    } else {
-      const regionTeams = resultRegions[rKey].map(id => teamsDb[id]).filter(Boolean);
-      regionCentroids[rKey] = calculateCentroid(regionTeams);
-    }
+  // Recalculate new real centroids for Serie D
+  const newCentroidsD = {};
+  microKeys.forEach(dKey => {
+    const teamObjs = (newLeaguesD[dKey] || []).map(id => teamsDb[id]).filter(Boolean);
+    newCentroidsD[dKey] = calculateCentroid(teamObjs);
   });
 
-  while (unassigned.length > 0) {
-    let bestDist = Infinity;
-    let bestTeamIdx = -1;
-    let bestRegionKey = null;
+  nextLeagues.amador = amadorDb;
+  nextLeagues.centroids = { ...newCentroidsC, ...newCentroidsD };
 
-    unassigned.forEach((teamId, tIdx) => {
-      const team = teamsDb[teamId];
-      if (!team || typeof team.lat !== 'number' || typeof team.lon !== 'number') return;
+  // -------------------------------------------------------------
+  // 6. BUILD TRANSITION SUMMARY (MODAL) AND WIZARD ANIMATION DATA
+  // -------------------------------------------------------------
+  const summary = {
+    seasonEnded: currentSeasonNum,
+    relegatedFromA: relegatedFromA_Ids.map(id => formatTeamInfo(id, teamsDb)),
+    promotedFromB: promotedFromB_Ids.map(id => formatTeamInfo(id, teamsDb)),
+    relegatedFromB: relegatedFromB_Ids.map(id => formatTeamInfo(id, teamsDb)),
+    promotedFromC: promotedFromC_Info,
+    relegatedFromC: relegatedFromC_Info,
+    promotedFromD: promotedFromD_Info,
+    relegatedFromD: relegatedFromD_Info
+  };
 
-      Object.keys(resultRegions).forEach(rKey => {
-        if (resultRegions[rKey].length < targetCapacity) {
-          const c = regionCentroids[rKey];
-          const dist = haversineDistance(team.lat, team.lon, c.lat, c.lon);
-          if (dist < bestDist) {
-            bestDist = dist;
-            bestTeamIdx = tIdx;
-            bestRegionKey = rKey;
-          }
-        }
-      });
-    });
+  const wizardData = {
+    seasonNumber: currentSeasonNum,
 
-    if (bestTeamIdx !== -1 && bestRegionKey) {
-      const assignedId = unassigned.splice(bestTeamIdx, 1)[0];
-      resultRegions[bestRegionKey].push(assignedId);
-    } else {
-      const fallbackTeamId = unassigned.pop();
-      const minRegionKey = Object.keys(resultRegions).reduce((minKey, k) => 
-        resultRegions[k].length < resultRegions[minKey].length ? k : minKey, Object.keys(resultRegions)[0]
-      );
-      resultRegions[minRegionKey].push(fallbackTeamId);
-    }
-  }
+    // Serie C Wizard Data (80 teams, 4 macros)
+    oldTeamsCByMacro,
+    oldCentroidsC,
+    removedTeamsC: [...promotedFromC_Ids, ...relegatedFromC_Ids],
+    incomingTeamsC: [...relegatedFromB_Ids, ...promotedFromD_Ids],
+    newLeaguesC,
+    newCentroidsC,
 
-  return resultRegions;
+    // Serie D Wizard Data (216 teams, 12 micros)
+    oldTeamsDByMicro,
+    oldCentroidsD,
+    removedTeamsD: [...promotedFromD_Ids, ...relegatedFromD_Info.map(t => t.teamId)],
+    incomingTeamsD: [...relegatedFromC_Ids, ...promotedFromAmateur_Ids],
+    newLeaguesD,
+    newCentroidsD
+  };
+
+  return { nextLeagues, summary, wizardData };
 }

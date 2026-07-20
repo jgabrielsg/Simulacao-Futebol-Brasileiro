@@ -6,6 +6,8 @@
   import LogisticsCards from '$lib/components/LogisticsCards.svelte';
   import LeagueTable from '$lib/components/LeagueTable.svelte';
   import Map from '$lib/components/Map.svelte';
+  import SeasonSummaryModal from '$lib/components/SeasonSummaryModal.svelte';
+  import ReclusteringWizard from '$lib/components/ReclusteringWizard.svelte';
   import { Loader2, AlertTriangle, RefreshCw } from 'lucide-svelte';
 
   onMount(() => {
@@ -60,4 +62,10 @@
       </div>
     {/if}
   </main>
+
+  <!-- Season Review Transition Modal -->
+  <SeasonSummaryModal />
+
+  <!-- Fullscreen Didactic Reclustering Wizard (Hungarian LAP Algorithm) -->
+  <ReclusteringWizard />
 </div>

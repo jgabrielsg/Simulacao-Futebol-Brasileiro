@@ -3608,15 +3608,6 @@
     "dist_ate_aero_km": 212.96,
     "tempo_ate_aero_h": 4.06
   },
-  "ÁGUIA/para": {
-    "lat": -5.3575,
-    "lon": -49.1233,
-    "hub_aero_iata": "MAB",
-    "hub_aero_lat": -5.36859,
-    "hub_aero_lon": -49.138,
-    "dist_ate_aero_km": 2.51,
-    "tempo_ate_aero_h": 0.04
-  },
   "PAYSANDU/para": {
     "lat": -1.4558,
     "lon": -48.4902,

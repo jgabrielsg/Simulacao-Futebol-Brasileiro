@@ -43,7 +43,7 @@
         </div>
         <h3 class="text-xl font-bold text-white mb-2">Balanced K-Means</h3>
         <p class="text-sm text-slate-400 leading-relaxed">
-          Reestruturação regional das Séries C (4 macrorregiões de 20 times) e D (12 microrregiões de 16 times), garantindo equilíbrio numérico de equipes e minimizando o deslocamento terrestre e aéreo.
+          Reestruturação regional das Séries C (4 macrorregiões de 20 times) e D (12 microrregiões de 18 times), garantindo equilíbrio numérico de equipes e minimizando o deslocamento terrestre e aéreo.
         </p>
       </div>
 

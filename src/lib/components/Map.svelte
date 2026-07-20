@@ -117,7 +117,7 @@
             <div class="w-8 h-8 rounded-full bg-slate-900 border-2 ${isFocused ? 'border-emerald-400 ring-4 ring-emerald-500/30' : 'border-slate-700'} p-0.5 shadow-xl flex items-center justify-center overflow-hidden">
               <img 
                 src="${primaryImgSrc}" 
-                onerror="if ('${fallbackImgSrc}' && this.src !== window.location.origin + '${fallbackImgSrc}') { this.src = '${fallbackImgSrc}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
+                onerror="if (!this.dataset.triedFallback) { this.dataset.triedFallback = true; this.src = '${fallbackImgSrc}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
                 class="w-full h-full object-contain" 
               />
               <div style="display:none;" class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center font-bold text-[9px] text-emerald-400">

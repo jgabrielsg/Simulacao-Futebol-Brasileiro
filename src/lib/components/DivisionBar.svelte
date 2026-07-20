@@ -1,5 +1,6 @@
 <script>
   import { selectedDivision, selectedRegion, activeRoundIndex, activeSchedule } from '$lib/stores/gameStore.js';
+  import { macroOrder, macroNames, microOrder, getMicroName } from '$lib/utils/leagueNames.js';
   import { Layers, MapPin } from 'lucide-svelte';
 
   const divisions = [
@@ -9,24 +10,12 @@
     { id: 'serie_D', name: 'Série D', desc: '12 Micro-Regiões (Logística Local)', color: 'from-purple-500 to-indigo-600' }
   ];
 
-  const macroRegions = [
-    { key: 'macro_0', label: 'Macro 0 (Centro-Sul / Sudeste)' },
-    { key: 'macro_1', label: 'Macro 1 (Norte / Amazônia)' },
-    { key: 'macro_2', label: 'Macro 2 (Sul / Interior)' },
-    { key: 'macro_3', label: 'Macro 3 (Nordeste)' }
-  ];
-
-  const microRegions = Array.from({ length: 12 }, (_, i) => ({
-    key: `micro_${i}`,
-    label: `Micro ${i}`
-  }));
-
   function handleDivisionChange(divId) {
     selectedDivision.set(divId);
     if (divId === 'serie_C') {
-      selectedRegion.set('macro_0');
+      selectedRegion.set('macro_1'); // North-to-South starting macro: macro_1 (Liga Verde)
     } else if (divId === 'serie_D') {
-      selectedRegion.set('micro_0');
+      selectedRegion.set('micro_4'); // North-to-South starting micro: micro_4 (Liga Grão-Pará)
     }
   }
 </script>
@@ -60,26 +49,26 @@
       {#if $selectedDivision === 'serie_C'}
         <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-1.5">
           <MapPin class="w-3.5 h-3.5 text-amber-400" />
-          <span class="text-slate-400 font-medium">Região:</span>
+          <span class="text-slate-400 font-medium">Liga:</span>
           <select
             bind:value={$selectedRegion}
             class="bg-slate-900 text-amber-300 font-semibold text-xs border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-amber-500"
           >
-            {#each macroRegions as reg}
-              <option value={reg.key}>{reg.label}</option>
+            {#each macroOrder as mKey}
+              <option value={mKey}>{macroNames[mKey]}</option>
             {/each}
           </select>
         </div>
       {:else if $selectedDivision === 'serie_D'}
         <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-1.5">
           <MapPin class="w-3.5 h-3.5 text-purple-400" />
-          <span class="text-slate-400 font-medium">Região:</span>
+          <span class="text-slate-400 font-medium">Liga:</span>
           <select
             bind:value={$selectedRegion}
-            class="bg-slate-900 text-purple-300 font-semibold text-xs border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-purple-500"
+            class="bg-slate-900 text-purple-300 font-semibold text-xs border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-purple-500 max-w-[200px]"
           >
-            {#each microRegions as reg}
-              <option value={reg.key}>{reg.label}</option>
+            {#each microOrder as dKey}
+              <option value={dKey}>{getMicroName(dKey)}</option>
             {/each}
           </select>
         </div>

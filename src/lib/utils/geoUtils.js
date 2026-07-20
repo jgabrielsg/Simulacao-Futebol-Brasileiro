@@ -31,7 +31,7 @@ export function estimatedRoadDistance(lat1, lon1, lat2, lon2) {
  * Calculates the geographic centroid (mean lat, lon) of a list of teams.
  */
 export function calculateCentroid(teams) {
-  if (!teams || teams.length === 0) return { lat: -14.235, lon: -51.925 }; // Brazil center default
+  if (!teams || teams.length === 0) return { lat: -14.235, lon: -51.925 };
   let totalLat = 0;
   let totalLon = 0;
   let count = 0;
@@ -52,28 +52,59 @@ export function calculateCentroid(teams) {
 }
 
 /**
+ * Computes 2D Convex Hull polygon boundary points of a list of [lat, lon] coordinates.
+ */
+export function computeConvexHull(points) {
+  if (!points || points.length < 3) return points || [];
+
+  // Sort by lat, then lon
+  const pts = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+
+  function cross(o, a, b) {
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  }
+
+  const lower = [];
+  for (const p of pts) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+      lower.pop();
+    }
+    lower.push(p);
+  }
+
+  const upper = [];
+  for (let i = pts.length - 1; i >= 0; i--) {
+    const p = pts[i];
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+      upper.pop();
+    }
+    upper.push(p);
+  }
+
+  upper.pop();
+  lower.pop();
+  return lower.concat(upper);
+}
+
+/**
  * Generates curved intermediate points (Bézier arc) for flight paths between two airports
  */
 export function generateCurvedPath(startLat, startLon, endLat, endLon, numPoints = 25) {
   const points = [];
   
-  // Control point offset to create curvature
   const midLat = (startLat + endLat) / 2;
   const midLon = (startLon + endLon) / 2;
   
-  // Offset control point perpendicularly
   const dLat = endLat - startLat;
   const dLon = endLon - startLon;
   const distance = Math.sqrt(dLat * dLat + dLon * dLon);
   
-  // Curve height scales with distance
   const curvature = 0.2 * distance;
   const ctrlLat = midLat + (dLon / (distance || 1)) * curvature;
   const ctrlLon = midLon - (dLat / (distance || 1)) * curvature;
 
   for (let i = 0; i <= numPoints; i++) {
     const t = i / numPoints;
-    // Quadratic Bézier formula: (1-t)^2 * P0 + 2(1-t)t * P1 + t^2 * P2
     const lat = (1 - t) * (1 - t) * startLat + 2 * (1 - t) * t * ctrlLat + t * t * endLat;
     const lon = (1 - t) * (1 - t) * startLon + 2 * (1 - t) * t * ctrlLon + t * t * endLon;
     points.push([lat, lon]);
@@ -84,7 +115,6 @@ export function generateCurvedPath(startLat, startLon, endLat, endLon, numPoints
 
 /**
  * Multimodal Transport Route Builder (Animation Level 3)
- * Decides whether travel is BUS (<800km) or FLIGHT (>=800km)
  */
 export function buildTransportRoute(awayTeam, homeTeam, awayHub, homeHub) {
   if (!awayTeam || !homeTeam) return null;
@@ -93,14 +123,13 @@ export function buildTransportRoute(awayTeam, homeTeam, awayHub, homeHub) {
   const roadDist = straightDist * 1.3;
 
   if (roadDist < 800 || !awayHub || !homeHub) {
-    // BUS ROUTE (<800km): Single direct line segment
     return {
       modal: 'BUS',
       totalDistanceKm: Math.round(roadDist),
       segments: [
         {
           type: 'BUS',
-          color: '#3b82f6', // Blue
+          color: '#3b82f6',
           dashArray: '5, 5',
           points: [
             [awayTeam.lat, awayTeam.lon],
@@ -111,11 +140,6 @@ export function buildTransportRoute(awayTeam, homeTeam, awayHub, homeHub) {
       ]
     };
   } else {
-    // FLIGHT ROUTE (>=800km): 3 Leg Segments
-    // 1) Away HQ -> Away Hub Airport (Bus/Transfer)
-    // 2) Away Hub Airport -> Home Hub Airport (Flight Arc)
-    // 3) Home Hub Airport -> Home Stadium (Bus/Transfer)
-    
     const leg1Dist = awayHub.dist_ate_aero_km || haversineDistance(awayTeam.lat, awayTeam.lon, awayHub.hub_aero_lat, awayHub.hub_aero_lon);
     const leg2Dist = haversineDistance(awayHub.hub_aero_lat, awayHub.hub_aero_lon, homeHub.hub_aero_lat, homeHub.hub_aero_lon);
     const leg3Dist = homeHub.dist_ate_aero_km || haversineDistance(homeHub.hub_aero_lat, homeHub.hub_aero_lon, homeTeam.lat, homeTeam.lon);
@@ -134,7 +158,7 @@ export function buildTransportRoute(awayTeam, homeTeam, awayHub, homeHub) {
       segments: [
         {
           type: 'TRANSFER_OUT',
-          color: '#eab308', // Yellow transfer
+          color: '#eab308',
           dashArray: '3, 3',
           points: [
             [awayTeam.lat, awayTeam.lon],
@@ -144,14 +168,14 @@ export function buildTransportRoute(awayTeam, homeTeam, awayHub, homeHub) {
         },
         {
           type: 'FLIGHT',
-          color: '#ef4444', // Red flight path
+          color: '#ef4444',
           dashArray: null,
           points: flightArcPoints,
           label: `Voo (${awayHub.hub_aero_iata} ➔ ${homeHub.hub_aero_iata}): ${Math.round(leg2Dist)} km`
         },
         {
           type: 'TRANSFER_IN',
-          color: '#10b981', // Green transfer
+          color: '#10b981',
           dashArray: '3, 3',
           points: [
             [homeHub.hub_aero_lat, homeHub.hub_aero_lon],

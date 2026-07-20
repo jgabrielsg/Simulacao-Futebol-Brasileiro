@@ -1,11 +1,12 @@
 <script>
-  import { activeStandings, selectedDivision, focusedTeamId, cityHubs } from '$lib/stores/gameStore.js';
+  import { activeStandings, selectedDivision, focusedTeamId, cityHubs, activeLeagueKey } from '$lib/stores/gameStore.js';
+  import { getLeagueDisplayName } from '$lib/utils/leagueNames.js';
   import TeamBadge from './TeamBadge.svelte';
-  import { MapPin, Trophy, Plane, ArrowUp, ArrowDown } from 'lucide-svelte';
+  import { Trophy } from 'lucide-svelte';
 
   function handleRowClick(teamId) {
     if ($focusedTeamId === teamId) {
-      focusedTeamId.set(null); // toggle off
+      focusedTeamId.set(null);
     } else {
       focusedTeamId.set(teamId);
     }
@@ -13,19 +14,12 @@
 
   // Get zone styling based on division and rank
   function getZoneClass(idx, total, div) {
-    if (div === 'serie_A') {
-      if (idx < 4) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Libertadores / Title
-      if (idx < 6) return 'border-l-4 border-l-teal-500 bg-teal-950/10'; // Pré-Libertadores
-      if (idx >= total - 4) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Relegation Z4
-    } else if (div === 'serie_B') {
-      if (idx < 4) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Promotion G4
-      if (idx >= total - 4) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Relegation Z4
-    } else if (div === 'serie_C') {
-      if (idx === 0) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Promoted to B
-      if (idx === total - 1) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Relegated to D
-    } else if (div === 'serie_D') {
-      if (idx === 0) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Promoted to C
-      if (idx >= total - 4) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Relegated to Amateur
+    if (div === 'serie_A' || div === 'serie_B') {
+      if (idx < 4) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // G4 Promotion / Libertadores
+      if (idx >= total - 4) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Z4 Relegation
+    } else if (div === 'serie_C' || div === 'serie_D') {
+      if (idx === 0) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Champion / 1st place promotion
+      if (idx >= total - 3) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Bottom 3 relegation
     }
     return '';
   }
@@ -36,10 +30,11 @@
   <div class="px-4 py-3 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
     <div class="flex items-center gap-2 font-bold text-sm text-slate-200">
       <Trophy class="w-4 h-4 text-amber-400" />
-      Tabela de Classificação
+      <span>Classificação:</span>
+      <span class="text-emerald-400 font-extrabold">{ getLeagueDisplayName($activeLeagueKey) }</span>
     </div>
     <div class="text-xs text-slate-400 font-normal">
-      Clique na linha para ver as rotas de viagem no Mapa
+      Clique na linha para focar no Mapa
     </div>
   </div>
 
@@ -102,7 +97,7 @@
             <td class="py-2 px-2 text-center text-rose-400">{item.lost}</td>
             <td class="py-2 px-2 text-center text-slate-400">{item.goalsFor}</td>
             <td class="py-2 px-2 text-center text-slate-400">{item.goalsAgainst}</td>
-            <td class="py-2 px-2 text-center font-bold ${item.goalDifference > 0 ? 'text-emerald-400' : item.goalDifference < 0 ? 'text-rose-400' : 'text-slate-400'}">
+            <td class={`py-2 px-2 text-center font-bold ${item.goalDifference > 0 ? 'text-emerald-400' : item.goalDifference < 0 ? 'text-rose-400' : 'text-slate-400'}`}>
               {item.goalDifference > 0 ? `+${item.goalDifference}` : item.goalDifference}
             </td>
 
@@ -115,7 +110,6 @@
             <td class="py-2 px-3 text-left text-[11px] text-slate-400 hidden sm:table-cell">
               {#if hubInfo && hubInfo.hub_aero_iata}
                 <div class="flex items-center gap-1.5">
-                  <Plane class="w-3 h-3 text-cyan-400 shrink-0" />
                   <span class="font-bold text-cyan-300">{hubInfo.hub_aero_iata}</span>
                   <span class="text-[10px] text-slate-500">({hubInfo.dist_ate_aero_km} km)</span>
                 </div>
