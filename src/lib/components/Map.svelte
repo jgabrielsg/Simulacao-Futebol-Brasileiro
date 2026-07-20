@@ -1,6 +1,5 @@
 <script>
   import { onMount, onDestroy } from 'svelte';
-  import 'leaflet/dist/leaflet.css';
   import { activeTeamObjects, focusedTeamId, focusedRouteData, cityHubs, airportsDb } from '$lib/stores/gameStore.js';
   import { Navigation, Plane } from 'lucide-svelte';
 
@@ -223,7 +222,7 @@
     </div>
   </div>
 
-  <div bind:this={mapElement} class="w-full h-full min-h-[450px] flex-1 dark-tiles z-0"></div>
+  <div bind:this={mapElement} class="w-full h-full min-h-[450px] flex-1 isolate"></div>
 
   {#if $focusedRouteData}
     {@const rd = $focusedRouteData}

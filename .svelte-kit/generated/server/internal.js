@@ -26,7 +26,7 @@ export const options = {
 		app: ({ head, body, assets, nonce, env }) => "<!html>\n<html lang=\"pt-BR\" class=\"dark h-full bg-slate-950 text-slate-100\">\n\t<head>\n\t\t<meta charset=\"utf-8\" />\n\t\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t\t<title>Simulador Logístico do Futebol Brasileiro | TCC FGV</title>\n\n\t\t<!-- Google Fonts -->\n\t\t<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n\t\t<link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin>\n\t\t<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap\" rel=\"stylesheet\">\n\n\t\t<!-- Leaflet CSS -->\n\t\t<link rel=\"stylesheet\" href=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.css\" integrity=\"sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=\" crossorigin=\"\" />\n\n\t\t" + head + "\n\t</head>\n\t<body data-sveltekit-preload-data=\"hover\" class=\"h-full bg-slate-950 font-sans antialiased overflow-x-hidden\">\n\t\t<div style=\"display: contents\" class=\"h-full\">" + body + "</div>\n\t</body>\n</html>\n",
 		error
 	},
-	version_hash: "d3hrr"
+	version_hash: "1ga02xe"
 };
 
 export async function get_hooks() {
