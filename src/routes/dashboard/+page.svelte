@@ -8,22 +8,44 @@
   import Map from '$lib/components/Map.svelte';
   import SeasonSummaryModal from '$lib/components/SeasonSummaryModal.svelte';
   import ReclusteringWizard from '$lib/components/ReclusteringWizard.svelte';
-  import { Loader2, AlertTriangle, RefreshCw } from 'lucide-svelte';
+  import OnboardingModal from '$lib/components/OnboardingModal.svelte';
+  import { Loader2, AlertTriangle, RefreshCw, HelpCircle } from 'lucide-svelte';
+
+  let showOnboarding = false;
 
   onMount(() => {
     loadGameData();
   });
+
+  function openHelp() {
+    showOnboarding = true;
+  }
 </script>
 
-<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
+<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-slate-950 relative">
   <Navbar />
-  <DivisionBar />
+  
+  <div class="flex items-center justify-between">
+    <div class="flex-1">
+      <DivisionBar />
+    </div>
+    <div class="pr-4 hidden sm:block">
+      <button
+        on:click={openHelp}
+        class="px-2.5 py-1 rounded-lg bg-slate-900 border border-slate-800 hover:border-indigo-500/50 text-slate-400 hover:text-indigo-300 font-semibold text-[11px] flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+        title="Abrir Tutorial do Simulador"
+      >
+        <HelpCircle class="w-3.5 h-3.5 text-indigo-400" />
+        Tutorial / Ajuda
+      </button>
+    </div>
+  </div>
 
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 space-y-4">
     {#if $loading}
       <!-- Loading State -->
       <div class="flex flex-col items-center justify-center min-h-[450px] space-y-4">
-        <Loader2 class="w-10 h-10 text-emerald-400 animate-spin" />
+        <Loader2 class="w-10 h-10 text-indigo-400 animate-spin" />
         <div class="text-center">
           <p class="text-lg font-bold text-white">Carregando Base de Dados Logística...</p>
           <p class="text-xs text-slate-400">Processando equipes, aeroportos hubs e malha de voos.</p>
@@ -68,4 +90,7 @@
 
   <!-- Fullscreen Didactic Reclustering Wizard (Hungarian LAP Algorithm) -->
   <ReclusteringWizard />
+
+  <!-- First-time Visitor Onboarding Tutorial Modal -->
+  <OnboardingModal bind:isOpen={showOnboarding} />
 </div>

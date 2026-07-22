@@ -1,13 +1,15 @@
 <script>
   import { onMount, onDestroy, tick } from 'svelte';
+  import { slide } from 'svelte/transition';
   import { base } from '$app/paths';
   import 'leaflet/dist/leaflet.css';
   import Navbar from '$lib/components/Navbar.svelte';
   import TeamBadge from '$lib/components/TeamBadge.svelte';
   import {
     BarChart3, TrendingDown, DollarSign, Bus, Plane, ArrowLeft,
-    Search, Sliders, Shield, CheckCircle2, MapPin, Loader2, Sparkles,
-    Layers, RefreshCw, Calculator, Compass, ChevronRight, Info, HelpCircle
+    Search, Sliders, Shield, MapPin, Loader2, Sparkles,
+    Layers, Calculator, Compass, ChevronRight, ChevronDown, ChevronUp,
+    Info, ArrowUpDown, ArrowUp, ArrowDown, HelpCircle
   } from 'lucide-svelte';
 
   let L;
@@ -20,16 +22,20 @@
   let selectedTeamKey = null;
   let searchQuery = '';
 
+  // Progressive Disclosure State for Premises (Collapsed by default)
+  let showPremisesAccordion = false;
+
+  // Table Sorting State
+  let sortKey = 'costAvgSaved'; // default sort by Economia Média por Jogo
+  let sortDirection = 'desc';   // 'asc' or 'desc'
+
   // Delegation Size Constant (CBF Standard for Flights)
   const DELEGATION_N = 30; // 30 pessoas por delegação
 
   // Financial Premises (Affine Functions for Flight & Bus Charter)
-  // Flight parameters: C_aereo(d) = N * [2 * (c_aereo * d + f_aereo)]
-  let flightFixedFee = 45.00;      // f_aereo: R$ 45,00 por bilhete (Taxas aeroportuárias/fixo)
-  let flightVarPerKm = 0.40;       // c_aereo: R$ 0,40 por Km aéreo por pessoa
-
-  // Bus Charter parameters: C_onibus(d) = (c_bus * 2d) + F_operacional
-  let busFixedOperational = 1500.00; // F_operacional: R$ 1.500,00 por viagem (pedágios, diárias, taxas)
+  let flightFixedFee = 45.00;        // f_aereo: R$ 45,00 por bilhete
+  let flightVarPerKm = 0.40;         // c_aereo: R$ 0,40 por Km aéreo por pessoa
+  let busFixedOperational = 1500.00; // F_operacional: R$ 1.500,00 por viagem
   let busVarPerKm = 6.00;            // c_bus: R$ 6,00 por Km rodado do veículo
 
   // Leaflet Dual-Map references for Micro View
@@ -80,10 +86,8 @@
     const d = match.km; // One-way distance in km
 
     if (isFlight) {
-      // C_aereo(d) = N * [2 * (c_aereo * d + f_aereo)]
       return DELEGATION_N * (2 * (flightVarRate * d + flightFixedFee));
     } else {
-      // C_onibus(d) = (c_bus * 2d) + F_operacional
       return (busVarRate * 2 * d) + busFixedFee;
     }
   }
@@ -101,59 +105,91 @@
     return new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 }).format(km) + ' km';
   }
 
-  // Filtered teams list for Macro View table
-  $: filteredTeamKeys = teamKeysList.filter(key => {
+  // Handle Table Header Sorting Toggle
+  function handleSort(key) {
+    if (sortKey === key) {
+      sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      sortKey = key;
+      sortDirection = 'desc'; // default to descending for new metric
+    }
+  }
+
+  // Reactive Processed Teams Array with Calculations & Sorting
+  $: processedTeams = teamKeysList.map(key => {
     const item = rawData[key];
-    if (!item) return false;
-    const q = searchQuery.toLowerCase().trim();
-    if (!q) return true;
-    const nameMatch = item.nome?.toLowerCase().includes(q);
-    const stateMatch = item.estado?.toLowerCase().includes(q);
-    const leagueMatch = item.liga_proposta?.toLowerCase().includes(q);
-    return nameMatch || stateMatch || leagueMatch;
+    const cbfGames = item?.baseline?.jogos_fora || item?.baseline?.partidas?.length || 9;
+    const propGames = item?.proposto?.jogos_fora || item?.proposto?.partidas?.length || 19;
+
+    const cbfKmTotal = item?.baseline?.km_total || 0;
+    const propKmTotal = item?.proposto?.km_total || 0;
+
+    const cbfKmAvg = cbfKmTotal / cbfGames;
+    const propKmAvg = propKmTotal / propGames;
+
+    const cbfCostTotal = calculateTotalCost(item?.baseline?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee);
+    const propCostTotal = calculateTotalCost(item?.proposto?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee);
+
+    const cbfCostAvg = cbfCostTotal / cbfGames;
+    const propCostAvg = propCostTotal / propGames;
+
+    const costAvgSaved = cbfCostAvg - propCostAvg;
+    const costAvgPct = cbfCostAvg > 0 ? (costAvgSaved / cbfCostAvg) * 100 : 0;
+    const kmAvgSaved = cbfKmAvg - propKmAvg;
+
+    return {
+      key,
+      item,
+      nome: item.nome,
+      estado: item.estado,
+      liga_proposta: item.liga_proposta.includes("Macro") ? 'Série C' : (item.liga_proposta.includes("Micro") ? 'Série D' : item.liga_proposta),
+      cbfGames,
+      propGames,
+      cbfKmAvg,
+      propKmAvg,
+      kmAvgSaved,
+      cbfCostAvg,
+      propCostAvg,
+      costAvgSaved,
+      costAvgPct
+    };
   });
 
-  // Global Average Aggregates for Summary Bar (Focused on Averages per Match)
-  $: globalStats = (() => {
-    if (!teamKeysList.length) return null;
-    let totalCbfGames = 0;
-    let totalPropGames = 0;
+  // Filtered & Sorted Teams List for Table
+  $: sortedFilteredTeams = processedTeams
+    .filter(t => {
+      const q = searchQuery.toLowerCase().trim();
+      if (!q) return true;
+      return (
+        t.nome?.toLowerCase().includes(q) ||
+        t.estado?.toLowerCase().includes(q) ||
+        t.liga_proposta?.toLowerCase().includes(q)
+      );
+    })
+    .sort((a, b) => {
+      let valA = a[sortKey];
+      let valB = b[sortKey];
 
-    let sumCbfKmAvg = 0;
-    let sumPropKmAvg = 0;
-
-    let sumCbfCostAvg = 0;
-    let sumPropCostAvg = 0;
-
-    teamKeysList.forEach(key => {
-      const item = rawData[key];
-      if (item) {
-        const cbfGames = item.baseline?.jogos_fora || item.baseline?.partidas?.length || 9;
-        const propGames = item.proposto?.jogos_fora || item.proposto?.partidas?.length || 19;
-
-        totalCbfGames += cbfGames;
-        totalPropGames += propGames;
-
-        const cbfKmTotal = item.baseline?.km_total || 0;
-        const propKmTotal = item.proposto?.km_total || 0;
-
-        const cbfCostTotal = calculateTotalCost(item.baseline?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee);
-        const propCostTotal = calculateTotalCost(item.proposto?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee);
-
-        sumCbfKmAvg += cbfKmTotal / cbfGames;
-        sumPropKmAvg += propKmTotal / propGames;
-
-        sumCbfCostAvg += cbfCostTotal / cbfGames;
-        sumPropCostAvg += propCostTotal / propGames;
+      if (typeof valA === 'string') {
+        valA = valA.toLowerCase();
+        valB = valB.toLowerCase();
       }
+
+      if (valA < valB) return sortDirection === 'asc' ? -1 : 1;
+      if (valA > valB) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
     });
 
-    const count = teamKeysList.length;
-    const avgCbfKmPerGame = sumCbfKmAvg / count;
-    const avgPropKmPerGame = sumPropKmAvg / count;
+  // Global Average Aggregates
+  $: globalStats = (() => {
+    if (!processedTeams.length) return null;
+    const count = processedTeams.length;
 
-    const avgCbfCostPerGame = sumCbfCostAvg / count;
-    const avgPropCostPerGame = sumPropCostAvg / count;
+    const avgCbfKmPerGame = processedTeams.reduce((acc, t) => acc + t.cbfKmAvg, 0) / count;
+    const avgPropKmPerGame = processedTeams.reduce((acc, t) => acc + t.propKmAvg, 0) / count;
+
+    const avgCbfCostPerGame = processedTeams.reduce((acc, t) => acc + t.cbfCostAvg, 0) / count;
+    const avgPropCostPerGame = processedTeams.reduce((acc, t) => acc + t.propCostAvg, 0) / count;
 
     const kmAvgSaved = avgCbfKmPerGame - avgPropKmPerGame;
     const kmAvgPct = avgCbfKmPerGame > 0 ? (kmAvgSaved / avgCbfKmPerGame) * 100 : 0;
@@ -173,7 +209,7 @@
     };
   })();
 
-  // Handle Team Selection for Micro View
+  // Select Team for Micro View
   async function selectTeam(key) {
     selectedTeamKey = key;
     await tick();
@@ -274,30 +310,32 @@
   }
 </script>
 
-<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
+<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-slate-950">
   <Navbar />
 
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     
     <!-- Top Header Banner -->
-    <div class="bg-gradient-to-r from-slate-900 via-cyan-950/40 to-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
-      <div class="space-y-1">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
-          <BarChart3 class="w-4 h-4" />
+    <div class="bg-gradient-to-r from-slate-900 via-indigo-950/40 to-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div class="space-y-2">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 text-xs font-bold uppercase tracking-wider">
+          <BarChart3 class="w-4 h-4 text-indigo-400" />
           Estudo de Caso Acadêmico (FGV TCC)
         </div>
-        <h1 class="text-2xl sm:text-3xl font-black text-white">
-          Eficiência Logística Média por Jogo: CBF 2026 vs. Modelo Otimizado
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
+          O Impacto Logístico: CBF 2026 vs. Modelo Otimizado
         </h1>
-        <p class="text-xs sm:text-sm text-slate-300 max-w-3xl">
-          Análise focada nas <strong>médias por partida jogada como visitante</strong> para neutralizar a diferença no número de jogos (9 no formato CBF vs. 19 no Modelo Proposto).
+        
+        <!-- 1. Executive Summary Paragraph (Context Before Raw Data) -->
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed text-justify pt-1">
+          Nesta simulação, submetemos os 20 clubes da Série C a duas realidades: o calendário oficial da CBF de 2026 (que exige cruzamentos continentais) e o nosso modelo de Ligas Regionais Otimizadas. Explore abaixo como a Pesquisa Operacional e a Teoria dos Grafos encurtam distâncias, dobram o número de partidas e geram economia real por jogo.
         </p>
       </div>
 
       {#if selectedTeamKey}
         <button
           on:click={backToMacroTable}
-          class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs border border-slate-700 flex items-center gap-2 transition-all cursor-pointer shrink-0 self-start md:self-auto"
+          class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-indigo-950/60 flex items-center gap-2 transition-all cursor-pointer shrink-0 self-start md:self-auto"
         >
           <ArrowLeft class="w-4 h-4" />
           Voltar à Tabela Geral
@@ -306,13 +344,11 @@
     </div>
 
     {#if loadingData}
-      <!-- Loading State -->
       <div class="flex flex-col items-center justify-center min-h-[400px] space-y-4">
-        <Loader2 class="w-10 h-10 text-cyan-400 animate-spin" />
+        <Loader2 class="w-10 h-10 text-indigo-400 animate-spin" />
         <p class="text-sm font-bold text-slate-300">Carregando Matriz de Comparativo de Rotas e Custos...</p>
       </div>
     {:else if errorMsg}
-      <!-- Error State -->
       <div class="bg-rose-950/40 border border-rose-800 rounded-2xl p-6 text-center max-w-md mx-auto space-y-3">
         <p class="text-rose-300 font-bold">{errorMsg}</p>
         <button on:click={() => location.reload()} class="px-4 py-2 bg-rose-600 text-white rounded-lg text-xs font-bold">
@@ -335,7 +371,7 @@
               <span>Km Médio / Jogo (Modelo CBF)</span>
               <MapPin class="w-4 h-4 text-rose-400" />
             </div>
-            <p class="text-xl font-black text-rose-400">
+            <p class="text-xl font-black text-rose-400 font-mono">
               {formatKm(globalStats.avgCbfKmPerGame)}
             </p>
             <span class="text-[10px] text-slate-500">Média por partida fora de casa</span>
@@ -347,7 +383,7 @@
               <span>Km Médio / Jogo (Modelo Otimizado)</span>
               <MapPin class="w-4 h-4 text-emerald-400" />
             </div>
-            <p class="text-xl font-black text-emerald-400">
+            <p class="text-xl font-black text-emerald-400 font-mono">
               {formatKm(globalStats.avgPropKmPerGame)}
             </p>
             <span class="text-[10px] text-emerald-500/80 font-bold">Média por partida fora de casa</span>
@@ -359,7 +395,7 @@
               <span>Redução Média de Distância</span>
               <TrendingDown class="w-4 h-4 text-emerald-400" />
             </div>
-            <p class="text-xl font-black text-emerald-300">
+            <p class="text-xl font-black text-emerald-300 font-mono">
               -{formatKm(globalStats.kmAvgSaved)} / jogo
             </p>
             <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
@@ -368,15 +404,15 @@
           </div>
 
           <!-- Card 4: Economia Média por Jogo -->
-          <div class="bg-slate-900/90 border border-cyan-900/40 rounded-xl p-4 space-y-1 shadow-lg">
+          <div class="bg-slate-900/90 border border-indigo-900/40 rounded-xl p-4 space-y-1 shadow-lg">
             <div class="flex items-center justify-between text-slate-400 text-xs font-semibold">
               <span>Economia Média por Jogo</span>
-              <DollarSign class="w-4 h-4 text-cyan-400" />
+              <DollarSign class="w-4 h-4 text-indigo-400" />
             </div>
-            <p class="text-xl font-black text-cyan-300">
+            <p class="text-xl font-black text-indigo-300 font-mono">
               {formatCurrency(globalStats.costAvgSaved)} / jogo
             </p>
-            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
+            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">
               -{globalStats.costAvgPct.toFixed(1)}% no custo por partida
             </span>
           </div>
@@ -384,156 +420,189 @@
         </div>
       {/if}
 
-      <!-- Interactive Financial Cost Controls (2 Distinct Cards for Flight & Bus Charter) -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-4 shadow-xl">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
-          <div class="flex items-center gap-2">
-            <Calculator class="w-4 h-4 text-amber-400" />
-            <h3 class="font-extrabold text-sm text-white">Premissas Operacionais & Financeiras de Transporte</h3>
-          </div>
-          
-          <div class="flex items-center gap-1.5 text-[11px] text-cyan-300 font-medium bg-slate-950 px-3 py-1 rounded-lg border border-slate-800">
-            <Info class="w-3.5 h-3.5 text-cyan-400 shrink-0" />
-            <span>Funções Afins para Fretamento de Ônibus e Passagens Aéreas (Ida e Volta)</span>
-          </div>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
-          
-          <!-- Column 1: Avião (Por Passageiro - N = 30 pax) -->
-          <div class="bg-slate-950/70 border border-purple-900/40 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
-              <div class="flex items-center gap-2 text-purple-300 font-extrabold">
-                <Plane class="w-4 h-4 text-purple-400" />
-                <span>Premissas: Avião (Por Passageiro)</span>
-              </div>
-              <span class="text-[10px] font-mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded border border-purple-800 font-bold">
-                N = 30 pax
-              </span>
+      <!-- 2. Progressive Disclosure Accordion for Financial Premises Sliders -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        
+        <!-- Accordion Header Button -->
+        <button
+          on:click={() => showPremisesAccordion = !showPremisesAccordion}
+          class="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-slate-800/50 transition-colors cursor-pointer"
+        >
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+              <Sliders class="w-4 h-4" />
             </div>
-
-            <p class="text-[11px] text-slate-400 leading-relaxed">
-              Fórmula: <code class="font-mono text-purple-300">C_aereo(d) = N × [2 × (c · d + f)]</code>. Assume a compra de passagens e taxas para a delegação de 30 pessoas com bilhetes de ida e volta.
-            </p>
-
-            <div class="space-y-3 pt-1">
-              <!-- Slider f_aereo -->
-              <div class="space-y-1">
-                <div class="flex justify-between font-semibold">
-                  <span class="text-slate-300">Custo Fixo por Bilhete (f):</span>
-                  <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightFixedFee)} / pax</span>
-                </div>
-                <input
-                  type="range"
-                  min="0"
-                  max="200"
-                  step="5"
-                  bind:value={flightFixedFee}
-                  class="w-full accent-purple-500 bg-slate-800 rounded-lg cursor-pointer"
-                />
-                <div class="flex justify-between text-[10px] text-slate-500">
-                  <span>R$ 0,00</span>
-                  <span>Default: R$ 45,00</span>
-                  <span>R$ 200,00</span>
-                </div>
-              </div>
-
-              <!-- Slider c_aereo -->
-              <div class="space-y-1">
-                <div class="flex justify-between font-semibold">
-                  <span class="text-slate-300">Custo Variável por Km (c):</span>
-                  <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightVarPerKm)} / km / pax</span>
-                </div>
-                <input
-                  type="range"
-                  min="0.20"
-                  max="0.80"
-                  step="0.05"
-                  bind:value={flightVarPerKm}
-                  class="w-full accent-purple-500 bg-slate-800 rounded-lg cursor-pointer"
-                />
-                <div class="flex justify-between text-[10px] text-slate-500">
-                  <span>R$ 0,20/km</span>
-                  <span>Default: R$ 0,40/km</span>
-                  <span>R$ 0,80/km</span>
-                </div>
-              </div>
+            <div>
+              <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
+                ⚙️ Ajustar Premissas de Custo (Fretamento, Combustível e Passagens)
+              </h3>
+              <p class="text-[11px] text-slate-400">
+                Altere as taxas de bilhete aéreo e diárias de fretamento rodoviário em tempo real.
+              </p>
             </div>
           </div>
 
-          <!-- Column 2: Ônibus (Fretamento do Veículo) -->
-          <div class="bg-slate-950/70 border border-blue-900/40 rounded-xl p-4 space-y-3">
-            <div class="flex items-center justify-between border-b border-blue-900/50 pb-2">
-              <div class="flex items-center gap-2 text-blue-300 font-extrabold">
-                <Bus class="w-4 h-4 text-blue-400" />
-                <span>Premissas: Ônibus (Fretamento do Veículo)</span>
-              </div>
-              <span class="text-[10px] font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded border border-blue-800 font-bold">
-                Veículo Fechado
-              </span>
-            </div>
-
-            <p class="text-[11px] text-slate-400 leading-relaxed">
-              Fórmula: <code class="font-mono text-blue-300">C_onibus(d) = (c_bus · 2d) + F_operacional</code>. O cálculo de ônibus assume o modelo de <strong>Fretamento Fechado</strong>. O custo é pago por veículo contratado e inclui ida e volta, pedágios e diárias, independentemente do tamanho da delegação.
-            </p>
-
-            <div class="space-y-3 pt-1">
-              <!-- Slider F_operacional -->
-              <div class="space-y-1">
-                <div class="flex justify-between font-semibold">
-                  <span class="text-slate-300">Custo Fixo Operacional (F_operacional):</span>
-                  <span class="font-mono text-blue-400 font-bold">{formatCurrency(busFixedOperational)} / viagem</span>
-                </div>
-                <input
-                  type="range"
-                  min="500"
-                  max="3000"
-                  step="100"
-                  bind:value={busFixedOperational}
-                  class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer"
-                />
-                <div class="flex justify-between text-[10px] text-slate-500">
-                  <span>R$ 500,00</span>
-                  <span>Default: R$ 1.500,00</span>
-                  <span>R$ 3.000,00</span>
-                </div>
-              </div>
-
-              <!-- Slider c_bus -->
-              <div class="space-y-1">
-                <div class="flex justify-between font-semibold">
-                  <span class="text-slate-300">Custo Variável por Km (c_bus):</span>
-                  <span class="font-mono text-blue-400 font-bold">{formatCurrency(busVarPerKm)} / km</span>
-                </div>
-                <input
-                  type="range"
-                  min="2.00"
-                  max="12.00"
-                  step="0.50"
-                  bind:value={busVarPerKm}
-                  class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer"
-                />
-                <div class="flex justify-between text-[10px] text-slate-500">
-                  <span>R$ 2,00/km</span>
-                  <span>Default: R$ 6,00/km</span>
-                  <span>R$ 12,00/km</span>
-                </div>
-              </div>
-            </div>
+          <div class="flex items-center gap-2 text-xs font-bold text-indigo-400">
+            <span>{showPremisesAccordion ? 'Ocultar Premissas' : 'Expandir Ajustes'}</span>
+            {#if showPremisesAccordion}
+              <ChevronUp class="w-4 h-4 text-indigo-400" />
+            {:else}
+              <ChevronDown class="w-4 h-4 text-indigo-400" />
+            {/if}
           </div>
+        </button>
 
-        </div>
+        <!-- Accordion Content (Collapsible with Svelte Slide Transition) -->
+        {#if showPremisesAccordion}
+          <div transition:slide={{ duration: 250 }} class="px-6 pb-6 pt-2 border-t border-slate-800 space-y-4 bg-slate-950/60">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+              
+              <!-- Column 1: Avião (Por Passageiro - N = 30 pax) -->
+              <div class="bg-slate-900/60 border border-purple-900/40 rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-purple-900/50 pb-2">
+                  <div class="flex items-center gap-2 text-purple-300 font-extrabold">
+                    <Plane class="w-4 h-4 text-purple-400" />
+                    <span>Premissas: Avião (Por Passageiro)</span>
+                  </div>
+                  <span class="text-[10px] font-mono bg-purple-950 text-purple-300 px-2 py-0.5 rounded border border-purple-800 font-bold">
+                    N = 30 pax
+                  </span>
+                </div>
+
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                  Fórmula: <code class="font-mono text-purple-300">C_aereo(d) = N × [2 × (c · d + f)]</code> (ida e volta para a delegação de 30 pessoas).
+                </p>
+
+                <div class="space-y-3 pt-1">
+                  <!-- Slider f_aereo -->
+                  <div class="space-y-1">
+                    <div class="flex justify-between font-semibold">
+                      <span class="text-slate-300">Custo Fixo por Bilhete (f):</span>
+                      <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightFixedFee)} / pax</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="200"
+                      step="5"
+                      bind:value={flightFixedFee}
+                      class="w-full accent-purple-500 bg-slate-800 rounded-lg cursor-pointer"
+                    />
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>R$ 0,00</span>
+                      <span>Default: R$ 45,00</span>
+                      <span>R$ 200,00</span>
+                    </div>
+                  </div>
+
+                  <!-- Slider c_aereo -->
+                  <div class="space-y-1">
+                    <div class="flex justify-between font-semibold">
+                      <span class="text-slate-300">Custo Variável por Km (c):</span>
+                      <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightVarPerKm)} / km / pax</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.20"
+                      max="0.80"
+                      step="0.05"
+                      bind:value={flightVarPerKm}
+                      class="w-full accent-purple-500 bg-slate-800 rounded-lg cursor-pointer"
+                    />
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>R$ 0,20/km</span>
+                      <span>Default: R$ 0,40/km</span>
+                      <span>R$ 0,80/km</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Column 2: Ônibus (Fretamento do Veículo) -->
+              <div class="bg-slate-900/60 border border-blue-900/40 rounded-xl p-4 space-y-3">
+                <div class="flex items-center justify-between border-b border-blue-900/50 pb-2">
+                  <div class="flex items-center gap-2 text-blue-300 font-extrabold">
+                    <Bus class="w-4 h-4 text-blue-400" />
+                    <span>Premissas: Ônibus (Fretamento do Veículo)</span>
+                  </div>
+                  <span class="text-[10px] font-mono bg-blue-950 text-blue-300 px-2 py-0.5 rounded border border-blue-800 font-bold">
+                    Veículo Fechado
+                  </span>
+                </div>
+
+                <p class="text-[11px] text-slate-400 leading-relaxed">
+                  Fórmula: <code class="font-mono text-blue-300">C_onibus(d) = (c_bus · 2d) + F_operacional</code> (fretamento por veículo contratado).
+                </p>
+
+                <div class="space-y-3 pt-1">
+                  <!-- Slider F_operacional -->
+                  <div class="space-y-1">
+                    <div class="flex justify-between font-semibold">
+                      <span class="text-slate-300">Custo Fixo Operacional (F_operacional):</span>
+                      <span class="font-mono text-blue-400 font-bold">{formatCurrency(busFixedOperational)} / viagem</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="500"
+                      max="3000"
+                      step="100"
+                      bind:value={busFixedOperational}
+                      class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer"
+                    />
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>R$ 500,00</span>
+                      <span>Default: R$ 1.500,00</span>
+                      <span>R$ 3.000,00</span>
+                    </div>
+                  </div>
+
+                  <!-- Slider c_bus -->
+                  <div class="space-y-1">
+                    <div class="flex justify-between font-semibold">
+                      <span class="text-slate-300">Custo Variável por Km (c_bus):</span>
+                      <span class="font-mono text-blue-400 font-bold">{formatCurrency(busVarPerKm)} / km</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="2.00"
+                      max="12.00"
+                      step="0.50"
+                      bind:value={busVarPerKm}
+                      class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer"
+                    />
+                    <div class="flex justify-between text-[10px] text-slate-500">
+                      <span>R$ 2,00/km</span>
+                      <span>Default: R$ 6,00/km</span>
+                      <span>R$ 12,00/km</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        {/if}
       </div>
 
-      <!-- Consolidated Macro Table Focused on Average Metrics -->
+      <!-- 4. Dynamic Interactive Table with Sorting & Micro-Interaction Badge -->
       <div class="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl space-y-4">
         
-        <!-- Table Search & Title Header -->
-        <div class="px-6 py-4 bg-slate-950/80 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div class="flex items-center gap-2 font-bold text-sm text-slate-200">
-            <Layers class="w-4 h-4 text-cyan-400" />
-            <span>Matriz Comparativa de Médias Logísticas por Jogo (20 Clubes)</span>
-            <span class="text-xs text-slate-400 font-normal">({filteredTeamKeys.length} clubes)</span>
+        <!-- Table Search & Header Bar -->
+        <div class="px-6 py-4 bg-slate-950/80 border-b border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          
+          <div class="space-y-1">
+            <div class="flex items-center gap-2 font-bold text-sm text-slate-200">
+              <Layers class="w-4 h-4 text-indigo-400" />
+              <span>Matriz Comparativa de Médias Logísticas por Jogo (20 Clubes)</span>
+              <span class="text-xs text-slate-400 font-normal">({sortedFilteredTeams.length} clubes)</span>
+            </div>
+
+            <!-- Micro-Interaction UX Tip Badge -->
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[11px] font-medium animate-pulse">
+              <span>👉 <strong>Dica:</strong> Clique na linha de qualquer clube para abrir o detalhamento no mapa. Clique nos cabeçalhos para ordenar.</span>
+            </div>
           </div>
 
           <!-- Search Input -->
@@ -543,109 +612,159 @@
               type="text"
               bind:value={searchQuery}
               placeholder="Buscar por clube ou liga..."
-              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+              class="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500"
             />
           </div>
         </div>
 
-        <!-- Table Data -->
+        <!-- Dynamic Sortable Data Table -->
         <div class="overflow-x-auto">
           <table class="w-full text-left text-xs text-slate-300">
             <thead class="bg-slate-950/90 text-slate-400 font-semibold uppercase text-[10px] tracking-wider sticky top-0 z-10 border-b border-slate-800">
               <tr>
-                <th class="py-3 px-4">Clube</th>
-                <th class="py-3 px-3">Nova Liga Proposta</th>
+                
+                <!-- Sortable Header: Clube -->
+                <th on:click={() => handleSort('nome')} class="py-3 px-4 cursor-pointer select-none hover:text-white transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Clube</span>
+                    {#if sortKey === 'nome'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-indigo-400" />{:else}<ArrowDown class="w-3 h-3 text-indigo-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
+                <!-- Sortable Header: Nova Liga -->
+                <th on:click={() => handleSort('liga_proposta')} class="py-3 px-3 cursor-pointer select-none hover:text-white transition-colors">
+                  <div class="flex items-center gap-1">
+                    <span>Nova Liga</span>
+                    {#if sortKey === 'liga_proposta'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-indigo-400" />{:else}<ArrowDown class="w-3 h-3 text-indigo-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
+                <!-- Jogos Fora (CBF / Prop) -->
                 <th class="py-3 px-3 text-center">Jogos Fora (CBF / Prop)</th>
-                <th class="py-3 px-3 text-right">Km Médio / Jogo (CBF vs Prop)</th>
-                <th class="py-3 px-3 text-right">Custo Médio / Jogo (CBF vs Prop)</th>
-                <th class="py-3 px-3 text-right text-emerald-400">Economia Média / Jogo</th>
-                <th class="py-3 px-3 text-center text-emerald-400">Eficiência Econômica (%)</th>
+
+                <!-- Sortable Header: Km Médio -->
+                <th on:click={() => handleSort('propKmAvg')} class="py-3 px-3 text-right cursor-pointer select-none hover:text-white transition-colors">
+                  <div class="flex items-center justify-end gap-1">
+                    <span>Km Médio (CBF vs Prop)</span>
+                    {#if sortKey === 'propKmAvg'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-indigo-400" />{:else}<ArrowDown class="w-3 h-3 text-indigo-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
+                <!-- Sortable Header: Custo Médio -->
+                <th on:click={() => handleSort('propCostAvg')} class="py-3 px-3 text-right cursor-pointer select-none hover:text-white transition-colors">
+                  <div class="flex items-center justify-end gap-1">
+                    <span>Custo Médio (CBF vs Prop)</span>
+                    {#if sortKey === 'propCostAvg'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-indigo-400" />{:else}<ArrowDown class="w-3 h-3 text-indigo-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
+                <!-- Sortable Header: Economia Média -->
+                <th on:click={() => handleSort('costAvgSaved')} class="py-3 px-3 text-right cursor-pointer select-none text-emerald-400 hover:text-emerald-300 transition-colors">
+                  <div class="flex items-center justify-end gap-1">
+                    <span>Economia Média / Jogo</span>
+                    {#if sortKey === 'costAvgSaved'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-emerald-400" />{:else}<ArrowDown class="w-3 h-3 text-emerald-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
+                <!-- Sortable Header: Eficiência (%) -->
+                <th on:click={() => handleSort('costAvgPct')} class="py-3 px-3 text-center cursor-pointer select-none text-emerald-400 hover:text-emerald-300 transition-colors">
+                  <div class="flex items-center justify-center gap-1">
+                    <span>Eficiência (%) / Jogo</span>
+                    {#if sortKey === 'costAvgPct'}
+                      {#if sortDirection === 'asc'}<ArrowUp class="w-3 h-3 text-emerald-400" />{:else}<ArrowDown class="w-3 h-3 text-emerald-400" />{/if}
+                    {:else}
+                      <ArrowUpDown class="w-3 h-3 text-slate-600" />
+                    {/if}
+                  </div>
+                </th>
+
                 <th class="py-3 px-4 text-center">Ação</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-slate-800/60 font-medium">
-              {#each filteredTeamKeys as teamKey (teamKey)}
-                {@const item = rawData[teamKey]}
-                {@const cbfGames = item.baseline?.jogos_fora || item.baseline?.partidas?.length || 9}
-                {@const propGames = item.proposto?.jogos_fora || item.proposto?.partidas?.length || 19}
-
-                {@const cbfKmTotal = item.baseline?.km_total || 0}
-                {@const propKmTotal = item.proposto?.km_total || 0}
-
-                {@const cbfKmAvg = cbfKmTotal / cbfGames}
-                {@const propKmAvg = propKmTotal / propGames}
-
-                {@const cbfCostTotal = calculateTotalCost(item.baseline?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee)}
-                {@const propCostTotal = calculateTotalCost(item.proposto?.partidas, busVarPerKm, busFixedOperational, flightVarPerKm, flightFixedFee)}
-
-                {@const cbfCostAvg = cbfCostTotal / cbfGames}
-                {@const propCostAvg = propCostTotal / propGames}
-
-                {@const costAvgSaved = cbfCostAvg - propCostAvg}
-                {@const costAvgPct = cbfCostAvg > 0 ? (costAvgSaved / cbfCostAvg) * 100 : 0}
-
+              {#each sortedFilteredTeams as t (t.key)}
                 <tr
-                  on:click={() => selectTeam(teamKey)}
-                  class="cursor-pointer transition-colors hover:bg-slate-800/80 even:bg-slate-950/30 group"
+                  on:click={() => selectTeam(t.key)}
+                  class="cursor-pointer transition-all hover:bg-slate-800/90 even:bg-slate-950/30 group border-l-2 border-l-transparent hover:border-l-indigo-400"
                 >
                   <!-- Clube -->
                   <td class="py-3 px-4 flex items-center gap-3">
-                    <TeamBadge teamId={teamKey} name={item.nome} state={item.estado} size="w-7 h-7" />
+                    <TeamBadge teamId={t.key} name={t.nome} state={t.estado} size="w-7 h-7" />
                     <div>
-                      <span class="font-extrabold text-white text-xs block group-hover:text-cyan-300 transition-colors">
-                        {item.nome}
+                      <span class="font-extrabold text-white text-xs block group-hover:text-indigo-300 transition-colors">
+                        {t.nome}
                       </span>
-                      <span class="text-[9px] text-slate-500 uppercase font-semibold">{item.estado}</span>
+                      <span class="text-[9px] text-slate-500 uppercase font-semibold">{t.estado}</span>
                     </div>
                   </td>
 
                   <!-- Nova Liga Proposta -->
                   <td class="py-3 px-3 text-slate-300 font-semibold">
-                    <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] text-cyan-300">
-                      {item.liga_proposta || 'Série C'}
+                    <span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] text-indigo-300">
+                      {t.liga_proposta}
                     </span>
                   </td>
 
                   <!-- Jogos Fora -->
                   <td class="py-3 px-3 text-center font-mono">
-                    <span class="text-rose-400 font-bold">{cbfGames}</span>
+                    <span class="text-rose-400 font-bold">{t.cbfGames}</span>
                     <span class="text-slate-500"> / </span>
-                    <span class="text-emerald-400 font-bold">{propGames}</span>
+                    <span class="text-emerald-400 font-bold">{t.propGames}</span>
                   </td>
 
                   <!-- Km Médio por Jogo -->
                   <td class="py-3 px-3 text-right font-mono">
-                    <span class="text-rose-400 font-semibold block">{formatKm(cbfKmAvg)}</span>
-                    <span class="text-emerald-400 font-bold block">{formatKm(propKmAvg)}</span>
+                    <span class="text-rose-400 font-semibold block">{formatKm(t.cbfKmAvg)}</span>
+                    <span class="text-emerald-400 font-bold block">{formatKm(t.propKmAvg)}</span>
                   </td>
 
                   <!-- Custo Médio por Jogo -->
                   <td class="py-3 px-3 text-right font-mono">
-                    <span class="text-rose-400 font-semibold block">{formatCurrency(cbfCostAvg)}</span>
-                    <span class="text-emerald-400 font-bold block">{formatCurrency(propCostAvg)}</span>
+                    <span class="text-rose-400 font-semibold block">{formatCurrency(t.cbfCostAvg)}</span>
+                    <span class="text-emerald-400 font-bold block">{formatCurrency(t.propCostAvg)}</span>
                   </td>
 
                   <!-- Economia Média por Jogo (R$) -->
                   <td class="py-3 px-3 text-right font-mono text-emerald-300 font-extrabold text-sm">
-                    {formatCurrency(costAvgSaved)} / jogo
+                    {formatCurrency(t.costAvgSaved)} / jogo
                   </td>
 
                   <!-- Eficiência Econômica Média (%) -->
                   <td class="py-3 px-3 text-center">
                     <span class={`px-2.5 py-1 rounded-full font-extrabold text-xs border ${
-                      costAvgPct > 30 ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
-                      costAvgPct > 0 ? 'bg-teal-950 text-teal-400 border-teal-800' :
+                      t.costAvgPct > 30 ? 'bg-emerald-950 text-emerald-400 border-emerald-800' :
+                      t.costAvgPct > 0 ? 'bg-teal-950 text-teal-400 border-teal-800' :
                       'bg-slate-800 text-slate-400 border-slate-700'
                     }`}>
-                      +{costAvgPct.toFixed(1)}% / jogo
+                      +{t.costAvgPct.toFixed(1)}%
                     </span>
                   </td>
 
                   <!-- Action -->
                   <td class="py-3 px-4 text-center">
                     <button
-                      on:click|stopPropagation={() => selectTeam(teamKey)}
-                      class="px-3 py-1 rounded-lg bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white font-bold text-[11px] transition-all inline-flex items-center gap-1 border border-cyan-500/30"
+                      on:click|stopPropagation={() => selectTeam(t.key)}
+                      class="px-3 py-1 rounded-lg bg-indigo-600/20 hover:bg-indigo-600 text-indigo-300 hover:text-white font-bold text-[11px] transition-all inline-flex items-center gap-1 border border-indigo-500/30 shadow-sm"
                     >
                       Analisar <ChevronRight class="w-3.5 h-3.5" />
                     </button>
@@ -699,7 +818,7 @@
                   {teamData.estado}
                 </span>
               </div>
-              <p class="text-xs text-cyan-400 font-semibold mt-0.5">
+              <p class="text-xs text-indigo-400 font-semibold mt-0.5">
                 Liga Alocada: {teamData.liga_proposta || 'Macro 0 (Série C)'}
               </p>
             </div>
@@ -707,10 +826,16 @@
 
           <button
             on:click={backToMacroTable}
-            class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
+            class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-950/60 flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
           >
             <ArrowLeft class="w-4 h-4" /> Voltar à Tabela Geral
           </button>
+        </div>
+
+        <!-- 5. Micro View Narrative Subtitle -->
+        <div class="bg-slate-950/80 border border-indigo-950/60 rounded-xl p-4 text-xs text-slate-300 leading-relaxed text-justify">
+          <span class="font-bold text-indigo-400 block mb-1">Impacto Logístico no {teamData.nome}:</span>
+          Compare o cruzamento continental imposto pela CBF (em vermelho) contra a malha regional focada e otimizada pelo nosso modelo (em verde). Observe a drástica redução nos custos médios por partida jogada como visitante. <i>Adota-se o transporte aéreo em jogos como visitante com distância rodoviária superior a 800 km.</i>
         </div>
 
         <!-- 4 Club Average KPI Summary Cards -->
@@ -739,66 +864,12 @@
           </div>
 
           <!-- Card 4: Economia Financeira Média -->
-          <div class="bg-slate-950/80 border border-cyan-900/60 rounded-xl p-4 space-y-1">
-            <span class="text-[10px] uppercase font-bold text-cyan-400 block">Economia Média por Jogo</span>
-            <p class="text-lg font-black text-cyan-300 font-mono">{formatCurrency(costAvgSaved)} / jogo</p>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-cyan-950 text-cyan-400 border border-cyan-800">
+          <div class="bg-slate-950/80 border border-indigo-900/60 rounded-xl p-4 space-y-1">
+            <span class="text-[10px] uppercase font-bold text-indigo-400 block">Economia Média por Jogo</span>
+            <p class="text-lg font-black text-indigo-300 font-mono">{formatCurrency(costAvgSaved)} / jogo</p>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-400 border border-indigo-800">
               -{costAvgPct.toFixed(1)}% de redução no custo por partida
             </span>
-          </div>
-        </div>
-
-        <!-- Interactive Sliders Inside Micro View -->
-        <div class="bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-4">
-          <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-            <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
-              <Sliders class="w-4 h-4" />
-              <span>Premissas Aviatórias & Terrestres para {teamData.nome}:</span>
-            </div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
-            <!-- Avião Sliders -->
-            <div class="bg-slate-900/60 border border-purple-900/40 rounded-lg p-3 space-y-2">
-              <span class="font-extrabold text-purple-300 text-xs block">Avião: C_aereo(d) = 30 × [2 × (c · d + f)]</span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <div class="flex justify-between text-[11px] font-medium">
-                    <span class="text-slate-400">Fixo/Pax (f):</span>
-                    <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightFixedFee)}</span>
-                  </div>
-                  <input type="range" min="0" max="200" step="5" bind:value={flightFixedFee} class="w-full accent-purple-500 bg-slate-800 cursor-pointer" />
-                </div>
-                <div>
-                  <div class="flex justify-between text-[11px] font-medium">
-                    <span class="text-slate-400">Var/Km (c):</span>
-                    <span class="font-mono text-purple-400 font-bold">{formatCurrency(flightVarPerKm)}</span>
-                  </div>
-                  <input type="range" min="0.20" max="0.80" step="0.05" bind:value={flightVarPerKm} class="w-full accent-purple-500 bg-slate-800 cursor-pointer" />
-                </div>
-              </div>
-            </div>
-
-            <!-- Ônibus Sliders -->
-            <div class="bg-slate-900/60 border border-blue-900/40 rounded-lg p-3 space-y-2">
-              <span class="font-extrabold text-blue-300 text-xs block">Ônibus: C_onibus(d) = (c_bus · 2d) + F_operacional</span>
-              <div class="grid grid-cols-2 gap-3">
-                <div>
-                  <div class="flex justify-between text-[11px] font-medium">
-                    <span class="text-slate-400">Fixo (F_operac):</span>
-                    <span class="font-mono text-blue-400 font-bold">{formatCurrency(busFixedOperational)}</span>
-                  </div>
-                  <input type="range" min="500" max="3000" step="100" bind:value={busFixedOperational} class="w-full accent-blue-500 bg-slate-800 cursor-pointer" />
-                </div>
-                <div>
-                  <div class="flex justify-between text-[11px] font-medium">
-                    <span class="text-slate-400">Var/Km (c_bus):</span>
-                    <span class="font-mono text-blue-400 font-bold">{formatCurrency(busVarPerKm)}</span>
-                  </div>
-                  <input type="range" min="2.00" max="12.00" step="0.5" bind:value={busVarPerKm} class="w-full accent-blue-500 bg-slate-800 cursor-pointer" />
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -808,7 +879,7 @@
       <div class="space-y-3">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-            <Compass class="w-4 h-4 text-cyan-400" />
+            <Compass class="w-4 h-4 text-indigo-400" />
             Comparativo de Rotas Geográficas no Mapa (Dual-Map Sincronizado)
           </h3>
           <span class="text-xs text-slate-400">Vermelho: Modelo CBF | Verde: Modelo Otimizado</span>
@@ -992,7 +1063,7 @@
       <div class="text-center pt-4">
         <button
           on:click={backToMacroTable}
-          class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs border border-slate-700 inline-flex items-center gap-2 transition-all cursor-pointer shadow-lg"
+          class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs shadow-lg shadow-indigo-950/60 inline-flex items-center gap-2 transition-all cursor-pointer"
         >
           <ArrowLeft class="w-4 h-4" /> Voltar para a Tabela Consolidada de Médias
         </button>
