@@ -1,6 +1,6 @@
 <script>
   import { currentSeason, advanceToNextSeason, simulateOneRound, simulateFullSeasonActive, loading, isSeasonComplete } from '$lib/stores/gameStore.js';
-  import { Play, SkipForward, RefreshCw, Trophy, MapPin, Compass } from 'lucide-svelte';
+  import { Play, SkipForward, RefreshCw, Trophy, MapPin, Compass, BarChart3 } from 'lucide-svelte';
 </script>
 
 <header class="bg-slate-900/90 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50 text-slate-100">
@@ -26,9 +26,13 @@
     <!-- Navigation Links -->
     <nav class="hidden md:flex items-center gap-6 text-sm font-medium">
       <a href="/" class="hover:text-emerald-400 transition-colors">Apresentação</a>
-      <a href="/dashboard" class="text-emerald-400 flex items-center gap-1.5 font-semibold">
-        <MapPin class="w-4 h-4" />
+      <a href="/dashboard" class="hover:text-emerald-400 text-slate-300 flex items-center gap-1.5 font-medium transition-colors">
+        <MapPin class="w-4 h-4 text-emerald-400" />
         Simulador Dashboard
+      </a>
+      <a href="/estudo-de-caso" class="text-cyan-400 font-semibold flex items-center gap-1.5 hover:text-cyan-300 transition-colors">
+        <BarChart3 class="w-4 h-4 text-cyan-400" />
+        Estudo de Caso (CBF vs. Proposto)
       </a>
     </nav>
 

@@ -1,6 +1,6 @@
 <script>
   import Navbar from '$lib/components/Navbar.svelte';
-  import { Compass, Shield, MapPin, Award, ArrowRight, Play, Cpu, Network, CheckCircle2 } from 'lucide-svelte';
+  import { Compass, Shield, MapPin, Award, ArrowRight, Play, Cpu, Network, CheckCircle2, BarChart3, TrendingDown, DollarSign } from 'lucide-svelte';
 </script>
 
 <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950">
@@ -31,11 +31,62 @@
           Iniciar Simulação no Dashboard
           <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </a>
+
+        <a
+          href="/estudo-de-caso"
+          class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-extrabold text-base shadow-lg shadow-cyan-950/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 group cursor-pointer"
+        >
+          <BarChart3 class="w-5 h-5 text-cyan-400" />
+          Ver Comparativo Detalhado (CBF vs. Proposto)
+        </a>
       </div>
     </div>
 
+    <!-- NEW FEATURED SECTION: Estudo de Caso: O Impacto Logístico -->
+    <section class="mt-16 bg-gradient-to-r from-slate-900 via-cyan-950/30 to-slate-900 border border-cyan-500/30 rounded-3xl p-8 lg:p-10 relative overflow-hidden shadow-2xl">
+      <div class="absolute -right-12 -bottom-12 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="max-w-4xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
+        <div class="space-y-4 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-xs font-bold uppercase tracking-wider">
+            <BarChart3 class="w-4 h-4" />
+            Pesquisa Acadêmica & Dados Reais
+          </div>
+
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Estudo de Caso: O Impacto Logístico
+          </h2>
+
+          <p class="text-sm sm:text-base text-slate-300 leading-relaxed">
+            Comparamos diretamente o calendário oficial da CBF de 2026 para os 20 clubes originais da Série C contra a nossa proposta regionalizada. O modelo reduziu drasticamente as distâncias percorridas terrestres e aéreas, diminuiu em mais de 45% a dependência de malha aérea comercial e gerou milhões de reais em economia financeira mantendo a integridade competitiva do futebol brasileiro.
+          </p>
+
+          <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+            <div class="flex items-center gap-2 text-emerald-400 font-bold text-sm bg-slate-950/60 border border-emerald-500/30 px-3 py-1.5 rounded-lg">
+              <TrendingDown class="w-4 h-4" />
+              <span>Redução Drástica em Km</span>
+            </div>
+            <div class="flex items-center gap-2 text-cyan-400 font-bold text-sm bg-slate-950/60 border border-cyan-500/30 px-3 py-1.5 rounded-lg">
+              <DollarSign class="w-4 h-4" />
+              <span>Economia de Milhões de R$</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="shrink-0 w-full lg:w-auto text-center">
+          <a
+            href="/estudo-de-caso"
+            class="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-teal-500 text-slate-950 font-black text-sm shadow-xl shadow-cyan-950/60 hover:scale-105 active:scale-95 transition-all group cursor-pointer"
+          >
+            Ver Comparativo Detalhado
+            <ArrowRight class="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </a>
+        </div>
+      </div>
+    </section>
+
     <!-- Methodology Cards Section -->
-    <div class="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
       <!-- Card 1: Balanced K-Means -->
       <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/50 transition-all">
         <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-4 border border-emerald-500/20">
@@ -83,7 +134,7 @@
         </div>
         <div class="flex items-start gap-2.5">
           <CheckCircle2 class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-          <span>Re-clusterização regional gulosa (Greedy Assignment) nas Séries C e D durante viradas de temporada.</span>
+          <span>Re-clusterização regional dinâmica via Algoritmo Húngaro (Linear Assignment Problem).</span>
         </div>
         <div class="flex items-start gap-2.5">
           <CheckCircle2 class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
@@ -91,7 +142,7 @@
         </div>
         <div class="flex items-start gap-2.5">
           <CheckCircle2 class="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-          <span>Escudos dos times com carregamento assíncrono e fallback dinâmico em SVG.</span>
+          <span>Comparativo detalhado em tempo real entre o modelo atual da CBF e o modelo otimizado.</span>
         </div>
       </div>
     </div>
