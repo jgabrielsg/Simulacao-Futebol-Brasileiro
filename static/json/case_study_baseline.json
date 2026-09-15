@@ -1,0 +1,5552 @@
+{
+  "meta": {
+    "titulo": "Estudo de Caso Comparativo: CBF 2026 vs. Modelo Proposto T1",
+    "ano_base": 2026,
+    "delegacao_padrao_pax": 32,
+    "parametros_financeiros": {
+      "aereo_fixo_bilhete": 45,
+      "aereo_var_km_pax": 0.4,
+      "onibus_fixo_viagem": 1500,
+      "onibus_var_km_veiculo": 6,
+      "custo_fixo_aereo_cbf": 40000,
+      "custo_var_aereo_km_cbf": 45,
+      "custo_onibus_km_cbf": 40,
+      "hotel_aereo_diarias": 35000,
+      "hotel_onibus_diarias": 25000,
+      "alimentacao_bate_volta": 4800
+    }
+  },
+  "comparativo_macro": {
+    "cbf_status_quo": {
+      "total_clubes": 116,
+      "total_jogos": 758,
+      "custo_total_brl": 79617713.03,
+      "custo_medio_jogo_brl": 105036.56,
+      "distancia_media_jogo_km": 1267.5,
+      "distancia_total_km": 960689,
+      "pct_rodoviario": 44.1,
+      "pct_aereo": 55.9,
+      "ufs_cobertas_serie_c": 14,
+      "meses_calendario_medio": 3.8
+    },
+    "modelo_proposto_t1": {
+      "total_clubes": 204,
+      "total_jogos": 1959,
+      "custo_total_brl": 83966303.44,
+      "custo_medio_jogo_brl": 42861.82,
+      "distancia_media_jogo_km": 458.7,
+      "distancia_total_km": 898592,
+      "pct_rodoviario": 59.5,
+      "pct_aereo": 40.5,
+      "pct_rodoviario_serie_d": 75.9,
+      "pct_rodoviario_serie_c": 38.6,
+      "ufs_cobertas": 27,
+      "meses_calendario_medio": 7.8,
+      "economia_turnes_ttp_brl": 31138965.07
+    },
+    "variacoes_impacto": {
+      "clubes_diff_pct": 75.86,
+      "jogos_diff_pct": 158.44,
+      "custo_total_diff_pct": 5.46,
+      "custo_medio_jogo_diff_pct": -59.19,
+      "distancia_media_jogo_diff_pct": -63.81,
+      "ufs_cobertas_diff_pct": 92.86
+    }
+  },
+  "divisoes": {
+    "serie_c": {
+      "nome": "Série C",
+      "cbf_status_quo": {
+        "clubes": 20,
+        "jogos": 216,
+        "custo_total_brl": 34725549.89,
+        "custo_fase_regular_brl": 30604124.06,
+        "custo_playoffs_esperado_brl": 4151149.9444092186,
+        "custo_medio_jogo_brl": 160766.43,
+        "distancia_media_km": 1580,
+        "pct_rodoviario": 28.5,
+        "pct_aereo": 71.5,
+        "ufs_cobertas": 14,
+        "descricao_formato": "Fase única em grupo nacional continental de 20 clubes com 19 rodadas, seguido de 2 quadrangulares com 26 jogos nacionais de alto custo."
+      },
+      "modelo_proposto": {
+        "clubes": 60,
+        "jogos": 863,
+        "custo_total_brl": 50736946.04,
+        "custo_fase_regular_brl": 47044385.89,
+        "custo_playoffs_esperado_brl": 3692560.15,
+        "custo_medio_jogo_brl": 58791.36,
+        "distancia_media_km": 542.8,
+        "pct_rodoviario": 38.6,
+        "pct_aereo": 61.4,
+        "economia_turnes_ttp_brl": 22831625.72,
+        "descricao_formato": "4 Conferências Regionais (Sudeste 16, Nordeste 16, Sul 14, Norte-Centro 14) com turno e returno, turnês TTP e Play-ins decisivos."
+      },
+      "resumo_academico": "Triplicação de clubes (de 20 para 60) e quadruplicação de partidas com redução de 63,4% no custo unitário de cada jogo via conferências regionais e turnês TTP."
+    },
+    "serie_d": {
+      "nome": "Série D",
+      "cbf_status_quo": {
+        "clubes": 96,
+        "jogos": 542,
+        "custo_total_brl": 44892163.14,
+        "custo_fase_regular_brl": 36784742.25,
+        "custo_playoffs_esperado_brl": 8103934.5149259735,
+        "custo_medio_jogo_brl": 82826.87,
+        "distancia_media_km": 1142.3,
+        "pct_rodoviario": 46.2,
+        "pct_aereo": 53.8,
+        "descricao_formato": "16 grupos de 6 times na 1ª fase seguidos por 5 fases de mata-mata com cruzamentos nacionais prematuros gerando voos continentais."
+      },
+      "modelo_proposto": {
+        "clubes": 144,
+        "jogos": 1096,
+        "custo_total_brl": 33229357.4,
+        "custo_fase_regular_brl": 28242830.89,
+        "custo_playoffs_esperado_brl": 4986526.51,
+        "custo_medio_jogo_brl": 30318.76,
+        "distancia_media_km": 397.1,
+        "pct_rodoviario": 75.9,
+        "pct_aereo": 24.1,
+        "economia_turnes_ttp_brl": 8307339.35,
+        "descricao_formato": "18 Ligas Regionais Bounded-Radius (6 a 8 clubes) 100% rodoviárias na maioria dos estados, com playoffs restritos à macrorregião."
+      },
+      "resumo_academico": "Economia direta de R$ 11,66 milhões (-26,0%) em relação ao gasto atual da CBF, mesmo atendendo +50% de clubes (144 vs 96) e realizando mais que o dobro de partidas (1.096 vs 542), viabilizado por 75,9% de malha rodoviária regional."
+    }
+  },
+  "matriz_federativa_27_ufs": [
+    {
+      "uf_sigla": "SP",
+      "uf_nome": "São Paulo",
+      "regiao_macro": "Sudeste",
+      "populacao_ibge_2022": 44411238,
+      "pct_pop_brasil": 21.87,
+      "macro_pagerank": 0.167285,
+      "clubes_serie_a": 6,
+      "clubes_serie_b": 4,
+      "clubes_serie_c_proposta": 8,
+      "clubes_serie_d_proposta": 11,
+      "total_piramide_nacional": 29,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "MG",
+      "uf_nome": "Minas Gerais",
+      "regiao_macro": "Sudeste",
+      "populacao_ibge_2022": 20538718,
+      "pct_pop_brasil": 10.11,
+      "macro_pagerank": 0.074442,
+      "clubes_serie_a": 2,
+      "clubes_serie_b": 2,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 6,
+      "total_piramide_nacional": 13,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "RJ",
+      "uf_nome": "Rio de Janeiro",
+      "regiao_macro": "Sudeste",
+      "populacao_ibge_2022": 16054524,
+      "pct_pop_brasil": 7.91,
+      "macro_pagerank": 0.113525,
+      "clubes_serie_a": 4,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 5,
+      "clubes_serie_d_proposta": 14,
+      "total_piramide_nacional": 23,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "BA",
+      "uf_nome": "Bahia",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 14136417,
+      "pct_pop_brasil": 6.96,
+      "macro_pagerank": 0.03785,
+      "clubes_serie_a": 2,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 7,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "PR",
+      "uf_nome": "Paraná",
+      "regiao_macro": "Sul",
+      "populacao_ibge_2022": 11443208,
+      "pct_pop_brasil": 5.64,
+      "macro_pagerank": 0.053087,
+      "clubes_serie_a": 2,
+      "clubes_serie_b": 2,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 5,
+      "total_piramide_nacional": 12,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "RS",
+      "uf_nome": "Rio Grande do Sul",
+      "regiao_macro": "Sul",
+      "populacao_ibge_2022": 10880506,
+      "pct_pop_brasil": 5.36,
+      "macro_pagerank": 0.072198,
+      "clubes_serie_a": 2,
+      "clubes_serie_b": 1,
+      "clubes_serie_c_proposta": 4,
+      "clubes_serie_d_proposta": 12,
+      "total_piramide_nacional": 19,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "PE",
+      "uf_nome": "Pernambuco",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 9058155,
+      "pct_pop_brasil": 4.46,
+      "macro_pagerank": 0.033735,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 2,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 7,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "CE",
+      "uf_nome": "Ceará",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 8791688,
+      "pct_pop_brasil": 4.33,
+      "macro_pagerank": 0.046791,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 2,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 7,
+      "total_piramide_nacional": 11,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "PA",
+      "uf_nome": "Pará",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 8116132,
+      "pct_pop_brasil": 4,
+      "macro_pagerank": 0.035387,
+      "clubes_serie_a": 1,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 8,
+      "total_piramide_nacional": 11,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "SC",
+      "uf_nome": "Santa Catarina",
+      "regiao_macro": "Sul",
+      "populacao_ibge_2022": 7609601,
+      "pct_pop_brasil": 3.75,
+      "macro_pagerank": 0.04429,
+      "clubes_serie_a": 1,
+      "clubes_serie_b": 2,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 8,
+      "total_piramide_nacional": 14,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "GO",
+      "uf_nome": "Goiás",
+      "regiao_macro": "Centro-Oeste",
+      "populacao_ibge_2022": 7055228,
+      "pct_pop_brasil": 3.47,
+      "macro_pagerank": 0.05628,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 3,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 6,
+      "total_piramide_nacional": 11,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "MA",
+      "uf_nome": "Maranhão",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 6775152,
+      "pct_pop_brasil": 3.34,
+      "macro_pagerank": 0.018103,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 0,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 3,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "N/A (0 na C)"
+    },
+    {
+      "uf_sigla": "PB",
+      "uf_nome": "Paraíba",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 3974495,
+      "pct_pop_brasil": 1.96,
+      "macro_pagerank": 0.019132,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 2,
+      "total_piramide_nacional": 4,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "AM",
+      "uf_nome": "Amazonas",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 3941175,
+      "pct_pop_brasil": 1.94,
+      "macro_pagerank": 0.018436,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 4,
+      "total_piramide_nacional": 7,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "ES",
+      "uf_nome": "Espírito Santo",
+      "regiao_macro": "Sudeste",
+      "populacao_ibge_2022": 3833486,
+      "pct_pop_brasil": 1.89,
+      "macro_pagerank": 0.017871,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 5,
+      "total_piramide_nacional": 7,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "MT",
+      "uf_nome": "Mato Grosso",
+      "regiao_macro": "Centro-Oeste",
+      "populacao_ibge_2022": 3658813,
+      "pct_pop_brasil": 1.8,
+      "macro_pagerank": 0.023899,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 1,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 6,
+      "total_piramide_nacional": 9,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "RN",
+      "uf_nome": "Rio Grande do Norte",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 3302406,
+      "pct_pop_brasil": 1.63,
+      "macro_pagerank": 0.018179,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 4,
+      "total_piramide_nacional": 6,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "PI",
+      "uf_nome": "Piauí",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 3269200,
+      "pct_pop_brasil": 1.61,
+      "macro_pagerank": 0.014482,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 5,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "AL",
+      "uf_nome": "Alagoas",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 3127511,
+      "pct_pop_brasil": 1.54,
+      "macro_pagerank": 0.022472,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 1,
+      "clubes_serie_c_proposta": 1,
+      "clubes_serie_d_proposta": 4,
+      "total_piramide_nacional": 6,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Isolado (1)"
+    },
+    {
+      "uf_sigla": "DF",
+      "uf_nome": "Distrito Federal",
+      "regiao_macro": "Centro-Oeste",
+      "populacao_ibge_2022": 2817068,
+      "pct_pop_brasil": 1.39,
+      "macro_pagerank": 0.017897,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 2,
+      "total_piramide_nacional": 5,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "MS",
+      "uf_nome": "Mato Grosso do Sul",
+      "regiao_macro": "Centro-Oeste",
+      "populacao_ibge_2022": 2756700,
+      "pct_pop_brasil": 1.36,
+      "macro_pagerank": 0.019366,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 7,
+      "total_piramide_nacional": 9,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "SE",
+      "uf_nome": "Sergipe",
+      "regiao_macro": "Nordeste",
+      "populacao_ibge_2022": 2209558,
+      "pct_pop_brasil": 1.09,
+      "macro_pagerank": 0.027781,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 3,
+      "clubes_serie_d_proposta": 7,
+      "total_piramide_nacional": 10,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "RO",
+      "uf_nome": "Rondônia",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 1581016,
+      "pct_pop_brasil": 0.78,
+      "macro_pagerank": 0.007413,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 0,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 3,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "N/A (0 na C)"
+    },
+    {
+      "uf_sigla": "TO",
+      "uf_nome": "Tocantins",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 1511459,
+      "pct_pop_brasil": 0.74,
+      "macro_pagerank": 0.015381,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 2,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 5,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "Acoplado (>=2)"
+    },
+    {
+      "uf_sigla": "AC",
+      "uf_nome": "Acre",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 830026,
+      "pct_pop_brasil": 0.41,
+      "macro_pagerank": 0.007354,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 0,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 3,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "N/A (0 na C)"
+    },
+    {
+      "uf_sigla": "AP",
+      "uf_nome": "Amapá",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 733508,
+      "pct_pop_brasil": 0.36,
+      "macro_pagerank": 0.011162,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 0,
+      "clubes_serie_d_proposta": 3,
+      "total_piramide_nacional": 3,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "N/A (0 na C)"
+    },
+    {
+      "uf_sigla": "RR",
+      "uf_nome": "Roraima",
+      "regiao_macro": "Norte",
+      "populacao_ibge_2022": 636303,
+      "pct_pop_brasil": 0.31,
+      "macro_pagerank": 0.006202,
+      "clubes_serie_a": 0,
+      "clubes_serie_b": 0,
+      "clubes_serie_c_proposta": 0,
+      "clubes_serie_d_proposta": 2,
+      "total_piramide_nacional": 2,
+      "status_cota_serie_d": "CONFORME (>=2)",
+      "status_twin_venues_c": "N/A (0 na C)"
+    }
+  ],
+  "casos_emblematicos": [
+    {
+      "id": "GUARANI/sao_paulo",
+      "nome": "GUARANI",
+      "estado": "sao_paulo",
+      "regiao": "Sudeste",
+      "divisao": "C",
+      "titulo": "Guarani (SP) — Circuito Sudeste",
+      "destaque": "Substitui voos continentais para Belém e São Luís por circuito regional em SP/MG/RJ com turnês TTP.",
+      "baseline": {
+        "jogos_fora": 9,
+        "km_total": 13075.73,
+        "km_medio": 1452.86,
+        "partidas": [
+          {
+            "adversario": "MARANHÃO/maranhao",
+            "modal": "aereo",
+            "km": 2646.54,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -2.586386,
+                -44.235008
+              ],
+              [
+                -2.53073,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "onibus",
+            "km": 218.8,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          },
+          {
+            "adversario": "MARINGÁ/parana",
+            "modal": "onibus",
+            "km": 652.79,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.421,
+                -51.9331
+              ]
+            ]
+          },
+          {
+            "adversario": "BARRA/santa_catarina",
+            "modal": "onibus",
+            "km": 623.54,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -26.992,
+                -48.632
+              ]
+            ]
+          },
+          {
+            "adversario": "CONFIANÇA/sergipe",
+            "modal": "aereo",
+            "km": 1985.78,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -10.98394,
+                -37.072873
+              ],
+              [
+                -10.9167,
+                -37.05
+              ]
+            ]
+          },
+          {
+            "adversario": "FIGUEIRENSE/santa_catarina",
+            "modal": "onibus",
+            "km": 702.82,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -27.5949,
+                -48.5482
+              ]
+            ]
+          },
+          {
+            "adversario": "PAYSANDU/para",
+            "modal": "aereo",
+            "km": 2765.45,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "adversario": "ANÁPOLIS/goias",
+            "modal": "aereo",
+            "km": 936.08,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ]
+          },
+          {
+            "adversario": "BOTAFOGO/paraiba",
+            "modal": "aereo",
+            "km": 2543.93,
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 15,
+        "km_total": 6349.7,
+        "km_medio": 423.3,
+        "partidas": [
+          {
+            "round": 2,
+            "adversario": "OESTE/sao_paulo",
+            "modal": "onibus",
+            "km": 90.52,
+            "custo_real": 8560.4,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.5106,
+                -46.8756
+              ]
+            ]
+          },
+          {
+            "round": 7,
+            "adversario": "ITUANO/sao_paulo",
+            "modal": "onibus",
+            "km": 60.19,
+            "custo_real": 3412.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.2619,
+                -47.2972
+              ]
+            ]
+          },
+          {
+            "round": 8,
+            "adversario": "DEMOCRATA/minas_gerais",
+            "modal": "aereo",
+            "km": 826.2,
+            "custo_real": 114541.96,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -18.895882,
+                -41.982869
+              ],
+              [
+                -18.8528,
+                -41.9478
+              ]
+            ]
+          },
+          {
+            "round": 11,
+            "adversario": "POUSO ALEGRE/minas_gerais",
+            "modal": "onibus",
+            "km": 179.34,
+            "custo_real": 6359.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.2303,
+                -45.9336
+              ]
+            ]
+          },
+          {
+            "round": 12,
+            "adversario": "RIO BRANCO/sao_paulo",
+            "modal": "onibus",
+            "km": 43.33,
+            "custo_real": 24660.8,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.7419,
+                -47.3333
+              ]
+            ]
+          },
+          {
+            "round": 14,
+            "adversario": "NOVA IGUAÇU/rio_de_janeiro",
+            "modal": "onibus",
+            "km": 482.21,
+            "custo_real": 21611.4,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.7553,
+                -43.4508
+              ]
+            ]
+          },
+          {
+            "round": 15,
+            "adversario": "OLARIA/rio_de_janeiro",
+            "modal": "aereo",
+            "km": 480.39,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -22.910397,
+                -43.16282
+              ],
+              [
+                -22.9068,
+                -43.1729
+              ]
+            ]
+          },
+          {
+            "round": 16,
+            "adversario": "GRÊMIO PRUDENTE/sao_paulo",
+            "modal": "aereo",
+            "km": 547.34,
+            "custo_real": 110734.73,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -22.1751,
+                -51.424599
+              ],
+              [
+                -22.1256,
+                -51.3822
+              ]
+            ]
+          },
+          {
+            "round": 18,
+            "adversario": "TOMBENSE/minas_gerais",
+            "modal": "aereo",
+            "km": 852.91,
+            "custo_real": 57395.73,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -21.698299,
+                -41.301701
+              ],
+              [
+                -20.7658,
+                -42.0256
+              ]
+            ]
+          },
+          {
+            "round": 19,
+            "adversario": "REAL NOROESTE/espirito_santo",
+            "modal": "onibus",
+            "km": 1024.91,
+            "custo_real": 84427.13,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -18.9817,
+                -40.7333
+              ]
+            ]
+          },
+          {
+            "round": 22,
+            "adversario": "PORTUGUESA/rio_de_janeiro",
+            "modal": "onibus",
+            "km": 518.52,
+            "custo_real": 22307.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.9068,
+                -43.1729
+              ]
+            ]
+          },
+          {
+            "round": 23,
+            "adversario": "MARICÁ/rio_de_janeiro",
+            "modal": "onibus",
+            "km": 565.74,
+            "custo_real": 17996.8,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.9225,
+                -42.8186
+              ]
+            ]
+          },
+          {
+            "round": 24,
+            "adversario": "VOLTA REDONDA/rio_de_janeiro",
+            "modal": "aereo",
+            "km": 504.23,
+            "custo_real": 80409,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -22.986773,
+                -43.372194
+              ],
+              [
+                -22.5181,
+                -44.1014
+              ]
+            ]
+          },
+          {
+            "round": 26,
+            "adversario": "INTER DE LIMEIRA/sao_paulo",
+            "modal": "onibus",
+            "km": 67.55,
+            "custo_real": 7078.8,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.5603,
+                -47.4033
+              ]
+            ]
+          },
+          {
+            "round": 29,
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "onibus",
+            "km": 218.8,
+            "custo_real": 12142.8,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (3 jogos: Rodadas 2, 3, 4)",
+            "rodadas": [
+              2,
+              3,
+              4
+            ],
+            "total_jogos": 3,
+            "itinerario_formatado": "Campinas (Sede) ➔ Inter de Limeira (R2) ➔ Oeste (R3) ➔ Volta Redonda (R4) ➔ Campinas (Retorno)",
+            "km_circuito": 781.9,
+            "km_sem_turne": 857,
+            "km_economizada": 75.1,
+            "pct_economia": 8.8,
+            "circuito_coords": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.5603,
+                -47.4033
+              ],
+              [
+                -23.5106,
+                -46.8756
+              ],
+              [
+                -22.5181,
+                -44.1014
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 2,
+                "adversario_id": "INTER DE LIMEIRA/SAO_PAULO",
+                "adversario_nome": "Inter de Limeira",
+                "cidade": "Limeira",
+                "uf": "SP",
+                "modal": "bate_volta",
+                "km_trecho": 52,
+                "km_direto_sede": 52,
+                "coords": [
+                  -22.5603,
+                  -47.4033
+                ]
+              },
+              {
+                "rodada": 3,
+                "adversario_id": "OESTE/SAO_PAULO",
+                "adversario_nome": "Oeste",
+                "cidade": "Barueri",
+                "uf": "SP",
+                "modal": "bate_volta",
+                "km_trecho": 118.7,
+                "km_direto_sede": 69.9,
+                "coords": [
+                  -23.5106,
+                  -46.8756
+                ]
+              },
+              {
+                "rodada": 4,
+                "adversario_id": "VOLTA REDONDA/RIO_DE_JANEIRO",
+                "adversario_nome": "Volta Redonda",
+                "cidade": "Volta Redonda",
+                "uf": "RJ",
+                "modal": "onibus",
+                "km_trecho": 304.6,
+                "km_direto_sede": 306.6,
+                "coords": [
+                  -22.5181,
+                  -44.1014
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (3 jogos: Rodadas 9, 10, 11)",
+            "rodadas": [
+              9,
+              10,
+              11
+            ],
+            "total_jogos": 3,
+            "itinerario_formatado": "Campinas (Sede) ➔ Ituano (R9) ➔ Ferroviária (R10) ➔ Portuguesa (R11) ➔ Campinas (Retorno)",
+            "km_circuito": 568.2,
+            "km_sem_turne": 597.9,
+            "km_economizada": 29.7,
+            "pct_economia": 5,
+            "circuito_coords": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -23.2619,
+                -47.2972
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ],
+              [
+                -23.5505,
+                -46.6333
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 9,
+                "adversario_id": "ITUANO/SAO_PAULO",
+                "adversario_nome": "Ituano",
+                "cidade": "Itu",
+                "uf": "SP",
+                "modal": "bate_volta",
+                "km_trecho": 46.4,
+                "km_direto_sede": 46.4,
+                "coords": [
+                  -23.2619,
+                  -47.2972
+                ]
+              },
+              {
+                "rodada": 10,
+                "adversario_id": "FERROVIÁRIA/SAO_PAULO",
+                "adversario_nome": "Ferroviária",
+                "cidade": "Araraquara",
+                "uf": "SP",
+                "modal": "bate_volta",
+                "km_trecho": 186.5,
+                "km_direto_sede": 168.6,
+                "coords": [
+                  -21.7945,
+                  -48.1758
+                ]
+              },
+              {
+                "rodada": 11,
+                "adversario_id": "PORTUGUESA/SAO_PAULO",
+                "adversario_nome": "Portuguesa",
+                "cidade": "São Paulo",
+                "uf": "SP",
+                "modal": "bate_volta",
+                "km_trecho": 251.3,
+                "km_direto_sede": 84,
+                "coords": [
+                  -23.5505,
+                  -46.6333
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (1 jogo: Rodada 16)",
+            "rodadas": [
+              16
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Campinas (Sede) ➔ Rio Branco (R16) ➔ Campinas (Retorno)",
+            "km_circuito": 1509.2,
+            "km_sem_turne": 1509.2,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -20.3155,
+                -40.3128
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 16,
+                "adversario_id": "RIO BRANCO/ESPIRITO_SANTO",
+                "adversario_nome": "Rio Branco",
+                "cidade": "Vitória",
+                "uf": "ES",
+                "modal": "aereo",
+                "km_trecho": 754.6,
+                "km_direto_sede": 754.6,
+                "coords": [
+                  -20.3155,
+                  -40.3128
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (4 jogos: Rodadas 20, 21, 22, 23)",
+            "rodadas": [
+              20,
+              21,
+              22,
+              23
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Campinas (Sede) ➔ Portuguesa (R20) ➔ Maricá (R21) ➔ Villa Nova (R22) ➔ Real Noroeste (R23) ➔ Campinas (Retorno)",
+            "km_circuito": 1911.7,
+            "km_sem_turne": 4171.8,
+            "km_economizada": 2260.1,
+            "pct_economia": 54.2,
+            "circuito_coords": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.9068,
+                -43.1729
+              ],
+              [
+                -22.9225,
+                -42.8186
+              ],
+              [
+                -19.9858,
+                -43.8486
+              ],
+              [
+                -18.9817,
+                -40.7333
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 20,
+                "adversario_id": "PORTUGUESA/RIO_DE_JANEIRO",
+                "adversario_nome": "Portuguesa",
+                "cidade": "Rio de Janeiro",
+                "uf": "RJ",
+                "modal": "onibus",
+                "km_trecho": 398.2,
+                "km_direto_sede": 398.2,
+                "coords": [
+                  -22.9068,
+                  -43.1729
+                ]
+              },
+              {
+                "rodada": 21,
+                "adversario_id": "MARICÁ/RIO_DE_JANEIRO",
+                "adversario_nome": "Maricá",
+                "cidade": "Maricá",
+                "uf": "RJ",
+                "modal": "local",
+                "km_trecho": 36.3,
+                "km_direto_sede": 434.5,
+                "coords": [
+                  -22.9225,
+                  -42.8186
+                ]
+              },
+              {
+                "rodada": 22,
+                "adversario_id": "VILLA NOVA/MINAS_GERAIS",
+                "adversario_nome": "Villa Nova",
+                "cidade": "Nova Lima",
+                "uf": "MG",
+                "modal": "aereo",
+                "km_trecho": 343.5,
+                "km_direto_sede": 464.6,
+                "coords": [
+                  -19.9858,
+                  -43.8486
+                ]
+              },
+              {
+                "rodada": 23,
+                "adversario_id": "REAL NOROESTE/ESPIRITO_SANTO",
+                "adversario_nome": "Real Noroeste",
+                "cidade": "AGUIA DE MARABA Branca",
+                "uf": "ES",
+                "modal": "aereo",
+                "km_trecho": 345.1,
+                "km_direto_sede": 788.6,
+                "coords": [
+                  -18.9817,
+                  -40.7333
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 5,
+            "titulo": "Expedição 5 (4 jogos: Rodadas 27, 28, 29, 30)",
+            "rodadas": [
+              27,
+              28,
+              29,
+              30
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Campinas (Sede) ➔ Nova Iguaçu (R27) ➔ Olaria (R28) ➔ Tombense (R29) ➔ Democrata (R30) ➔ Campinas (Retorno)",
+            "km_circuito": 1578.7,
+            "km_sem_turne": 4073.1,
+            "km_economizada": 2494.4,
+            "pct_economia": 61.2,
+            "circuito_coords": [
+              [
+                -22.9056,
+                -47.0608
+              ],
+              [
+                -22.7553,
+                -43.4508
+              ],
+              [
+                -22.9068,
+                -43.1729
+              ],
+              [
+                -20.7658,
+                -42.0256
+              ],
+              [
+                -18.8528,
+                -41.9478
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 27,
+                "adversario_id": "NOVA IGUAÇU/RIO_DE_JANEIRO",
+                "adversario_nome": "Nova Iguaçu",
+                "cidade": "Nova Iguaçu",
+                "uf": "RJ",
+                "modal": "onibus",
+                "km_trecho": 370.3,
+                "km_direto_sede": 370.3,
+                "coords": [
+                  -22.7553,
+                  -43.4508
+                ]
+              },
+              {
+                "rodada": 28,
+                "adversario_id": "OLARIA/RIO_DE_JANEIRO",
+                "adversario_nome": "Olaria",
+                "cidade": "Rio de Janeiro",
+                "uf": "RJ",
+                "modal": "local",
+                "km_trecho": 33.1,
+                "km_direto_sede": 398.2,
+                "coords": [
+                  -22.9068,
+                  -43.1729
+                ]
+              },
+              {
+                "rodada": 29,
+                "adversario_id": "TOMBENSE/MINAS_GERAIS",
+                "adversario_nome": "Tombense",
+                "cidade": "Tombos",
+                "uf": "MG",
+                "modal": "aereo",
+                "km_trecho": 265.9,
+                "km_direto_sede": 571.5,
+                "coords": [
+                  -20.7658,
+                  -42.0256
+                ]
+              },
+              {
+                "rodada": 30,
+                "adversario_id": "DEMOCRATA/MINAS_GERAIS",
+                "adversario_nome": "Democrata",
+                "cidade": "Governador Valadares",
+                "uf": "MG",
+                "modal": "aereo",
+                "km_trecho": 212.9,
+                "km_direto_sede": 696.5,
+                "coords": [
+                  -18.8528,
+                  -41.9478
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 5
+      }
+    },
+    {
+      "id": "CAXIAS/rio_grande_do_sul",
+      "nome": "CAXIAS",
+      "estado": "rio_grande_do_sul",
+      "regiao": "Sul",
+      "divisao": "C",
+      "titulo": "Caxias (RS) — Circuito Meridional",
+      "destaque": "Elimina viagens transversais para o Norte/Nordeste, concentrando-se no circuito RS/SC/PR/MS.",
+      "baseline": {
+        "jogos_fora": 9,
+        "km_total": 17445.53,
+        "km_medio": 1938.39,
+        "partidas": [
+          {
+            "adversario": "BRUSQUE/santa_catarina",
+            "modal": "onibus",
+            "km": 415.23,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -27.1006,
+                -48.9135
+              ]
+            ]
+          },
+          {
+            "adversario": "VOLTA REDONDA/rio_de_janeiro",
+            "modal": "aereo",
+            "km": 1313.62,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -22.986773,
+                -43.372194
+              ],
+              [
+                -22.5181,
+                -44.1014
+              ]
+            ]
+          },
+          {
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "aereo",
+            "km": 3504.16,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "adversario": "BARRA/santa_catarina",
+            "modal": "onibus",
+            "km": 451.86,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -26.992,
+                -48.632
+              ]
+            ]
+          },
+          {
+            "adversario": "MARANHÃO/maranhao",
+            "modal": "aereo",
+            "km": 3510.58,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -2.586386,
+                -44.235008
+              ],
+              [
+                -2.53073,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "adversario": "GUARANI/sao_paulo",
+            "modal": "aereo",
+            "km": 951.84,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -22.9056,
+                -47.0608
+              ]
+            ]
+          },
+          {
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "aereo",
+            "km": 1013.31,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -21.812,
+                -48.132999
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          },
+          {
+            "adversario": "ITABAIANA/sergipe",
+            "modal": "aereo",
+            "km": 2940.71,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -10.98394,
+                -37.072873
+              ],
+              [
+                -10.6897,
+                -37.4253
+              ]
+            ]
+          },
+          {
+            "adversario": "SANTA CRUZ/pernambuco",
+            "modal": "aereo",
+            "km": 3344.22,
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -8.12747,
+                -34.922961
+              ],
+              [
+                -8.05428,
+                -34.8813
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 13,
+        "km_total": 8965.4,
+        "km_medio": 689.6,
+        "partidas": [
+          {
+            "round": 5,
+            "adversario": "PARANÁ/parana",
+            "modal": "aereo",
+            "km": 547.24,
+            "custo_real": 66329.05,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -25.5285,
+                -49.1758
+              ],
+              [
+                -25.4296,
+                -49.2719
+              ]
+            ]
+          },
+          {
+            "round": 6,
+            "adversario": "JOINVILLE/santa_catarina",
+            "modal": "aereo",
+            "km": 471.25,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -26.224501,
+                -48.797401
+              ],
+              [
+                -26.3044,
+                -48.8464
+              ]
+            ]
+          },
+          {
+            "round": 7,
+            "adversario": "MARCÍLIO DIAS/santa_catarina",
+            "modal": "onibus",
+            "km": 457.65,
+            "custo_real": 41999.4,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -26.9046,
+                -48.6667
+              ]
+            ]
+          },
+          {
+            "round": 11,
+            "adversario": "CASCAVEL/parana",
+            "modal": "aereo",
+            "km": 609.67,
+            "custo_real": 77292.63,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -25.000323,
+                -53.501208
+              ],
+              [
+                -24.9578,
+                -53.4594
+              ]
+            ]
+          },
+          {
+            "round": 12,
+            "adversario": "MARINGÁ/parana",
+            "modal": "onibus",
+            "km": 833.47,
+            "custo_real": 94176.6,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -23.421,
+                -51.9331
+              ]
+            ]
+          },
+          {
+            "round": 16,
+            "adversario": "FIGUEIRENSE/santa_catarina",
+            "modal": "onibus",
+            "km": 404.64,
+            "custo_real": 21877.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -27.5949,
+                -48.5482
+              ]
+            ]
+          },
+          {
+            "round": 17,
+            "adversario": "COSTA RICA/mato_grosso_do_sul",
+            "modal": "aereo",
+            "km": 1723.62,
+            "custo_real": 82055.86,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -20.469998,
+                -54.673988
+              ],
+              [
+                -18.5567,
+                -53.1111
+              ]
+            ]
+          },
+          {
+            "round": 18,
+            "adversario": "OPERÁRIO/mato_grosso_do_sul",
+            "modal": "onibus",
+            "km": 1334.7,
+            "custo_real": 104389.4,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -20.4486,
+                -54.6291
+              ]
+            ]
+          },
+          {
+            "round": 20,
+            "adversario": "BRASIL/rio_grande_do_sul",
+            "modal": "onibus",
+            "km": 401.31,
+            "custo_real": 19992.2,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -31.7654,
+                -52.3376
+              ]
+            ]
+          },
+          {
+            "round": 21,
+            "adversario": "BRUSQUE/santa_catarina",
+            "modal": "aereo",
+            "km": 413.06,
+            "custo_real": 102043.89,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -26.879431,
+                -48.650979
+              ],
+              [
+                -27.1006,
+                -48.9135
+              ]
+            ]
+          },
+          {
+            "round": 23,
+            "adversario": "YPIRANGA/rio_grande_do_sul",
+            "modal": "onibus",
+            "km": 260.89,
+            "custo_real": 18381.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -27.6333,
+                -52.2667
+              ]
+            ]
+          },
+          {
+            "round": 24,
+            "adversario": "SÃO JOSÉ/rio_grande_do_sul",
+            "modal": "onibus",
+            "km": 125,
+            "custo_real": 24187.8,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -30.0346,
+                -51.2177
+              ]
+            ]
+          },
+          {
+            "round": 25,
+            "adversario": "SÃO LUIZ/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 371.28,
+            "custo_real": 80899.8,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -28.282503,
+                -54.169623
+              ],
+              [
+                -28.3911,
+                -53.9153
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (1 jogo: Rodada 2)",
+            "rodadas": [
+              2
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Caxias do Sul (Sede) ➔ Maringá (R2) ➔ Caxias do Sul (Retorno)",
+            "km_circuito": 1286.8,
+            "km_sem_turne": 1286.8,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -23.421,
+                -51.9331
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 2,
+                "adversario_id": "MARINGÁ/PARANA",
+                "adversario_nome": "Maringá",
+                "cidade": "Maringá",
+                "uf": "PR",
+                "modal": "aereo",
+                "km_trecho": 643.4,
+                "km_direto_sede": 643.4,
+                "coords": [
+                  -23.421,
+                  -51.9331
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (1 jogo: Rodada 5)",
+            "rodadas": [
+              5
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Caxias do Sul (Sede) ➔ Ypiranga (R5) ➔ Caxias do Sul (Retorno)",
+            "km_circuito": 402.1,
+            "km_sem_turne": 402.1,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -27.6333,
+                -52.2667
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 5,
+                "adversario_id": "YPIRANGA/RIO_GRANDE_DO_SUL",
+                "adversario_nome": "Ypiranga",
+                "cidade": "Erechim",
+                "uf": "RS",
+                "modal": "onibus",
+                "km_trecho": 201.1,
+                "km_direto_sede": 201.1,
+                "coords": [
+                  -27.6333,
+                  -52.2667
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (4 jogos: Rodadas 11, 12, 13, 14)",
+            "rodadas": [
+              11,
+              12,
+              13,
+              14
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Caxias do Sul (Sede) ➔ Operário (R11) ➔ Grêmio Prudente (R12) ➔ Costa Rica (R13) ➔ Brasil (R14) ➔ Caxias do Sul (Retorno)",
+            "km_circuito": 3630.6,
+            "km_sem_turne": 6637.6,
+            "km_economizada": 3006.9,
+            "pct_economia": 45.3,
+            "circuito_coords": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -20.4486,
+                -54.6291
+              ],
+              [
+                -22.1256,
+                -51.3822
+              ],
+              [
+                -18.5567,
+                -53.1111
+              ],
+              [
+                -31.7654,
+                -52.3376
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 11,
+                "adversario_id": "OPERÁRIO/MATO_GROSSO_DO_SUL",
+                "adversario_nome": "Operário",
+                "cidade": "Campo Grande",
+                "uf": "MS",
+                "modal": "aereo",
+                "km_trecho": 1030,
+                "km_direto_sede": 1030,
+                "coords": [
+                  -20.4486,
+                  -54.6291
+                ]
+              },
+              {
+                "rodada": 12,
+                "adversario_id": "GRÊMIO PRUDENTE/SAO_PAULO",
+                "adversario_nome": "Grêmio Prudente",
+                "cidade": "Presidente Prudente",
+                "uf": "SP",
+                "modal": "aereo",
+                "km_trecho": 384.6,
+                "km_direto_sede": 783.3,
+                "coords": [
+                  -22.1256,
+                  -51.3822
+                ]
+              },
+              {
+                "rodada": 13,
+                "adversario_id": "COSTA RICA/MATO_GROSSO_DO_SUL",
+                "adversario_nome": "Costa Rica",
+                "cidade": "Costa Rica",
+                "uf": "MS",
+                "modal": "aereo",
+                "km_trecho": 435.8,
+                "km_direto_sede": 1196.1,
+                "coords": [
+                  -18.5567,
+                  -53.1111
+                ]
+              },
+              {
+                "rodada": 14,
+                "adversario_id": "BRASIL/RIO_GRANDE_DO_SUL",
+                "adversario_nome": "Brasil",
+                "cidade": "Pelotas",
+                "uf": "RS",
+                "modal": "onibus",
+                "km_trecho": 1470.8,
+                "km_direto_sede": 309.4,
+                "coords": [
+                  -31.7654,
+                  -52.3376
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (2 jogos: Rodadas 16, 17)",
+            "rodadas": [
+              16,
+              17
+            ],
+            "total_jogos": 2,
+            "itinerario_formatado": "Caxias do Sul (Sede) ➔ São José (R16) ➔ Xv de Jaú (R17) ➔ Caxias do Sul (Retorno)",
+            "km_circuito": 1804.4,
+            "km_sem_turne": 1808.3,
+            "km_economizada": 3.9,
+            "pct_economia": 0.2,
+            "circuito_coords": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -30.0346,
+                -51.2177
+              ],
+              [
+                -22.2975,
+                -48.5586
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 16,
+                "adversario_id": "SÃO JOSÉ/RIO_GRANDE_DO_SUL",
+                "adversario_nome": "São José",
+                "cidade": "Porto Alegre",
+                "uf": "RS",
+                "modal": "bate_volta",
+                "km_trecho": 96.5,
+                "km_direto_sede": 96.5,
+                "coords": [
+                  -30.0346,
+                  -51.2177
+                ]
+              },
+              {
+                "rodada": 17,
+                "adversario_id": "XV DE JAÚ/SAO_PAULO",
+                "adversario_nome": "Xv de Jaú",
+                "cidade": "Jaú",
+                "uf": "SP",
+                "modal": "aereo",
+                "km_trecho": 900.2,
+                "km_direto_sede": 807.7,
+                "coords": [
+                  -22.2975,
+                  -48.5586
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 5,
+            "titulo": "Expedição 5 (5 jogos: Rodadas 19, 20, 21, 22, 23)",
+            "rodadas": [
+              19,
+              20,
+              21,
+              22,
+              23
+            ],
+            "total_jogos": 5,
+            "itinerario_formatado": "Caxias do Sul (Sede) ➔ Marcílio Dias (R19) ➔ Paraná (R20) ➔ Cascavel (R21) ➔ Brusque (R22) ➔ Figueirense (R23) ➔ Caxias do Sul (Retorno)",
+            "km_circuito": 1841.5,
+            "km_sem_turne": 3918.5,
+            "km_economizada": 2077,
+            "pct_economia": 53,
+            "circuito_coords": [
+              [
+                -29.1678,
+                -51.1794
+              ],
+              [
+                -26.9046,
+                -48.6667
+              ],
+              [
+                -25.4296,
+                -49.2719
+              ],
+              [
+                -24.9578,
+                -53.4594
+              ],
+              [
+                -27.1006,
+                -48.9135
+              ],
+              [
+                -27.5949,
+                -48.5482
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 19,
+                "adversario_id": "MARCÍLIO DIAS/SANTA_CATARINA",
+                "adversario_nome": "Marcílio Dias",
+                "cidade": "Itajaí",
+                "uf": "SC",
+                "modal": "onibus",
+                "km_trecho": 352.3,
+                "km_direto_sede": 352.3,
+                "coords": [
+                  -26.9046,
+                  -48.6667
+                ]
+              },
+              {
+                "rodada": 20,
+                "adversario_id": "PARANÁ/PARANA",
+                "adversario_nome": "Paraná",
+                "cidade": "Curitiba",
+                "uf": "PR",
+                "modal": "aereo",
+                "km_trecho": 174.8,
+                "km_direto_sede": 456.4,
+                "coords": [
+                  -25.4296,
+                  -49.2719
+                ]
+              },
+              {
+                "rodada": 21,
+                "adversario_id": "CASCAVEL/PARANA",
+                "adversario_nome": "Cascavel",
+                "cidade": "Cascavel",
+                "uf": "PR",
+                "modal": "aereo",
+                "km_trecho": 424.6,
+                "km_direto_sede": 519.7,
+                "coords": [
+                  -24.9578,
+                  -53.4594
+                ]
+              },
+              {
+                "rodada": 22,
+                "adversario_id": "BRUSQUE/SANTA_CATARINA",
+                "adversario_nome": "Brusque",
+                "cidade": "Brusque",
+                "uf": "SC",
+                "modal": "onibus",
+                "km_trecho": 512.9,
+                "km_direto_sede": 319.7,
+                "coords": [
+                  -27.1006,
+                  -48.9135
+                ]
+              },
+              {
+                "rodada": 23,
+                "adversario_id": "FIGUEIRENSE/SANTA_CATARINA",
+                "adversario_nome": "Figueirense",
+                "cidade": "Florianópolis",
+                "uf": "SC",
+                "modal": "onibus",
+                "km_trecho": 65.7,
+                "km_direto_sede": 311.2,
+                "coords": [
+                  -27.5949,
+                  -48.5482
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 5
+      }
+    },
+    {
+      "id": "BOTAFOGO/paraiba",
+      "nome": "BOTAFOGO",
+      "estado": "paraiba",
+      "regiao": "Nordeste",
+      "divisao": "C",
+      "titulo": "Botafogo (PB) — Sinergia Nordestina",
+      "destaque": "Aproveita sinergias de sedes acopladas (twin-venues) em SE, PE, CE e RN com turnês de curta distância.",
+      "baseline": {
+        "jogos_fora": 10,
+        "km_total": 24552.79,
+        "km_medio": 2455.28,
+        "partidas": [
+          {
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "aereo",
+            "km": 2511.8,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -21.812,
+                -48.132999
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          },
+          {
+            "adversario": "FIGUEIRENSE/santa_catarina",
+            "modal": "aereo",
+            "km": 3124.68,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -27.670279,
+                -48.552502
+              ],
+              [
+                -27.5949,
+                -48.5482
+              ]
+            ]
+          },
+          {
+            "adversario": "PAYSANDU/para",
+            "modal": "aereo",
+            "km": 1910.21,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "adversario": "MARANHÃO/maranhao",
+            "modal": "aereo",
+            "km": 1367.41,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -2.586386,
+                -44.235008
+              ],
+              [
+                -2.53073,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "adversario": "ITUANO/sao_paulo",
+            "modal": "aereo",
+            "km": 2622.02,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -23.2619,
+                -47.2972
+              ]
+            ]
+          },
+          {
+            "adversario": "YPIRANGA/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 3474.77,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -27.134199,
+                -52.656601
+              ],
+              [
+                -27.6333,
+                -52.2667
+              ]
+            ]
+          },
+          {
+            "adversario": "ANÁPOLIS/goias",
+            "modal": "aereo",
+            "km": 2183.92,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ]
+          },
+          {
+            "adversario": "CAXIAS/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 3450.41,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ]
+          },
+          {
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "aereo",
+            "km": 3276.52,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "adversario": "ITABAIANA/sergipe",
+            "modal": "onibus",
+            "km": 631.05,
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -10.6897,
+                -37.4253
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 15,
+        "km_total": 6078.7,
+        "km_medio": 405.2,
+        "partidas": [
+          {
+            "round": 1,
+            "adversario": "SERGIPE/sergipe",
+            "modal": "onibus",
+            "km": 629.58,
+            "custo_real": 24764,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -10.9167,
+                -37.05
+              ]
+            ]
+          },
+          {
+            "round": 2,
+            "adversario": "SAMPAIO CORRÊA/maranhao",
+            "modal": "aereo",
+            "km": 1367.41,
+            "custo_real": 111436.54,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -2.586386,
+                -44.235008
+              ],
+              [
+                -2.5307,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "round": 3,
+            "adversario": "MOTO CLUB/maranhao",
+            "modal": "aereo",
+            "km": 1367.41,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -2.586386,
+                -44.235008
+              ],
+              [
+                -2.53073,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "round": 4,
+            "adversario": "FLORESTA/ceara",
+            "modal": "aereo",
+            "km": 663.12,
+            "custo_real": 80685.36,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -3.775833,
+                -38.532222
+              ],
+              [
+                -3.7172,
+                -38.5433
+              ]
+            ]
+          },
+          {
+            "round": 7,
+            "adversario": "JACUIPENSE/bahia",
+            "modal": "aereo",
+            "km": 1029.96,
+            "custo_real": 60664.95,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -12.908611,
+                -38.322498
+              ],
+              [
+                -11.8053,
+                -39.3786
+              ]
+            ]
+          },
+          {
+            "round": 8,
+            "adversario": "SOUSA/paraiba",
+            "modal": "onibus",
+            "km": 486.46,
+            "custo_real": 53296.4,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -6.76056,
+                -38.2317
+              ]
+            ]
+          },
+          {
+            "round": 13,
+            "adversario": "ABC/rio_grande_do_norte",
+            "modal": "onibus",
+            "km": 196.28,
+            "custo_real": 6000.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -5.7945,
+                -35.211
+              ]
+            ]
+          },
+          {
+            "round": 14,
+            "adversario": "AMÉRICA/rio_grande_do_norte",
+            "modal": "onibus",
+            "km": 196.28,
+            "custo_real": 22800.8,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -5.7945,
+                -35.211
+              ]
+            ]
+          },
+          {
+            "round": 16,
+            "adversario": "SANTA CRUZ/pernambuco",
+            "modal": "onibus",
+            "km": 135.06,
+            "custo_real": 4730,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -8.05428,
+                -34.8813
+              ]
+            ]
+          },
+          {
+            "round": 17,
+            "adversario": "FERROVIÁRIO/ceara",
+            "modal": "aereo",
+            "km": 663.12,
+            "custo_real": 54633.29,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -3.775833,
+                -38.532222
+              ],
+              [
+                -3.7172,
+                -38.5433
+              ]
+            ]
+          },
+          {
+            "round": 18,
+            "adversario": "ALTOS/piaui",
+            "modal": "aereo",
+            "km": 1066.34,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.148691,
+                -34.950554
+              ],
+              [
+                -5.06025,
+                -42.823712
+              ],
+              [
+                -5.0261,
+                -42.4597
+              ]
+            ]
+          },
+          {
+            "round": 19,
+            "adversario": "JUAZEIRENSE/bahia",
+            "modal": "onibus",
+            "km": 872.53,
+            "custo_real": 58336.2,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -9.4125,
+                -40.5033
+              ]
+            ]
+          },
+          {
+            "round": 23,
+            "adversario": "CSA/alagoas",
+            "modal": "onibus",
+            "km": 387.37,
+            "custo_real": 19901.2,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -9.6658,
+                -35.7353
+              ]
+            ]
+          },
+          {
+            "round": 24,
+            "adversario": "RETRÔ/pernambuco",
+            "modal": "onibus",
+            "km": 130.64,
+            "custo_real": 26855.4,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -8.0153,
+                -34.9875
+              ]
+            ]
+          },
+          {
+            "round": 28,
+            "adversario": "CONFIANÇA/sergipe",
+            "modal": "onibus",
+            "km": 629.58,
+            "custo_real": 49528,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -10.9167,
+                -37.05
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (1 jogo: Rodada 5)",
+            "rodadas": [
+              5
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "João Pessoa (Sede) ➔ Retrô (R5) ➔ João Pessoa (Retorno)",
+            "km_circuito": 202.1,
+            "km_sem_turne": 202.1,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -8.0153,
+                -34.9875
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 5,
+                "adversario_id": "RETRÔ/PERNAMBUCO",
+                "adversario_nome": "Retrô",
+                "cidade": "Camaragibe",
+                "uf": "PE",
+                "modal": "bate_volta",
+                "km_trecho": 101,
+                "km_direto_sede": 101,
+                "coords": [
+                  -8.0153,
+                  -34.9875
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (2 jogos: Rodadas 8, 9)",
+            "rodadas": [
+              8,
+              9
+            ],
+            "total_jogos": 2,
+            "itinerario_formatado": "João Pessoa (Sede) ➔ Ferroviário (R8) ➔ América (R9) ➔ João Pessoa (Retorno)",
+            "km_circuito": 1142.8,
+            "km_sem_turne": 1414.5,
+            "km_economizada": 271.7,
+            "pct_economia": 19.2,
+            "circuito_coords": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -3.7172,
+                -38.5433
+              ],
+              [
+                -5.7945,
+                -35.211
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 8,
+                "adversario_id": "FERROVIÁRIO/CEARA",
+                "adversario_nome": "Ferroviário",
+                "cidade": "Fortaleza",
+                "uf": "CE",
+                "modal": "onibus",
+                "km_trecho": 555.5,
+                "km_direto_sede": 555.5,
+                "coords": [
+                  -3.7172,
+                  -38.5433
+                ]
+              },
+              {
+                "rodada": 9,
+                "adversario_id": "AMÉRICA/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "América",
+                "cidade": "Natal",
+                "uf": "RN",
+                "modal": "bate_volta",
+                "km_trecho": 435.5,
+                "km_direto_sede": 151.8,
+                "coords": [
+                  -5.7945,
+                  -35.211
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (5 jogos: Rodadas 15, 16, 17, 18, 19)",
+            "rodadas": [
+              15,
+              16,
+              17,
+              18,
+              19
+            ],
+            "total_jogos": 5,
+            "itinerario_formatado": "João Pessoa (Sede) ➔ Floresta (R15) ➔ Altos (R16) ➔ Fluminense (R17) ➔ Juazeirense (R18) ➔ Santa Cruz (R19) ➔ João Pessoa (Retorno)",
+            "km_circuito": 2335.9,
+            "km_sem_turne": 6216.6,
+            "km_economizada": 3880.6,
+            "pct_economia": 62.4,
+            "circuito_coords": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -3.7172,
+                -38.5433
+              ],
+              [
+                -5.0261,
+                -42.4597
+              ],
+              [
+                -5.08917,
+                -42.80167
+              ],
+              [
+                -9.4125,
+                -40.5033
+              ],
+              [
+                -8.05428,
+                -34.8813
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 15,
+                "adversario_id": "FLORESTA/CEARA",
+                "adversario_nome": "Floresta",
+                "cidade": "Fortaleza",
+                "uf": "CE",
+                "modal": "onibus",
+                "km_trecho": 555.5,
+                "km_direto_sede": 555.5,
+                "coords": [
+                  -3.7172,
+                  -38.5433
+                ]
+              },
+              {
+                "rodada": 16,
+                "adversario_id": "ALTOS/PIAUI",
+                "adversario_nome": "Altos",
+                "cidade": "Altos",
+                "uf": "PI",
+                "modal": "aereo",
+                "km_trecho": 458,
+                "km_direto_sede": 871.3,
+                "coords": [
+                  -5.0261,
+                  -42.4597
+                ]
+              },
+              {
+                "rodada": 17,
+                "adversario_id": "FLUMINENSE/PIAUI",
+                "adversario_nome": "Fluminense",
+                "cidade": "Teresina",
+                "uf": "PI",
+                "modal": "local",
+                "km_trecho": 38.5,
+                "km_direto_sede": 906,
+                "coords": [
+                  -5.08917,
+                  -42.80167
+                ]
+              },
+              {
+                "rodada": 18,
+                "adversario_id": "JUAZEIRENSE/BAHIA",
+                "adversario_nome": "Juazeirense",
+                "cidade": "Juazeiro",
+                "uf": "BA",
+                "modal": "onibus",
+                "km_trecho": 543.5,
+                "km_direto_sede": 671,
+                "coords": [
+                  -9.4125,
+                  -40.5033
+                ]
+              },
+              {
+                "rodada": 19,
+                "adversario_id": "SANTA CRUZ/PERNAMBUCO",
+                "adversario_nome": "Santa Cruz",
+                "cidade": "Recife",
+                "uf": "PE",
+                "modal": "bate_volta",
+                "km_trecho": 636.1,
+                "km_direto_sede": 104.5,
+                "coords": [
+                  -8.05428,
+                  -34.8813
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (2 jogos: Rodadas 21, 22)",
+            "rodadas": [
+              21,
+              22
+            ],
+            "total_jogos": 2,
+            "itinerario_formatado": "João Pessoa (Sede) ➔ Sousa (R21) ➔ Abc (R22) ➔ João Pessoa (Retorno)",
+            "km_circuito": 876.3,
+            "km_sem_turne": 1051.1,
+            "km_economizada": 174.8,
+            "pct_economia": 16.6,
+            "circuito_coords": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -6.76056,
+                -38.2317
+              ],
+              [
+                -5.7945,
+                -35.211
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 21,
+                "adversario_id": "SOUSA/PARAIBA",
+                "adversario_nome": "Sousa",
+                "cidade": "Sousa",
+                "uf": "PB",
+                "modal": "onibus",
+                "km_trecho": 373.8,
+                "km_direto_sede": 373.8,
+                "coords": [
+                  -6.76056,
+                  -38.2317
+                ]
+              },
+              {
+                "rodada": 22,
+                "adversario_id": "ABC/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Abc",
+                "cidade": "Natal",
+                "uf": "RN",
+                "modal": "bate_volta",
+                "km_trecho": 350.7,
+                "km_direto_sede": 151.8,
+                "coords": [
+                  -5.7945,
+                  -35.211
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 5,
+            "titulo": "Expedição 5 (5 jogos: Rodadas 25, 26, 27, 28, 29)",
+            "rodadas": [
+              25,
+              26,
+              27,
+              28,
+              29
+            ],
+            "total_jogos": 5,
+            "itinerario_formatado": "João Pessoa (Sede) ➔ Sergipe (R25) ➔ Confiança (R26) ➔ Jacuipense (R27) ➔ Itabaiana (R28) ➔ Csa (R29) ➔ João Pessoa (Retorno)",
+            "km_circuito": 1521.6,
+            "km_sem_turne": 4955.2,
+            "km_economizada": 3433.6,
+            "pct_economia": 69.3,
+            "circuito_coords": [
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -10.9167,
+                -37.05
+              ],
+              [
+                -10.9167,
+                -37.05
+              ],
+              [
+                -11.8053,
+                -39.3786
+              ],
+              [
+                -10.6897,
+                -37.4253
+              ],
+              [
+                -9.6658,
+                -35.7353
+              ],
+              [
+                -7.115,
+                -34.8642
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 25,
+                "adversario_id": "SERGIPE/SERGIPE",
+                "adversario_nome": "Sergipe",
+                "cidade": "Aracaju",
+                "uf": "SE",
+                "modal": "onibus",
+                "km_trecho": 486.1,
+                "km_direto_sede": 486.1,
+                "coords": [
+                  -10.9167,
+                  -37.05
+                ]
+              },
+              {
+                "rodada": 26,
+                "adversario_id": "CONFIANÇA/SERGIPE",
+                "adversario_nome": "Confiança",
+                "cidade": "Aracaju",
+                "uf": "SE",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 486.1,
+                "coords": [
+                  -10.9167,
+                  -37.05
+                ]
+              },
+              {
+                "rodada": 27,
+                "adversario_id": "JACUIPENSE/BAHIA",
+                "adversario_nome": "Jacuipense",
+                "cidade": "Riachão do Jacuípe",
+                "uf": "BA",
+                "modal": "aereo",
+                "km_trecho": 272.4,
+                "km_direto_sede": 719,
+                "coords": [
+                  -11.8053,
+                  -39.3786
+                ]
+              },
+              {
+                "rodada": 28,
+                "adversario_id": "ITABAIANA/SERGIPE",
+                "adversario_nome": "Itabaiana",
+                "cidade": "Itabaiana",
+                "uf": "SE",
+                "modal": "onibus",
+                "km_trecho": 246.5,
+                "km_direto_sede": 487,
+                "coords": [
+                  -10.6897,
+                  -37.4253
+                ]
+              },
+              {
+                "rodada": 29,
+                "adversario_id": "CSA/ALAGOAS",
+                "adversario_nome": "Csa",
+                "cidade": "Maceió",
+                "uf": "AL",
+                "modal": "onibus",
+                "km_trecho": 217.2,
+                "km_direto_sede": 299.4,
+                "coords": [
+                  -9.6658,
+                  -35.7353
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 5
+      }
+    },
+    {
+      "id": "PAYSANDU/para",
+      "nome": "PAYSANDU",
+      "estado": "para",
+      "regiao": "Norte",
+      "divisao": "C",
+      "titulo": "Paysandu (PA) — Corredor Norte-Centro",
+      "destaque": "Amortização de voos longos via acoplamento Belém/Manaus/Cuiabá/Brasília com turnês TTP-6.",
+      "baseline": {
+        "jogos_fora": 9,
+        "km_total": 22760,
+        "km_medio": 2528.89,
+        "partidas": [
+          {
+            "adversario": "VOLTA REDONDA/rio_de_janeiro",
+            "modal": "aereo",
+            "km": 2879.37,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -22.986773,
+                -43.372194
+              ],
+              [
+                -22.5181,
+                -44.1014
+              ]
+            ]
+          },
+          {
+            "adversario": "ITABAIANA/sergipe",
+            "modal": "aereo",
+            "km": 1909.09,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -10.98394,
+                -37.072873
+              ],
+              [
+                -10.6897,
+                -37.4253
+              ]
+            ]
+          },
+          {
+            "adversario": "CAXIAS/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 3559.6,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ]
+          },
+          {
+            "adversario": "FIGUEIRENSE/santa_catarina",
+            "modal": "aereo",
+            "km": 3356.02,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -27.670279,
+                -48.552502
+              ],
+              [
+                -27.5949,
+                -48.5482
+              ]
+            ]
+          },
+          {
+            "adversario": "MARANHÃO/maranhao",
+            "modal": "onibus",
+            "km": 624.45,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -2.53073,
+                -44.3068
+              ]
+            ]
+          },
+          {
+            "adversario": "YPIRANGA/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 3475.49,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -27.134199,
+                -52.656601
+              ],
+              [
+                -27.6333,
+                -52.2667
+              ]
+            ]
+          },
+          {
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "aereo",
+            "km": 1515.28,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "aereo",
+            "km": 2606.43,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -21.812,
+                -48.132999
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          },
+          {
+            "adversario": "ITUANO/sao_paulo",
+            "modal": "aereo",
+            "km": 2834.27,
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -23.2619,
+                -47.2972
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 13,
+        "km_total": 14489.4,
+        "km_medio": 1114.6,
+        "partidas": [
+          {
+            "round": 1,
+            "adversario": "TUNA LUSO/para",
+            "modal": "onibus",
+            "km": 0,
+            "custo_real": 2400,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "round": 2,
+            "adversario": "MANAUARA/amazonas",
+            "modal": "aereo",
+            "km": 1515.28,
+            "custo_real": 143864.02,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 6,
+            "adversario": "TOCANTINÓPOLIS/tocantins",
+            "modal": "onibus",
+            "km": 715.75,
+            "custo_real": 26390,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -6.3297,
+                -47.4767
+              ]
+            ]
+          },
+          {
+            "round": 7,
+            "adversario": "ÁGUIA DE MARABÁ/para",
+            "modal": "aereo",
+            "km": 520.05,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -5.3685898781,
+                -49.1380004883
+              ],
+              [
+                -5.3556,
+                -49.1122
+              ]
+            ]
+          },
+          {
+            "round": 8,
+            "adversario": "CAPITAL CF/distrito_federal",
+            "modal": "aereo",
+            "km": 1850.05,
+            "custo_real": 60500,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -15.869167,
+                -47.920834
+              ],
+              [
+                -15.7939,
+                -47.8828
+              ]
+            ]
+          },
+          {
+            "round": 9,
+            "adversario": "APARECIDENSE/goias",
+            "modal": "onibus",
+            "km": 2212.32,
+            "custo_real": 21263,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -16.8233,
+                -49.2442
+              ]
+            ]
+          },
+          {
+            "round": 10,
+            "adversario": "ANÁPOLIS/goias",
+            "modal": "onibus",
+            "km": 2139.56,
+            "custo_real": 102700.43,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ]
+          },
+          {
+            "round": 13,
+            "adversario": "MANAUS/amazonas",
+            "modal": "aereo",
+            "km": 1515.28,
+            "custo_real": 71650.52,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 14,
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "onibus",
+            "km": 1684.45,
+            "custo_real": 88450.52,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 20,
+            "adversario": "BRASILIENSE/distrito_federal",
+            "modal": "aereo",
+            "km": 1864.03,
+            "custo_real": 79704.91,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -15.869167,
+                -47.920834
+              ],
+              [
+                -15.82667,
+                -48.06083
+              ]
+            ]
+          },
+          {
+            "round": 21,
+            "adversario": "CEILÂNDIA/distrito_federal",
+            "modal": "onibus",
+            "km": 2067.08,
+            "custo_real": 96758.51,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -15.8267,
+                -48.1033
+              ]
+            ]
+          },
+          {
+            "round": 23,
+            "adversario": "UNIÃO RONDONÓPOLIS/mato_grosso",
+            "modal": "aereo",
+            "km": 2092.45,
+            "custo_real": 127740.59,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -16.584292,
+                -54.724803
+              ],
+              [
+                -16.4683,
+                -54.6356
+              ]
+            ]
+          },
+          {
+            "round": 24,
+            "adversario": "CEOV OPERÁRIO/mato_grosso",
+            "modal": "aereo",
+            "km": 2061.68,
+            "custo_real": 162513.85,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -15.6529,
+                -56.116699
+              ],
+              [
+                -15.6536,
+                -56.1333
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (4 jogos: Rodadas 1, 2, 3, 4)",
+            "rodadas": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Belém (Sede) ➔ Ceov Operário (R1) ➔ União Rondonópolis (R2) ➔ Amazonas (R3) ➔ Manaus (R4) ➔ Belém (Retorno)",
+            "km_circuito": 4862.6,
+            "km_sem_turne": 12352.3,
+            "km_economizada": 7489.7,
+            "pct_economia": 60.6,
+            "circuito_coords": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -15.6536,
+                -56.1333
+              ],
+              [
+                -16.4683,
+                -54.6356
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 1,
+                "adversario_id": "CEOV OPERÁRIO/MATO_GROSSO",
+                "adversario_nome": "Ceov Operário",
+                "cidade": "Várzea Grande",
+                "uf": "MT",
+                "modal": "aereo",
+                "km_trecho": 1787.4,
+                "km_direto_sede": 1787.4,
+                "coords": [
+                  -15.6536,
+                  -56.1333
+                ]
+              },
+              {
+                "rodada": 2,
+                "adversario_id": "UNIÃO RONDONÓPOLIS/MATO_GROSSO",
+                "adversario_nome": "União Rondonópolis",
+                "cidade": "Rondonópolis",
+                "uf": "MT",
+                "modal": "aereo",
+                "km_trecho": 183.9,
+                "km_direto_sede": 1799.8,
+                "coords": [
+                  -16.4683,
+                  -54.6356
+                ]
+              },
+              {
+                "rodada": 3,
+                "adversario_id": "AMAZONAS/AMAZONAS",
+                "adversario_nome": "Amazonas",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "aereo",
+                "km_trecho": 1596.9,
+                "km_direto_sede": 1294.5,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              },
+              {
+                "rodada": 4,
+                "adversario_id": "MANAUS/AMAZONAS",
+                "adversario_nome": "Manaus",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 1294.5,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (4 jogos: Rodadas 8, 9, 10, 11)",
+            "rodadas": [
+              8,
+              9,
+              10,
+              11
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Belém (Sede) ➔ Capital Cf (R8) ➔ Brasiliense (R9) ➔ Ceilândia (R10) ➔ Anápolis (R11) ➔ Belém (Retorno)",
+            "km_circuito": 3380.8,
+            "km_sem_turne": 12894.9,
+            "km_economizada": 9514.1,
+            "pct_economia": 73.8,
+            "circuito_coords": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -15.7939,
+                -47.8828
+              ],
+              [
+                -15.82667,
+                -48.06083
+              ],
+              [
+                -15.8267,
+                -48.1033
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 8,
+                "adversario_id": "CAPITAL CF/DISTRITO_FEDERAL",
+                "adversario_nome": "Capital Cf",
+                "cidade": "Brasília",
+                "uf": "DF",
+                "modal": "aereo",
+                "km_trecho": 1595.7,
+                "km_direto_sede": 1595.7,
+                "coords": [
+                  -15.7939,
+                  -47.8828
+                ]
+              },
+              {
+                "rodada": 9,
+                "adversario_id": "BRASILIENSE/DISTRITO_FEDERAL",
+                "adversario_nome": "Brasiliense",
+                "cidade": "Taguatinga",
+                "uf": "DF",
+                "modal": "local",
+                "km_trecho": 19.4,
+                "km_direto_sede": 1598.7,
+                "coords": [
+                  -15.82667,
+                  -48.06083
+                ]
+              },
+              {
+                "rodada": 10,
+                "adversario_id": "CEILÂNDIA/DISTRITO_FEDERAL",
+                "adversario_nome": "Ceilândia",
+                "cidade": "Ceilândia",
+                "uf": "DF",
+                "modal": "local",
+                "km_trecho": 4.5,
+                "km_direto_sede": 1598.5,
+                "coords": [
+                  -15.8267,
+                  -48.1033
+                ]
+              },
+              {
+                "rodada": 11,
+                "adversario_id": "ANÁPOLIS/GOIAS",
+                "adversario_nome": "Anápolis",
+                "cidade": "Anápolis",
+                "uf": "GO",
+                "modal": "aereo",
+                "km_trecho": 106.6,
+                "km_direto_sede": 1654.6,
+                "coords": [
+                  -16.3286,
+                  -48.9533
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (3 jogos: Rodadas 18, 19, 20)",
+            "rodadas": [
+              18,
+              19,
+              20
+            ],
+            "total_jogos": 3,
+            "itinerario_formatado": "Belém (Sede) ➔ Aparecidense (R18) ➔ Tocantinópolis (R19) ➔ União Atlético (R20) ➔ Belém (Retorno)",
+            "km_circuito": 3657.1,
+            "km_sem_turne": 5805.7,
+            "km_economizada": 2148.6,
+            "pct_economia": 37,
+            "circuito_coords": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -16.8233,
+                -49.2442
+              ],
+              [
+                -6.3297,
+                -47.4767
+              ],
+              [
+                -7.1917,
+                -48.2056
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 18,
+                "adversario_id": "APARECIDENSE/GOIAS",
+                "adversario_nome": "Aparecidense",
+                "cidade": "Aparecida de Goiânia",
+                "uf": "GO",
+                "modal": "aereo",
+                "km_trecho": 1710.8,
+                "km_direto_sede": 1710.8,
+                "coords": [
+                  -16.8233,
+                  -49.2442
+                ]
+              },
+              {
+                "rodada": 19,
+                "adversario_id": "TOCANTINÓPOLIS/TOCANTINS",
+                "adversario_nome": "Tocantinópolis",
+                "cidade": "Tocantinópolis",
+                "uf": "TO",
+                "modal": "onibus",
+                "km_trecho": 1182.6,
+                "km_direto_sede": 553.5,
+                "coords": [
+                  -6.3297,
+                  -47.4767
+                ]
+              },
+              {
+                "rodada": 20,
+                "adversario_id": "UNIÃO ATLÉTICO/TOCANTINS",
+                "adversario_nome": "União Atlético",
+                "cidade": "Araguaína",
+                "uf": "TO",
+                "modal": "onibus",
+                "km_trecho": 125.2,
+                "km_direto_sede": 638.6,
+                "coords": [
+                  -7.1917,
+                  -48.2056
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (2 jogos: Rodadas 25, 26)",
+            "rodadas": [
+              25,
+              26
+            ],
+            "total_jogos": 2,
+            "itinerario_formatado": "Belém (Sede) ➔ Tuna Luso (R25) ➔ Manauara (R26) ➔ Belém (Retorno)",
+            "km_circuito": 2588.9,
+            "km_sem_turne": 2588.9,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 25,
+                "adversario_id": "TUNA LUSO/PARA",
+                "adversario_nome": "Tuna Luso",
+                "cidade": "Belém",
+                "uf": "PA",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 0,
+                "coords": [
+                  -1.4558,
+                  -48.4902
+                ]
+              },
+              {
+                "rodada": 26,
+                "adversario_id": "MANAUARA/AMAZONAS",
+                "adversario_nome": "Manauara",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "aereo",
+                "km_trecho": 1294.5,
+                "km_direto_sede": 1294.5,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 4
+      }
+    },
+    {
+      "id": "ANÁPOLIS/goias",
+      "nome": "ANÁPOLIS",
+      "estado": "goias",
+      "regiao": "Centro-Oeste",
+      "divisao": "C",
+      "titulo": "Anápolis (GO) — Hub Logístico Central",
+      "destaque": "Integração no corredor central conectando GO, DF, MT e TO com alta densidade viária.",
+      "baseline": {
+        "jogos_fora": 10,
+        "km_total": 15794.39,
+        "km_medio": 1579.44,
+        "partidas": [
+          {
+            "adversario": "ITUANO/sao_paulo",
+            "modal": "aereo",
+            "km": 998.44,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -23.007404,
+                -47.134502
+              ],
+              [
+                -23.2619,
+                -47.2972
+              ]
+            ]
+          },
+          {
+            "adversario": "YPIRANGA/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 1641.9,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -27.134199,
+                -52.656601
+              ],
+              [
+                -27.6333,
+                -52.2667
+              ]
+            ]
+          },
+          {
+            "adversario": "FERROVIÁRIA/sao_paulo",
+            "modal": "onibus",
+            "km": 793.71,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -21.7945,
+                -48.1758
+              ]
+            ]
+          },
+          {
+            "adversario": "PAYSANDU/para",
+            "modal": "aereo",
+            "km": 1954.4,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "adversario": "BRUSQUE/santa_catarina",
+            "modal": "aereo",
+            "km": 1461.7,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -26.879431,
+                -48.650979
+              ],
+              [
+                -27.1006,
+                -48.9135
+              ]
+            ]
+          },
+          {
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "aereo",
+            "km": 2245.67,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "adversario": "CAXIAS/rio_grande_do_sul",
+            "modal": "aereo",
+            "km": 1711.12,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -29.197183,
+                -51.187647
+              ],
+              [
+                -29.1678,
+                -51.1794
+              ]
+            ]
+          },
+          {
+            "adversario": "VOLTA REDONDA/rio_de_janeiro",
+            "modal": "aereo",
+            "km": 1163.94,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -22.986773,
+                -43.372194
+              ],
+              [
+                -22.5181,
+                -44.1014
+              ]
+            ]
+          },
+          {
+            "adversario": "FLORESTA/ceara",
+            "modal": "aereo",
+            "km": 2129.69,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -3.775833,
+                -38.532222
+              ],
+              [
+                -3.7172,
+                -38.5433
+              ]
+            ]
+          },
+          {
+            "adversario": "CONFIANÇA/sergipe",
+            "modal": "aereo",
+            "km": 1693.82,
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -10.98394,
+                -37.072873
+              ],
+              [
+                -10.9167,
+                -37.05
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 13,
+        "km_total": 10156.3,
+        "km_medio": 781.3,
+        "partidas": [
+          {
+            "round": 1,
+            "adversario": "CEILÂNDIA/distrito_federal",
+            "modal": "onibus",
+            "km": 138.53,
+            "custo_real": 10155.6,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -15.8267,
+                -48.1033
+              ]
+            ]
+          },
+          {
+            "round": 4,
+            "adversario": "MANAUARA/amazonas",
+            "modal": "aereo",
+            "km": 2245.67,
+            "custo_real": 186541.53,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 5,
+            "adversario": "AMAZONAS/amazonas",
+            "modal": "aereo",
+            "km": 2245.67,
+            "custo_real": 186541.53,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 6,
+            "adversario": "MANAUS/amazonas",
+            "modal": "aereo",
+            "km": 2245.67,
+            "custo_real": 186541.53,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -3.03861,
+                -60.049702
+              ],
+              [
+                -3.119,
+                -60.0217
+              ]
+            ]
+          },
+          {
+            "round": 7,
+            "adversario": "CAPITAL CF/distrito_federal",
+            "modal": "onibus",
+            "km": 167.6,
+            "custo_real": 11081.2,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -15.7939,
+                -47.8828
+              ]
+            ]
+          },
+          {
+            "round": 8,
+            "adversario": "CEOV OPERÁRIO/mato_grosso",
+            "modal": "aereo",
+            "km": 939.75,
+            "custo_real": 115649.65,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -15.6529,
+                -56.116699
+              ],
+              [
+                -15.6536,
+                -56.1333
+              ]
+            ]
+          },
+          {
+            "round": 9,
+            "adversario": "UNIÃO RONDONÓPOLIS/mato_grosso",
+            "modal": "aereo",
+            "km": 767.59,
+            "custo_real": 171163.58,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -16.584292,
+                -54.724803
+              ],
+              [
+                -16.4683,
+                -54.6356
+              ]
+            ]
+          },
+          {
+            "round": 12,
+            "adversario": "ÁGUIA DE MARABÁ/para",
+            "modal": "aereo",
+            "km": 1451.48,
+            "custo_real": 146133.99,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -5.3685898781,
+                -49.1380004883
+              ],
+              [
+                -5.3556,
+                -49.1122
+              ]
+            ]
+          },
+          {
+            "round": 13,
+            "adversario": "TOCANTINÓPOLIS/tocantins",
+            "modal": "aereo",
+            "km": 1444.87,
+            "custo_real": 149027.93,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -5.53129,
+                -47.459999
+              ],
+              [
+                -6.3297,
+                -47.4767
+              ]
+            ]
+          },
+          {
+            "round": 14,
+            "adversario": "TUNA LUSO/para",
+            "modal": "aereo",
+            "km": 1954.4,
+            "custo_real": 168879.66,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "round": 17,
+            "adversario": "PAYSANDU/para",
+            "modal": "aereo",
+            "km": 1954.4,
+            "custo_real": 168879.66,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.632,
+                -49.220699
+              ],
+              [
+                -1.379279,
+                -48.476207
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ]
+            ]
+          },
+          {
+            "round": 18,
+            "adversario": "APARECIDENSE/goias",
+            "modal": "onibus",
+            "km": 81.82,
+            "custo_real": 7721.2,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.8233,
+                -49.2442
+              ]
+            ]
+          },
+          {
+            "round": 22,
+            "adversario": "BRASILIENSE/distrito_federal",
+            "modal": "onibus",
+            "km": 143.61,
+            "custo_real": 10207.6,
+            "tipo_trecho": "BATE_VOLTA",
+            "rota": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -15.82667,
+                -48.06083
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (1 jogo: Rodada 1)",
+            "rodadas": [
+              1
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Anápolis (Sede) ➔ União Atlético (R1) ➔ Anápolis (Retorno)",
+            "km_circuito": 2038.4,
+            "km_sem_turne": 2038.4,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -7.1917,
+                -48.2056
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 1,
+                "adversario_id": "UNIÃO ATLÉTICO/TOCANTINS",
+                "adversario_nome": "União Atlético",
+                "cidade": "Araguaína",
+                "uf": "TO",
+                "modal": "aereo",
+                "km_trecho": 1019.2,
+                "km_direto_sede": 1019.2,
+                "coords": [
+                  -7.1917,
+                  -48.2056
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (6 jogos: Rodadas 3, 4, 5, 6, 7, 8)",
+            "rodadas": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "total_jogos": 6,
+            "itinerario_formatado": "Anápolis (Sede) ➔ Aparecidense (R3) ➔ Ceov Operário (R4) ➔ União Rondonópolis (R5) ➔ Manauara (R6) ➔ Amazonas (R7) ➔ Manaus (R8) ➔ Anápolis (Retorno)",
+            "km_circuito": 4493.8,
+            "km_sem_turne": 14299.7,
+            "km_economizada": 9805.9,
+            "pct_economia": 68.6,
+            "circuito_coords": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -16.8233,
+                -49.2442
+              ],
+              [
+                -15.6536,
+                -56.1333
+              ],
+              [
+                -16.4683,
+                -54.6356
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -3.119,
+                -60.0217
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 3,
+                "adversario_id": "APARECIDENSE/GOIAS",
+                "adversario_nome": "Aparecidense",
+                "cidade": "Aparecida de Goiânia",
+                "uf": "GO",
+                "modal": "bate_volta",
+                "km_trecho": 63.1,
+                "km_direto_sede": 63.1,
+                "coords": [
+                  -16.8233,
+                  -49.2442
+                ]
+              },
+              {
+                "rodada": 4,
+                "adversario_id": "CEOV OPERÁRIO/MATO_GROSSO",
+                "adversario_nome": "Ceov Operário",
+                "cidade": "Várzea Grande",
+                "uf": "MT",
+                "modal": "aereo",
+                "km_trecho": 746.8,
+                "km_direto_sede": 771.1,
+                "coords": [
+                  -15.6536,
+                  -56.1333
+                ]
+              },
+              {
+                "rodada": 5,
+                "adversario_id": "UNIÃO RONDONÓPOLIS/MATO_GROSSO",
+                "adversario_nome": "União Rondonópolis",
+                "cidade": "Rondonópolis",
+                "uf": "MT",
+                "modal": "aereo",
+                "km_trecho": 183.9,
+                "km_direto_sede": 606.3,
+                "coords": [
+                  -16.4683,
+                  -54.6356
+                ]
+              },
+              {
+                "rodada": 6,
+                "adversario_id": "MANAUARA/AMAZONAS",
+                "adversario_nome": "Manauara",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "aereo",
+                "km_trecho": 1596.9,
+                "km_direto_sede": 1903.1,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              },
+              {
+                "rodada": 7,
+                "adversario_id": "AMAZONAS/AMAZONAS",
+                "adversario_nome": "Amazonas",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 1903.1,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              },
+              {
+                "rodada": 8,
+                "adversario_id": "MANAUS/AMAZONAS",
+                "adversario_nome": "Manaus",
+                "cidade": "Manaus",
+                "uf": "AM",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 1903.1,
+                "coords": [
+                  -3.119,
+                  -60.0217
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (1 jogo: Rodada 15)",
+            "rodadas": [
+              15
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Anápolis (Sede) ➔ Brasiliense (R15) ➔ Anápolis (Retorno)",
+            "km_circuito": 221,
+            "km_sem_turne": 221,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -15.82667,
+                -48.06083
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 15,
+                "adversario_id": "BRASILIENSE/DISTRITO_FEDERAL",
+                "adversario_nome": "Brasiliense",
+                "cidade": "Taguatinga",
+                "uf": "DF",
+                "modal": "bate_volta",
+                "km_trecho": 110.5,
+                "km_direto_sede": 110.5,
+                "coords": [
+                  -15.82667,
+                  -48.06083
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (5 jogos: Rodadas 22, 23, 24, 25, 26)",
+            "rodadas": [
+              22,
+              23,
+              24,
+              25,
+              26
+            ],
+            "total_jogos": 5,
+            "itinerario_formatado": "Anápolis (Sede) ➔ Tocantinópolis (R22) ➔ Tuna Luso (R23) ➔ Paysandu (R24) ➔ Capital Cf (R25) ➔ Ceilândia (R26) ➔ Anápolis (Retorno)",
+            "km_circuito": 3403.1,
+            "km_sem_turne": 9336,
+            "km_economizada": 5933,
+            "pct_economia": 63.5,
+            "circuito_coords": [
+              [
+                -16.3286,
+                -48.9533
+              ],
+              [
+                -6.3297,
+                -47.4767
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -1.4558,
+                -48.4902
+              ],
+              [
+                -15.7939,
+                -47.8828
+              ],
+              [
+                -15.8267,
+                -48.1033
+              ],
+              [
+                -16.3286,
+                -48.9533
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 22,
+                "adversario_id": "TOCANTINÓPOLIS/TOCANTINS",
+                "adversario_nome": "Tocantinópolis",
+                "cidade": "Tocantinópolis",
+                "uf": "TO",
+                "modal": "aereo",
+                "km_trecho": 1123.4,
+                "km_direto_sede": 1123.4,
+                "coords": [
+                  -6.3297,
+                  -47.4767
+                ]
+              },
+              {
+                "rodada": 23,
+                "adversario_id": "TUNA LUSO/PARA",
+                "adversario_nome": "Tuna Luso",
+                "cidade": "Belém",
+                "uf": "PA",
+                "modal": "aereo",
+                "km_trecho": 553.5,
+                "km_direto_sede": 1654.6,
+                "coords": [
+                  -1.4558,
+                  -48.4902
+                ]
+              },
+              {
+                "rodada": 24,
+                "adversario_id": "PAYSANDU/PARA",
+                "adversario_nome": "Paysandu",
+                "cidade": "Belém",
+                "uf": "PA",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 1654.6,
+                "coords": [
+                  -1.4558,
+                  -48.4902
+                ]
+              },
+              {
+                "rodada": 25,
+                "adversario_id": "CAPITAL CF/DISTRITO_FEDERAL",
+                "adversario_nome": "Capital Cf",
+                "cidade": "Brasília",
+                "uf": "DF",
+                "modal": "bate_volta",
+                "km_trecho": 1595.7,
+                "km_direto_sede": 128.9,
+                "coords": [
+                  -15.7939,
+                  -47.8828
+                ]
+              },
+              {
+                "rodada": 26,
+                "adversario_id": "CEILÂNDIA/DISTRITO_FEDERAL",
+                "adversario_nome": "Ceilândia",
+                "cidade": "Ceilândia",
+                "uf": "DF",
+                "modal": "local",
+                "km_trecho": 23.9,
+                "km_direto_sede": 106.6,
+                "coords": [
+                  -15.8267,
+                  -48.1033
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 4
+      }
+    },
+    {
+      "id": "TREZE/paraiba",
+      "nome": "TREZE",
+      "estado": "paraiba",
+      "regiao": "Nordeste",
+      "divisao": "D",
+      "titulo": "Treze (PB) — 100% Rodoviário na Série D",
+      "destaque": "Demonstração empírica da Série D regionalizada: 100% dos jogos cumpridos por ônibus em raio curto.",
+      "baseline": {
+        "jogos_fora": 5,
+        "km_total": 1603.17,
+        "km_medio": 320.63,
+        "partidas": [
+          {
+            "adversario": "LAGARTO/sergipe",
+            "modal": "onibus",
+            "km": 579.22,
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -10.9167,
+                -37.5167
+              ]
+            ]
+          },
+          {
+            "adversario": "DECISÃO/pernambuco",
+            "modal": "onibus",
+            "km": 180.94,
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -8.4797,
+                -35.7275
+              ]
+            ]
+          },
+          {
+            "adversario": "SERRA BRANCA/paraiba",
+            "modal": "onibus",
+            "km": 116.54,
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.47139,
+                -36.6567
+              ]
+            ]
+          },
+          {
+            "adversario": "SERGIPE/sergipe",
+            "modal": "onibus",
+            "km": 555.68,
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -10.9167,
+                -37.05
+              ]
+            ]
+          },
+          {
+            "adversario": "RETRÔ/pernambuco",
+            "modal": "onibus",
+            "km": 170.79,
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -8.0153,
+                -34.9875
+              ]
+            ]
+          }
+        ]
+      },
+      "proposto": {
+        "jogos_fora": 9,
+        "km_total": 1716.5,
+        "km_medio": 190.7,
+        "partidas": [
+          {
+            "round": 2,
+            "adversario": "GLOBO/rio_grande_do_norte",
+            "modal": "onibus",
+            "km": 238.54,
+            "custo_real": 17604.4,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -5.63583,
+                -35.4236
+              ]
+            ]
+          },
+          {
+            "round": 3,
+            "adversario": "ALECRIM/rio_grande_do_norte",
+            "modal": "onibus",
+            "km": 227.85,
+            "custo_real": 17470.6,
+            "tipo_trecho": "INTER_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -5.7945,
+                -35.211
+              ]
+            ]
+          },
+          {
+            "round": 4,
+            "adversario": "NACIONAL/paraiba",
+            "modal": "onibus",
+            "km": 202.38,
+            "custo_real": 29221,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.0233,
+                -37.2753
+              ]
+            ]
+          },
+          {
+            "round": 8,
+            "adversario": "CENTRAL/pernambuco",
+            "modal": "onibus",
+            "km": 151.86,
+            "custo_real": 5230.8,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -8.2828,
+                -35.9742
+              ]
+            ]
+          },
+          {
+            "round": 9,
+            "adversario": "CSE/alagoas",
+            "modal": "onibus",
+            "km": 330.41,
+            "custo_real": 39455.6,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -9.4036,
+                -36.6322
+              ]
+            ]
+          },
+          {
+            "round": 13,
+            "adversario": "CAMPINENSE/paraiba",
+            "modal": "onibus",
+            "km": 0,
+            "custo_real": 2400,
+            "tipo_trecho": "INICIO_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ]
+          },
+          {
+            "round": 14,
+            "adversario": "VITÓRIA DAS TABOCAS/pernambuco",
+            "modal": "onibus",
+            "km": 153.33,
+            "custo_real": 25577.6,
+            "tipo_trecho": "FIM_TURNE",
+            "rota": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -8.1225,
+                -35.2953
+              ]
+            ]
+          }
+        ],
+        "turnes": [
+          {
+            "tour_id": 1,
+            "titulo": "Expedição 1 (2 jogos: Rodadas 1, 2)",
+            "rodadas": [
+              1,
+              2
+            ],
+            "total_jogos": 2,
+            "itinerario_formatado": "Campina Grande (Sede) ➔ Laguna (R1) ➔ Potyguar Seridoense (R2) ➔ Campina Grande (Retorno)",
+            "km_circuito": 457.8,
+            "km_sem_turne": 609.6,
+            "km_economizada": 151.8,
+            "pct_economia": 24.9,
+            "circuito_coords": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -5.79448,
+                -35.211
+              ],
+              [
+                -6.2575,
+                -36.5136
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 1,
+                "adversario_id": "LAGUNA/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Laguna",
+                "cidade": "Natal",
+                "uf": "RN",
+                "modal": "onibus",
+                "km_trecho": 176,
+                "km_direto_sede": 176,
+                "coords": [
+                  -5.79448,
+                  -35.211
+                ]
+              },
+              {
+                "rodada": 2,
+                "adversario_id": "POTYGUAR SERIDOENSE/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Potyguar Seridoense",
+                "cidade": "Currais Novos",
+                "uf": "RN",
+                "modal": "bate_volta",
+                "km_trecho": 153,
+                "km_direto_sede": 128.8,
+                "coords": [
+                  -6.2575,
+                  -36.5136
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 2,
+            "titulo": "Expedição 2 (4 jogos: Rodadas 4, 5, 6, 7)",
+            "rodadas": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "total_jogos": 4,
+            "itinerario_formatado": "Campina Grande (Sede) ➔ Alecrim (R4) ➔ Globo (R5) ➔ Qfc (R6) ➔ Potiguar (R7) ➔ Campina Grande (Retorno)",
+            "km_circuito": 759.8,
+            "km_sem_turne": 1630.9,
+            "km_economizada": 871.2,
+            "pct_economia": 53.4,
+            "circuito_coords": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -5.7945,
+                -35.211
+              ],
+              [
+                -5.63583,
+                -35.4236
+              ],
+              [
+                -5.79448,
+                -35.211
+              ],
+              [
+                -5.18833,
+                -37.3478
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 4,
+                "adversario_id": "ALECRIM/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Alecrim",
+                "cidade": "Natal",
+                "uf": "RN",
+                "modal": "onibus",
+                "km_trecho": 176,
+                "km_direto_sede": 176,
+                "coords": [
+                  -5.7945,
+                  -35.211
+                ]
+              },
+              {
+                "rodada": 5,
+                "adversario_id": "GLOBO/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Globo",
+                "cidade": "Ceará-Mirim",
+                "uf": "RN",
+                "modal": "local",
+                "km_trecho": 29.4,
+                "km_direto_sede": 184.4,
+                "coords": [
+                  -5.63583,
+                  -35.4236
+                ]
+              },
+              {
+                "rodada": 6,
+                "adversario_id": "QFC/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Qfc",
+                "cidade": "Natal",
+                "uf": "RN",
+                "modal": "local",
+                "km_trecho": 29.4,
+                "km_direto_sede": 176,
+                "coords": [
+                  -5.79448,
+                  -35.211
+                ]
+              },
+              {
+                "rodada": 7,
+                "adversario_id": "POTIGUAR/RIO_GRANDE_DO_NORTE",
+                "adversario_nome": "Potiguar",
+                "cidade": "Mossoró",
+                "uf": "RN",
+                "modal": "onibus",
+                "km_trecho": 245.9,
+                "km_direto_sede": 279,
+                "coords": [
+                  -5.18833,
+                  -37.3478
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 3,
+            "titulo": "Expedição 3 (1 jogo: Rodada 9)",
+            "rodadas": [
+              9
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Campina Grande (Sede) ➔ Íbis (R9) ➔ Campina Grande (Retorno)",
+            "km_circuito": 273,
+            "km_sem_turne": 273,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.9436,
+                -34.8731
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 9,
+                "adversario_id": "ÍBIS/PERNAMBUCO",
+                "adversario_nome": "Íbis",
+                "cidade": "Paulista",
+                "uf": "PE",
+                "modal": "bate_volta",
+                "km_trecho": 136.5,
+                "km_direto_sede": 136.5,
+                "coords": [
+                  -7.9436,
+                  -34.8731
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 4,
+            "titulo": "Expedição 4 (1 jogo: Rodada 12)",
+            "rodadas": [
+              12
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Campina Grande (Sede) ➔ Csp (R12) ➔ Campina Grande (Retorno)",
+            "km_circuito": 225.9,
+            "km_sem_turne": 225.9,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.115,
+                -34.8642
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 12,
+                "adversario_id": "CSP/PARAIBA",
+                "adversario_nome": "Csp",
+                "cidade": "João Pessoa",
+                "uf": "PB",
+                "modal": "bate_volta",
+                "km_trecho": 113,
+                "km_direto_sede": 113,
+                "coords": [
+                  -7.115,
+                  -34.8642
+                ]
+              }
+            ]
+          },
+          {
+            "tour_id": 5,
+            "titulo": "Expedição 5 (1 jogo: Rodada 17)",
+            "rodadas": [
+              17
+            ],
+            "total_jogos": 1,
+            "itinerario_formatado": "Campina Grande (Sede) ➔ Campinense (R17) ➔ Campina Grande (Retorno)",
+            "km_circuito": 0,
+            "km_sem_turne": 0,
+            "km_economizada": 0,
+            "pct_economia": 0,
+            "circuito_coords": [
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ],
+              [
+                -7.2306,
+                -35.8814
+              ]
+            ],
+            "partidas": [
+              {
+                "rodada": 17,
+                "adversario_id": "CAMPINENSE/PARAIBA",
+                "adversario_nome": "Campinense",
+                "cidade": "Campina Grande",
+                "uf": "PB",
+                "modal": "local",
+                "km_trecho": 0,
+                "km_direto_sede": 0,
+                "coords": [
+                  -7.2306,
+                  -35.8814
+                ]
+              }
+            ]
+          }
+        ],
+        "total_turnes": 5
+      }
+    }
+  ]
+}
