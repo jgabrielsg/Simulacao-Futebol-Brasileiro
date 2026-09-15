@@ -2,7 +2,7 @@
   import { showSeasonModal, showWizardModal, lastTransitionSummary, currentSeason } from '$lib/stores/gameStore.js';
   import { getMacroName, getMicroName } from '$lib/utils/leagueNames.js';
   import TeamBadge from './TeamBadge.svelte';
-  import { Trophy, ArrowUpRight, ArrowDownRight, Sparkles, Shield, Layers, Play } from 'lucide-svelte';
+  import { Trophy, ArrowUpRight, ArrowDownRight, Shield, Layers, Play } from 'lucide-svelte';
 
   function confirmAndOpenWizard() {
     showSeasonModal.set(false);
@@ -228,7 +228,7 @@
       <!-- Modal Footer Action -->
       <div class="px-6 py-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between shrink-0">
         <div class="text-xs text-slate-400 flex items-center gap-2">
-          <Sparkles class="w-4 h-4 text-amber-400" />
+          <Layers class="w-4 h-4 text-emerald-400" />
           <span>Veja a Re-clusterização em tempo real pelo Algoritmo Húngaro.</span>
         </div>
 

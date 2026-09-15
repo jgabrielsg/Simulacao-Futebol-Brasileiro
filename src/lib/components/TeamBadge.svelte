@@ -1,21 +1,40 @@
 <script>
-  export let teamId;
+  import { base } from '$app/paths';
+  import { teamsDb } from '$lib/stores/gameStore.js';
+
+  export let teamId = '';
   export let name = '';
   export let state = '';
   export let size = 'w-6 h-6';
 
-  const parts = teamId ? teamId.split('/') : [];
-  const clubeKey = parts[0] || name || '';
-  const estadoSlug = parts[1] || state || '';
-  const teamName = name || clubeKey || '';
+  $: teamObj = ($teamsDb && teamId) ? $teamsDb[teamId] : null;
 
-  const primaryImgSrc = estadoSlug && clubeKey ? `/teams/${estadoSlug}/${clubeKey}.png` : '';
-  const fallbackImgSrc = estadoSlug && teamName ? `/teams/${estadoSlug}/${teamName}.png` : '';
-  const initials = teamName.substring(0, 3).toUpperCase();
+  $: parts = teamId ? teamId.split('/') : [];
+  $: clubeKey = teamObj?.clube || parts[0] || name || '';
+  $: estadoSlug = teamObj?.estado_slug || parts[1] || state || '';
+  $: teamName = teamObj?.nome || name || clubeKey || '';
+
+  $: basePath = base ? base.replace(/\/$/, '') : '';
+
+  $: primaryImgSrc = (estadoSlug && clubeKey)
+    ? `${basePath}/teams/${encodeURIComponent(estadoSlug)}/${encodeURIComponent(clubeKey)}.png`
+    : '';
+
+  $: fallbackImgSrc = (estadoSlug && teamName && teamName !== clubeKey)
+    ? `${basePath}/teams/${encodeURIComponent(estadoSlug)}/${encodeURIComponent(teamName)}.png`
+    : '';
+
+  $: initials = teamName.substring(0, 3).toUpperCase() || 'FC';
 
   let hasError = false;
   let triedFallback = false;
-  let currentSrc = primaryImgSrc;
+  let currentSrc = '';
+
+  $: if (primaryImgSrc) {
+    currentSrc = primaryImgSrc;
+    hasError = false;
+    triedFallback = false;
+  }
 
   function handleError() {
     if (!triedFallback && fallbackImgSrc && currentSrc !== fallbackImgSrc) {
@@ -32,11 +51,12 @@
     <img
       src={currentSrc}
       on:error={handleError}
-      alt={name}
-      class="w-full h-full object-contain"
+      alt={teamName}
+      loading="lazy"
+      class="w-full h-full object-contain drop-shadow-sm"
     />
   {:else}
-    <div class="w-full h-full rounded-full bg-slate-800 border border-slate-700/60 flex items-center justify-center font-bold text-[9px] text-slate-300 select-none">
+    <div class="w-full h-full rounded-full bg-slate-800 border border-slate-700/80 flex items-center justify-center font-extrabold text-[8px] tracking-tight text-slate-300 select-none shadow-sm">
       {initials}
     </div>
   {/if}

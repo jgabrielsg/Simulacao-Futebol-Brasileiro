@@ -1,48 +1,47 @@
 <script>
   import { tick, onMount, onDestroy } from 'svelte';
   import 'leaflet/dist/leaflet.css';
-  import { showWizardModal, wizardDataStore, teamsDb, currentSeason } from '$lib/stores/gameStore.js';
+  import {
+    showWizardModal,
+    teamsDb,
+    currentSeasonNum,
+    currentTransitions,
+    currentSeasonSummary,
+    advanceToNextSeason,
+    seasonsIndex,
+    showQuinquenniumSummaryModal
+  } from '$lib/stores/gameStore.js';
   import { computeConvexHull } from '$lib/utils/geoUtils.js';
-  import { getMacroName, getMicroName } from '$lib/utils/leagueNames.js';
-  import { Cpu, ArrowRight, ArrowLeft, Check, Sparkles } from 'lucide-svelte';
+  import { CONFERENCE_COLORS } from '$lib/utils/leagueNames.js';
+  import TeamBadge from './TeamBadge.svelte';
+  import {
+    Trophy,
+    ArrowRight,
+    ArrowLeft,
+    Check,
+    Shield,
+    Shuffle,
+    Building2,
+    DollarSign,
+    Bus,
+    TrendingDown,
+    X
+  } from 'lucide-svelte';
 
   let mapElement;
   let L;
   let map;
   let markersLayer;
-  let centroidLayer;
   let hullLayer;
 
-  let currentStep = 1; // Steps 1 to 8
+  let currentStep = 1; // Steps 1 to 6
 
-  // Color palette for macro-regions (Serie C)
-  const macroColors = {
-    macro_0: '#3b82f6', // Blue
-    macro_1: '#10b981', // Emerald
-    macro_2: '#f59e0b', // Amber
-    macro_3: '#a855f7'  // Purple
-  };
-
-  // Color palette for micro-regions (Serie D)
-  const microColors = [
-    '#ef4444', '#f97316', '#f59e0b', '#84cc16',
-    '#10b981', '#06b6d4', '#3b82f6', '#6366f1',
-    '#8b5cf6', '#d946ef', '#ec4899', '#f43f5e'
-  ];
-
-  function getMicroColor(idx) {
-    return microColors[idx % microColors.length];
-  }
-
-  $: data = $wizardDataStore;
-
-  // Reactively initialize map when wizard modal opens
-  $: if ($showWizardModal && data) {
+  $: if ($showWizardModal) {
     initWizardMap();
   }
 
   async function initWizardMap() {
-    await tick(); // Wait for Svelte DOM modal mounting
+    await tick();
     if (!mapElement) return;
 
     if (!L) {
@@ -50,7 +49,6 @@
     }
 
     if (!map) {
-      console.log('[Wizard Map] Initializing new Leaflet map instance...');
       map = L.map(mapElement, {
         center: [-14.235, -51.925],
         zoom: 4,
@@ -66,16 +64,14 @@
 
       hullLayer = L.layerGroup().addTo(map);
       markersLayer = L.layerGroup().addTo(map);
-      centroidLayer = L.layerGroup().addTo(map);
     }
 
-    // Force size recalculation after modal CSS transition
     setTimeout(() => {
       if (map) {
         map.invalidateSize();
         renderStep(currentStep);
       }
-    }, 150);
+    }, 200);
   }
 
   onDestroy(() => {
@@ -86,11 +82,11 @@
   });
 
   function nextStep() {
-    if (currentStep < 8) {
+    if (currentStep < 6) {
       currentStep++;
       renderStep(currentStep);
     } else {
-      closeWizard();
+      handleCompleteSeason();
     }
   }
 
@@ -110,348 +106,494 @@
     }
   }
 
+  function handleCompleteSeason() {
+    closeWizard();
+    advanceToNextSeason();
+  }
+
+  function formatMoney(val) {
+    if (!val && val !== 0) return 'R$ 0';
+    return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(val);
+  }
+
   function renderStep(step) {
-    if (!map || !L || !markersLayer || !data) return;
+    if (!map || !L || !markersLayer || !hullLayer) return;
 
     hullLayer.clearLayers();
     markersLayer.clearLayers();
-    centroidLayer.clearLayers();
 
     const tDb = $teamsDb || {};
+    const trans = $currentTransitions || {};
+    const summary = $currentSeasonSummary || {};
     const bounds = L.latLngBounds();
 
-    console.log(`[Wizard] Rendering Step ${step}/8...`);
+    let teamsToPlot = [];
 
-    if (step <= 4) {
-      // -----------------------------------------------------------
-      // SERIE C ANIMATION (STEPS 1 - 4)
-      // -----------------------------------------------------------
-      const oldTeamsByMacro = data.oldTeamsCByMacro || {};
-      const oldCentroids = data.oldCentroidsC || {};
-      const removedSet = new Set(data.removedTeamsC || []);
-      const incomingSet = new Set(data.incomingTeamsC || []);
-      const newLeaguesC = data.newLeaguesC || {};
-      const newCentroids = data.newCentroidsC || {};
+    if (step === 1) {
+      // Step 1: Campeões das Séries A, B e C
+      const champA = summary.campeoes?.serie_a;
+      const champB = summary.campeoes?.serie_b;
+      const champC = summary.campeoes?.serie_c;
 
-      let activeTeamsToPlot = [];
+      if (champA) teamsToPlot.push({ id: champA, color: '#f59e0b', label: 'Campeão Série A' });
+      if (champB) teamsToPlot.push({ id: champB, color: '#e2e8f0', label: 'Campeão Série B' });
+      if (champC) teamsToPlot.push({ id: champC, color: '#a855f7', label: 'Campeão Série C' });
 
-      if (step === 1) {
-        Object.keys(oldTeamsByMacro).forEach(mKey => {
-          (oldTeamsByMacro[mKey] || []).forEach(teamId => {
-            activeTeamsToPlot.push({ id: teamId, regionKey: mKey, color: macroColors[mKey], label: getMacroName(mKey) });
-          });
-        });
-        plotCentroids(oldCentroids, true);
-      } else if (step === 2) {
-        Object.keys(oldTeamsByMacro).forEach(mKey => {
-          (oldTeamsByMacro[mKey] || []).forEach(teamId => {
-            if (!removedSet.has(teamId)) {
-              activeTeamsToPlot.push({ id: teamId, regionKey: mKey, color: macroColors[mKey], label: getMacroName(mKey) });
-            }
-          });
-        });
-        plotCentroids(oldCentroids, true);
-      } else if (step === 3) {
-        Object.keys(oldTeamsByMacro).forEach(mKey => {
-          (oldTeamsByMacro[mKey] || []).forEach(teamId => {
-            if (!removedSet.has(teamId)) {
-              activeTeamsToPlot.push({ id: teamId, regionKey: mKey, color: macroColors[mKey], label: getMacroName(mKey) });
-            }
-          });
-        });
-        Array.from(incomingSet).forEach(teamId => {
-          activeTeamsToPlot.push({ id: teamId, regionKey: 'unassigned', color: '#94a3b8', label: 'Novo Entrante', isNew: true });
-        });
-        plotCentroids(oldCentroids, true);
-      } else if (step === 4) {
-        Object.keys(newLeaguesC).forEach(mKey => {
-          (newLeaguesC[mKey] || []).forEach(teamId => {
-            activeTeamsToPlot.push({ id: teamId, regionKey: mKey, color: macroColors[mKey], label: `Otimizado: ${getMacroName(mKey)}` });
-          });
-        });
-        plotCentroids(newCentroids, true, 'Novo Centróide ');
-      }
+    } else if (step === 2) {
+      // Step 2: Acesso A <-> B (4 sobem, 4 descem)
+      (trans.promovidos_b_a || []).forEach(id => {
+        teamsToPlot.push({ id, color: '#10b981', label: 'Subiu para Série A' });
+      });
+      (trans.rebaixados_a_b || []).forEach(id => {
+        teamsToPlot.push({ id, color: '#f43f5e', label: 'Caiu para Série B' });
+      });
 
-      plotTeamsAndHulls(activeTeamsToPlot, tDb, bounds, true);
-    } else {
-      // -----------------------------------------------------------
-      // SERIE D ANIMATION (STEPS 5 - 8)
-      // -----------------------------------------------------------
-      const oldTeamsByMicro = data.oldTeamsDByMicro || {};
-      const oldCentroids = data.oldCentroidsD || {};
-      const removedSet = new Set(data.removedTeamsD || []);
-      const incomingSet = new Set(data.incomingTeamsD || []);
-      const newLeaguesD = data.newLeaguesD || {};
-      const newCentroids = data.newCentroidsD || {};
-      const microKeys = Object.keys(oldTeamsByMicro);
+    } else if (step === 3) {
+      // Step 3: Acesso B <-> C (4 sobem para B, 4 caem para C)
+      (trans.promovidos_c_b || []).forEach(id => {
+        teamsToPlot.push({ id, color: '#10b981', label: 'Subiu para Série B' });
+      });
+      (trans.rebaixados_b_c || []).forEach(item => {
+        const id = typeof item === 'string' ? item : item.clube;
+        const dest = typeof item === 'object' ? `➔ ${item.destino_conf}` : '';
+        teamsToPlot.push({ id, color: '#f43f5e', label: `Caiu para Série C ${dest}` });
+      });
 
-      let activeTeamsToPlot = [];
+    } else if (step === 4) {
+      // Step 4: Acesso C <-> D (8 sobem da D, 8 caem da C)
+      (trans.promovidos_d_c || []).forEach(item => {
+        teamsToPlot.push({ id: item.clube, color: '#10b981', label: `Subiu para Série C (${item.destino_conf})` });
+      });
+      (trans.rebaixados_c_d || []).forEach(item => {
+        teamsToPlot.push({ id: item.clube, color: '#f43f5e', label: `Caiu para Série D (${item.destino_macro})` });
+      });
 
-      if (step === 5) {
-        microKeys.forEach((dKey, idx) => {
-          const color = getMicroColor(idx);
-          (oldTeamsByMicro[dKey] || []).forEach(teamId => {
-            activeTeamsToPlot.push({ id: teamId, regionKey: dKey, color, label: getMicroName(dKey) });
-          });
-        });
-        plotCentroids(oldCentroids, false);
-      } else if (step === 6) {
-        microKeys.forEach((dKey, idx) => {
-          const color = getMicroColor(idx);
-          (oldTeamsByMicro[dKey] || []).forEach(teamId => {
-            if (!removedSet.has(teamId)) {
-              activeTeamsToPlot.push({ id: teamId, regionKey: dKey, color, label: getMicroName(dKey) });
-            }
-          });
-        });
-        plotCentroids(oldCentroids, false);
-      } else if (step === 7) {
-        microKeys.forEach((dKey, idx) => {
-          const color = getMicroColor(idx);
-          (oldTeamsByMicro[dKey] || []).forEach(teamId => {
-            if (!removedSet.has(teamId)) {
-              activeTeamsToPlot.push({ id: teamId, regionKey: dKey, color, label: getMicroName(dKey) });
-            }
-          });
-        });
-        Array.from(incomingSet).forEach(teamId => {
-          activeTeamsToPlot.push({ id: teamId, regionKey: 'unassigned', color: '#94a3b8', label: 'Novo Entrante', isNew: true });
-        });
-        plotCentroids(oldCentroids, false);
-      } else if (step === 8) {
-        Object.keys(newLeaguesD).forEach((dKey, idx) => {
-          const color = getMicroColor(idx);
-          (newLeaguesD[dKey] || []).forEach(teamId => {
-            activeTeamsToPlot.push({ id: teamId, regionKey: dKey, color, label: `Otimizado: ${getMicroName(dKey)}` });
-          });
-        });
-        plotCentroids(newCentroids, false, 'Novo Centróide ');
-      }
+    } else if (step === 5) {
+      // Step 5: Iso-Ligas da Série C & Balanço Financeiro
+      (trans.trocas_de_liga_c || []).forEach(troca => {
+        teamsToPlot.push({ id: troca.clube, color: '#6366f1', label: `Iso-Liga: ${troca.de} ➔ ${troca.para}` });
+      });
 
-      plotTeamsAndHulls(activeTeamsToPlot, tDb, bounds, false);
+    } else if (step === 6) {
+      // Step 6: Ingresso dos Estaduais para a Série D
+      (trans.ingressantes_d_estaduais || []).slice(0, 40).forEach(id => {
+        teamsToPlot.push({ id, color: '#06b6d4', label: 'Vaga Estadual Série D' });
+      });
     }
+
+    // Plot teams markers
+    teamsToPlot.forEach(t => {
+      const obj = tDb[t.id];
+      if (!obj || typeof obj.lat !== 'number' || typeof obj.lon !== 'number') return;
+
+      bounds.extend([obj.lat, obj.lon]);
+
+      const markerHtml = `
+        <div class="w-6 h-6 rounded-full border-2 border-white shadow-lg flex items-center justify-center text-white text-[9px] font-black animate-bounce" style="background-color: ${t.color}">
+          ●
+        </div>
+      `;
+
+      const icon = L.divIcon({
+        html: markerHtml,
+        className: 'custom-wizard-pin',
+        iconSize: [24, 24],
+        iconAnchor: [12, 12]
+      });
+
+      const marker = L.marker([obj.lat, obj.lon], { icon });
+      marker.bindPopup(`<b>${obj.nome || obj.clube}</b><br/>${t.label}<br/>${obj.cidade || ''} - ${obj.uf || ''}`);
+      marker.addTo(markersLayer);
+    });
 
     if (bounds.isValid()) {
-      map.fitBounds(bounds, { padding: [35, 35], maxZoom: 7 });
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 6 });
     }
   }
-
-  function plotTeamsAndHulls(teamsList, tDb, bounds, isMacro = true) {
-    const coordGroups = {};
-    const clusterPoints = {};
-    const clusterColors = {};
-
-    teamsList.forEach(item => {
-      const team = tDb[item.id];
-      if (team && typeof team.lat === 'number' && typeof team.lon === 'number') {
-        const key = `${team.lat.toFixed(4)},${team.lon.toFixed(4)}`;
-        if (!coordGroups[key]) coordGroups[key] = [];
-        coordGroups[key].push({ ...item, team });
-
-        if (item.regionKey && item.regionKey !== 'unassigned') {
-          if (!clusterPoints[item.regionKey]) clusterPoints[item.regionKey] = [];
-          clusterPoints[item.regionKey].push([team.lat, team.lon]);
-          clusterColors[item.regionKey] = item.color;
-        }
-      }
-    });
-
-    // 1. Draw Convex Hull Polygons
-    Object.keys(clusterPoints).forEach(rKey => {
-      const pts = clusterPoints[rKey];
-      const color = clusterColors[rKey] || '#3b82f6';
-      const labelName = isMacro ? getMacroName(rKey) : getMicroName(rKey);
-
-      if (pts.length >= 3) {
-        const hull = computeConvexHull(pts);
-        if (hull.length >= 3) {
-          const polygon = L.polygon(hull, {
-            color: color,
-            fillColor: color,
-            fillOpacity: 0.12,
-            weight: 2,
-            dashArray: '4, 4'
-          });
-          polygon.bindTooltip(`Fronteira Operacional: ${labelName}`, { permanent: false });
-          hullLayer.addLayer(polygon);
-        }
-      } else if (pts.length > 0) {
-        const circle = L.circle(pts[0], {
-          radius: 80000,
-          color: color,
-          fillColor: color,
-          fillOpacity: 0.1,
-          weight: 2,
-          dashArray: '4, 4'
-        });
-        hullLayer.addLayer(circle);
-      }
-    });
-
-    // 2. Render Team PNG Markers
-    Object.values(coordGroups).forEach(group => {
-      const count = group.length;
-      group.forEach((item, idx) => {
-        let lat = item.team.lat;
-        let lon = item.team.lon;
-
-        if (count > 1) {
-          const step = 0.008;
-          const startOffset = -((count - 1) * step) / 2;
-          lon += startOffset + idx * step;
-        }
-
-        bounds.extend([lat, lon]);
-
-        const parts = item.id ? item.id.split('/') : [];
-        const clubeKey = parts[0] || item.team.nome || '';
-        const estadoSlug = parts[1] || '';
-        const teamName = item.team.nome || clubeKey || '';
-
-        const primaryImgSrc = estadoSlug && clubeKey ? `/teams/${estadoSlug}/${clubeKey}.png` : '';
-        const fallbackImgSrc = estadoSlug && teamName ? `/teams/${estadoSlug}/${teamName}.png` : '';
-        const initials = teamName.substring(0, 3).toUpperCase();
-
-        const markerHtml = `
-          <div class="relative flex items-center justify-center transition-transform hover:scale-125 select-none ${item.isNew ? 'scale-110 animate-bounce' : ''}">
-            <div class="w-8 h-8 rounded-full bg-slate-900 border-2 p-0.5 shadow-xl flex items-center justify-center overflow-hidden" style="border-color: ${item.color};">
-              <img 
-                src="${primaryImgSrc}" 
-                onerror="if (!this.dataset.triedFallback) { this.dataset.triedFallback = true; this.src = '${fallbackImgSrc}'; } else { this.style.display='none'; this.nextElementSibling.style.display='flex'; }" 
-                class="w-full h-full object-contain" 
-              />
-              <div style="display:none;" class="w-full h-full rounded-full bg-slate-800 flex items-center justify-center font-bold text-[9px]" style="color: ${item.color};">
-                ${initials}
-              </div>
-            </div>
-          </div>
-        `;
-
-        const icon = L.divIcon({
-          html: markerHtml,
-          className: 'custom-wizard-marker',
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
-        });
-
-        const m = L.marker([lat, lon], { icon });
-        m.bindPopup(`<b>${teamName}</b><br/><span style="color:${item.color}">${item.label}</span>`);
-        markersLayer.addLayer(m);
-      });
-    });
-  }
-
-  function plotCentroids(centroidsObj, isMacro = true, prefix = 'Centróide ') {
-    Object.keys(centroidsObj).forEach(key => {
-      const c = centroidsObj[key];
-      if (c && typeof c.lat === 'number') {
-        const label = isMacro ? getMacroName(key) : getMicroName(key);
-        const title = `${prefix}${label}`;
-
-        const centroidIcon = L.divIcon({
-          html: `<div class="w-8 h-8 rounded-full bg-rose-600 border-2 border-white flex items-center justify-center font-extrabold text-white text-xs shadow-2xl animate-pulse">✕</div>`,
-          className: 'custom-centroid-marker',
-          iconSize: [32, 32],
-          iconAnchor: [16, 16]
-        });
-
-        const cm = L.marker([c.lat, c.lon], { icon: centroidIcon });
-        cm.bindPopup(`<b>${title}</b><br/>Lat: ${c.lat.toFixed(2)}, Lon: ${c.lon.toFixed(2)}`);
-        centroidLayer.addLayer(cm);
-      }
-    });
-  }
-
-  const stepDescriptions = {
-    1: { title: "Passo 1/8: Série C ao Fim da Temporada", desc: "Exibição dos 80 clubes divididos em suas 4 Ligas Macrorregionais da temporada que acabou. Marcadores em 'X' vermelho indicam os centróides geográficos e polígonos mostram as fronteiras dos clusters." },
-    2: { title: "Passo 2/8: Saída dos Promovidos e Rebaixados", desc: "Removemos suavemente do mapa os 16 times que subiram para a Série B (4 campeões) e caíram para a Série D (12 times)." },
-    3: { title: "Passo 3/8: Entrada dos Novos Integrantes", desc: "Adicionamos ao mapa os 16 novos times que caíram da Série B (4) e subiram da Série D (12), em tom neutro antes da alocação." },
-    4: { title: "Passo 4/8: Otimização Operacional do Algoritmo Húngaro", desc: "Rodamos o Algoritmo Húngaro (LAP) para alocar perfeitamente 20 times por Liga Macrorregional, minimizando a distância global das viagens com base nos centróides." },
-    5: { title: "Passo 5/8: Série D ao Fim da Temporada", desc: "Exibição dos 216 clubes da Série D agrupados em 12 Ligas Microrregionais geográficas com seus centróides e polígonos delimitadores." },
-    6: { title: "Passo 6/8: Saída da Série D", desc: "Retirada dos 48 times promovidos para a Série C (12 campeões) e rebaixados para o Futebol Amador (36 times)." },
-    7: { title: "Passo 7/8: Entrada dos Novos Times na Série D", desc: "Adição dos 48 novos integrantes vindos da Série C (12) e promovidos das ligas amadoras (36)." },
-    8: { title: "Passo 8/8: Otimização Húngara Concluída (Série D)", desc: "Alocação Húngara globalmente ótima para as 12 Ligas Microrregionais (18 times por liga = 216 times). A malha geográfica está otimizada para o novo ano!" }
-  };
 </script>
 
-{#if $showWizardModal && data}
-  <div class="fixed inset-0 z-[110] flex flex-col bg-slate-950/95 backdrop-blur-xl animate-in fade-in duration-300">
+{#if $showWizardModal}
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md overflow-y-auto">
     
-    <!-- Top Header -->
-    <header class="px-6 py-4 bg-slate-900 border-b border-slate-800 flex items-center justify-between shrink-0">
-      <div class="flex items-center gap-3">
-        <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-          <Cpu class="w-5 h-5 animate-pulse" />
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-4xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden my-auto animate-in fade-in zoom-in duration-200">
+      
+      <!-- Top Wizard Header -->
+      <div class="px-6 py-4 bg-slate-950/90 border-b border-slate-800 flex items-center justify-between shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center shadow-lg">
+            <Trophy class="w-5 h-5" />
+          </div>
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+              Fechamento da Temporada {$currentSeasonNum} de {$seasonsIndex?.length || 5}
+              <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 font-bold border border-indigo-500/30">
+                Passo {currentStep} de 6
+              </span>
+            </h2>
+            <p class="text-xs text-slate-400">
+              Balanço esportivo e reestruturação logística da pirâmide nacional.
+            </p>
+          </div>
         </div>
-        <div>
-          <h2 class="text-base font-extrabold text-white flex items-center gap-2">
-            Pesquisa Operacional: Algoritmo Húngaro (Munkres)
-            <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-              Otimização Global LAP
-            </span>
-          </h2>
-          <p class="text-xs text-slate-400">Visualização Didática da Re-clusterização da Temporada {$currentSeason}</p>
-        </div>
-      </div>
 
-      <!-- Step Counter Progress -->
-      <div class="flex items-center gap-3">
-        <div class="flex items-center gap-1">
-          {#each Array.from({ length: 8 }) as _, i}
-            <div class={`h-2 rounded-full transition-all duration-300 ${i + 1 === currentStep ? 'w-6 bg-emerald-400 shadow-md shadow-emerald-500/50' : i + 1 < currentStep ? 'w-2 bg-emerald-600' : 'w-2 bg-slate-700'}`}></div>
-          {/each}
-        </div>
         <button
           on:click={closeWizard}
-          class="text-slate-400 hover:text-white text-xs bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 transition-colors ml-4 cursor-pointer"
+          class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+          title="Fechar"
         >
-          Pular ✕
+          <X class="w-5 h-5" />
         </button>
       </div>
-    </header>
 
-    <!-- Center: Leaflet Interactive Map Container -->
-    <div class="flex-1 w-full h-full min-h-[450px] relative z-0">
-      <div bind:this={mapElement} class="w-full h-full min-h-[450px]"></div>
-    </div>
-
-    <!-- Bottom Explanatory Controls Panel -->
-    <footer class="bg-slate-900/95 border-t border-slate-800 px-6 py-4 shrink-0 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="max-w-3xl space-y-1">
-        <h3 class="text-sm font-extrabold text-emerald-400 flex items-center gap-2">
-          <Sparkles class="w-4 h-4" />
-          {stepDescriptions[currentStep]?.title}
-        </h3>
-        <p class="text-xs text-slate-300 leading-relaxed">
-          {stepDescriptions[currentStep]?.desc}
-        </p>
-      </div>
-
-      <!-- Navigation Actions -->
-      <div class="flex items-center gap-3 shrink-0">
-        {#if currentStep > 1}
-          <button
-            on:click={prevStep}
-            class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs border border-slate-700 flex items-center gap-1.5 transition-all cursor-pointer"
+      <!-- Stepper Pill Track -->
+      <div class="px-6 py-2.5 bg-slate-950/50 border-b border-slate-800/60 flex items-center gap-2 overflow-x-auto scrollbar-thin shrink-0">
+        {#each [
+          '1. Campeões',
+          '2. Série A ⇄ B',
+          '3. Série B ⇄ C',
+          '4. Série C ⇄ D',
+          '5. Balanço CBF',
+          '6. Preparação Ano ' + ($currentSeasonNum + 1)
+        ] as label, idx}
+          <div
+            class={`px-3 py-1 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+              currentStep === idx + 1
+                ? 'bg-indigo-600 text-white shadow-md'
+                : currentStep > idx + 1
+                  ? 'text-emerald-400 bg-emerald-950/40 border border-emerald-800/40'
+                  : 'text-slate-500 bg-slate-950/60'
+            }`}
           >
-            <ArrowLeft class="w-4 h-4" /> Anterior
-          </button>
-        {/if}
-
-        <button
-          on:click={nextStep}
-          class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-500 text-white font-extrabold text-xs shadow-lg shadow-emerald-950/60 hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
-        >
-          {#if currentStep < 8}
-            <span>Próximo Passo</span>
-            <ArrowRight class="w-4 h-4" />
-          {:else}
-            <Check class="w-4 h-4" />
-            <span>Iniciar Nova Temporada {$currentSeason}</span>
-          {/if}
-        </button>
+            {label}
+          </div>
+        {/each}
       </div>
-    </footer>
+
+      <!-- Main Body: Info Panel (Left) & Animated Map (Right) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 flex-1 overflow-hidden">
+        
+        <!-- Left Explanatory Step Card (5 Cols) -->
+        <div class="lg:col-span-5 p-6 overflow-y-auto space-y-4 border-r border-slate-800 flex flex-col justify-between">
+          <div class="space-y-4 text-xs">
+            
+            <!-- STEP 1: CAMPEÕES -->
+            {#if currentStep === 1}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-amber-400 tracking-wider">Passo 1</span>
+                  <h3 class="text-base font-black text-white">Coroação dos Campeões da Temporada</h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    Veja os clubes que conquistaram os títulos nacionais das Séries A, B e C e suas respectivas localizações no território brasileiro:
+                  </p>
+                </div>
+
+                <div class="space-y-2 pt-1">
+                  {#if $currentSeasonSummary?.campeoes?.serie_a}
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-amber-500/30 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <TeamBadge teamId={$currentSeasonSummary.campeoes.serie_a} size="w-6 h-6" />
+                        <div>
+                          <span class="text-[10px] font-black uppercase text-amber-400 block">Campeão Brasileiro Série A</span>
+                          <span class="font-black text-sm text-white">{$currentSeasonSummary.campeoes.serie_a.split('/')[0]}</span>
+                        </div>
+                      </div>
+                      <Trophy class="w-5 h-5 text-amber-400 shrink-0" />
+                    </div>
+                  {/if}
+
+                  {#if $currentSeasonSummary?.campeoes?.serie_b}
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-700 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <TeamBadge teamId={$currentSeasonSummary.campeoes.serie_b} size="w-6 h-6" />
+                        <div>
+                          <span class="text-[10px] font-black uppercase text-slate-400 block">Campeão Série B</span>
+                          <span class="font-black text-sm text-white">{$currentSeasonSummary.campeoes.serie_b.split('/')[0]}</span>
+                        </div>
+                      </div>
+                      <Shield class="w-5 h-5 text-slate-300 shrink-0" />
+                    </div>
+                  {/if}
+
+                  {#if $currentSeasonSummary?.campeoes?.serie_c}
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-indigo-500/30 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <TeamBadge teamId={$currentSeasonSummary.campeoes.serie_c} size="w-6 h-6" />
+                        <div>
+                          <span class="text-[10px] font-black uppercase text-indigo-400 block">Campeão Série C (Nacional)</span>
+                          <span class="font-black text-sm text-white">{$currentSeasonSummary.campeoes.serie_c.split('/')[0]}</span>
+                        </div>
+                      </div>
+                      <Trophy class="w-5 h-5 text-indigo-400 shrink-0" />
+                    </div>
+                  {/if}
+                </div>
+              </div>
+
+            <!-- STEP 2: SÉRIE A <-> SÉRIE B -->
+            {:else if currentStep === 2}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-indigo-400 tracking-wider">Passo 2</span>
+                  <h3 class="text-base font-black text-white">Acesso & Descenso Série A ⇄ Série B</h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    4 clubes da Série B garantiram promoção para a Série A (em verde no mapa), e os 4 últimos da Série A foram rebaixados (em vermelho).
+                  </p>
+                </div>
+
+                <div class="space-y-3 pt-1">
+                  <div>
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+                      ▲ 4 Promovidos para a Série A:
+                    </span>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      {#each ($currentTransitions?.promovidos_b_a || []) as club}
+                        <div class="bg-slate-950 p-2 rounded-lg border border-emerald-800/60 flex items-center gap-1.5 truncate">
+                          <TeamBadge teamId={club} size="w-4 h-4" />
+                          <span class="truncate font-bold text-white text-[11px]">{club.split('/')[0]}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                      ▼ 4 Rebaixados para a Série B:
+                    </span>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      {#each ($currentTransitions?.rebaixados_a_b || []) as club}
+                        <div class="bg-slate-950 p-2 rounded-lg border border-rose-800/60 flex items-center gap-1.5 truncate">
+                          <TeamBadge teamId={club} size="w-4 h-4" />
+                          <span class="truncate font-bold text-white text-[11px]">{club.split('/')[0]}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <!-- STEP 3: SÉRIE B <-> SÉRIE C -->
+            {:else if currentStep === 3}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-indigo-400 tracking-wider">Passo 3</span>
+                  <h3 class="text-base font-black text-white">Acesso & Descenso Série B ⇄ Série C</h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    Os 4 semifinalistas do Nacional dos 8 subiram para a Série B. Os 4 clubes da B rebaixados foram direcionados para suas conferências regionais de origem:
+                  </p>
+                </div>
+
+                <div class="space-y-3 pt-1">
+                  <div>
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+                      ▲ 4 Promovidos para a Série B (Semifinalistas N8):
+                    </span>
+                    <div class="grid grid-cols-2 gap-1.5">
+                      {#each ($currentTransitions?.promovidos_c_b || []) as club}
+                        <div class="bg-slate-950 p-2 rounded-lg border border-emerald-800/60 flex items-center gap-1.5 truncate">
+                          <TeamBadge teamId={club} size="w-4 h-4" />
+                          <span class="truncate font-bold text-white text-[11px]">{club.split('/')[0]}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                      ▼ 4 Rebaixados para a Série C (com Conferência de Destino):
+                    </span>
+                    <div class="space-y-1.5">
+                      {#each ($currentTransitions?.rebaixados_b_c || []) as item}
+                        {@const id = typeof item === 'string' ? item : item.clube}
+                        {@const dest = typeof item === 'object' ? item.destino_conf : 'Regional'}
+                        <div class="bg-slate-950 p-2 rounded-lg border border-rose-800/60 flex items-center justify-between">
+                          <div class="flex items-center gap-1.5 truncate">
+                            <TeamBadge teamId={id} size="w-4 h-4" />
+                            <span class="truncate font-bold text-white text-[11px]">{id.split('/')[0]}</span>
+                          </div>
+                          <span class="text-[9px] font-black px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">
+                            {dest}
+                          </span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <!-- STEP 4: SÉRIE C <-> SÉRIE D (8 ACESSOS E 8 DESCENSOS) -->
+            {:else if currentStep === 4}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-emerald-400 tracking-wider">Passo 4</span>
+                  <h3 class="text-base font-black text-white">Acesso & Descenso Série C ⇄ Série D (8 Vagas)</h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    Exatamente 8 clubes da Série D (os 2 vencedores de cada uma das 4 macrorregiões) sobem para a Série C. Na contrapartida, os 2 últimos colocados de cada conferência caem para a Série D:
+                  </p>
+                </div>
+
+                <div class="space-y-3 pt-1">
+                  <div>
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block mb-1">
+                      ▲ 8 Promovidos da Série D para a C:
+                    </span>
+                    <div class="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
+                      {#each ($currentTransitions?.promovidos_d_c || []) as item}
+                        <div class="bg-slate-950 p-1.5 rounded-lg border border-emerald-800/60 flex items-center justify-between truncate">
+                          <div class="flex items-center gap-1 truncate">
+                            <TeamBadge teamId={item.clube} size="w-3.5 h-3.5" />
+                            <span class="truncate font-medium text-white text-[10px]">{item.clube.split('/')[0]}</span>
+                          </div>
+                          <span class="text-[8px] font-mono text-emerald-400 font-bold ml-1">{item.destino_conf}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+
+                  <div>
+                    <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block mb-1">
+                      ▼ 8 Rebaixados da Série C para a D:
+                    </span>
+                    <div class="grid grid-cols-2 gap-1.5 max-h-36 overflow-y-auto pr-1 scrollbar-thin">
+                      {#each ($currentTransitions?.rebaixados_c_d || []) as item}
+                        <div class="bg-slate-950 p-1.5 rounded-lg border border-rose-800/60 flex items-center justify-between truncate">
+                          <div class="flex items-center gap-1 truncate">
+                            <TeamBadge teamId={item.clube} size="w-3.5 h-3.5" />
+                            <span class="truncate font-medium text-white text-[10px]">{item.clube.split('/')[0]}</span>
+                          </div>
+                          <span class="text-[8px] font-mono text-rose-400 font-bold ml-1">{item.destino_macro}</span>
+                        </div>
+                      {/each}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <!-- STEP 5: BALANÇO FINANCEIRO & ISO-LIGAS -->
+            {:else if currentStep === 5}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-purple-400 tracking-wider">Passo 5</span>
+                  <h3 class="text-base font-black text-white">Balanço Financeiro CBF & Iso-Ligas</h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    Auditoria econômica oficial dos resultados logísticos obtidos com a reestruturação da pirâmide:
+                  </p>
+                </div>
+
+                <div class="space-y-2 pt-1">
+                  <!-- Total Cost Card -->
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <span class="text-[10px] text-slate-400 font-bold block uppercase">Custo Total da Pirâmide</span>
+                      <span class="text-base font-black text-emerald-300 font-mono">
+                        {formatMoney($currentSeasonSummary?.financeiro?.custo_total_piramide_brl)}
+                      </span>
+                    </div>
+                    <DollarSign class="w-6 h-6 text-emerald-400 shrink-0" />
+                  </div>
+
+                  <!-- TTP Savings -->
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <span class="text-[10px] text-slate-400 font-bold block uppercase">Economia com Turnês TTP-k</span>
+                      <span class="text-base font-black text-indigo-300 font-mono">
+                        {formatMoney(($currentSeasonSummary?.financeiro?.economia_turnes_c_brl || 0) + ($currentSeasonSummary?.financeiro?.economia_turnes_d_brl || 0))}
+                      </span>
+                    </div>
+                    <TrendingDown class="w-6 h-6 text-indigo-400 shrink-0" />
+                  </div>
+
+                  <!-- Road Transport Percentage -->
+                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                    <div class="flex justify-between text-[11px] font-mono">
+                      <span class="text-slate-400">Transporte Terrestre:</span>
+                      <span class="text-cyan-300 font-bold">{$currentSeasonSummary?.financeiro?.pct_rodoviario_c || 68}% (C) • {$currentSeasonSummary?.financeiro?.pct_rodoviario_d || 100}% (D)</span>
+                    </div>
+                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                      <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full" style="width: 85%"></div>
+                    </div>
+                  </div>
+
+                  {#if ($currentTransitions?.trocas_de_liga_c || []).length > 0}
+                    <div class="bg-indigo-950/40 p-2.5 rounded-xl border border-indigo-800/60 space-y-1">
+                      <span class="text-[10px] font-black text-indigo-300 uppercase block">Trocas de Iso-Ligas:</span>
+                      {#each $currentTransitions.trocas_de_liga_c as troca}
+                        <div class="text-[10px] text-slate-300">
+                          <strong>{troca.clube.split('/')[0]}</strong> remanejado de {troca.de} para {troca.para} para manter cardinalidade par.
+                        </div>
+                      {/each}
+                    </div>
+                  {/if}
+                </div>
+              </div>
+
+            <!-- STEP 6: PREPARAÇÃO PARA O PRÓXIMO ANO / QUINQUÊNIO -->
+            {:else if currentStep === 6}
+              <div class="space-y-3">
+                <div>
+                  <span class="text-[10px] font-black uppercase text-cyan-400 tracking-wider">Passo 6</span>
+                  <h3 class="text-base font-black text-white">
+                    {#if $currentSeasonNum < 5}
+                      Desbloqueio & Preparação: Temporada {$currentSeasonNum + 1}
+                    {:else}
+                      Conclusão do Quinquênio Oficial (5 Anos)
+                    {/if}
+                  </h3>
+                  <p class="text-slate-300 leading-relaxed text-justify mt-1">
+                    {#if $currentSeasonNum < 5}
+                      A temporada {$currentSeasonNum} foi concluída com sucesso! Os acessos, descensos e cotas invariantes foram aplicados na malha da Temporada {$currentSeasonNum + 1}. Clique no botão abaixo para desbloquear e iniciar a simulação do próximo ano.
+                    {:else}
+                      Você completou a simulação de todas as 5 temporadas do Quinquênio do TCC! O modelo provou a viabilidade financeira e esportiva de uma pirâmide sustentável.
+                    {/if}
+                  </p>
+                </div>
+
+                <div class="bg-gradient-to-br from-indigo-950/60 to-slate-950 p-4 rounded-2xl border border-indigo-500/40 space-y-2.5 text-xs">
+                  <div class="flex items-center gap-2 font-black text-white">
+                    <Shield class="w-4 h-4 text-emerald-400" />
+                    <span>Invariância Federativa & Sustentabilidade Comprovadas</span>
+                  </div>
+                  <p class="text-slate-300 text-[11px] leading-relaxed">
+                    Todas as 27 federações estaduais mantiveram suas cotas estruturais preservadas, clubes periféricos garantiram 10 meses de calendário e os custos aéreos caíram drasticamente.
+                  </p>
+                </div>
+              </div>
+            {/if}
+
+          </div>
+
+          <!-- Bottom Navigation Step Buttons -->
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <button
+              on:click={prevStep}
+              disabled={currentStep === 1}
+              class="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-400 hover:text-white disabled:opacity-30 transition-colors flex items-center gap-1 cursor-pointer"
+            >
+              <ArrowLeft class="w-4 h-4" /> Anterior
+            </button>
+
+            <button
+              on:click={nextStep}
+              class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-xs shadow-lg shadow-indigo-950/80 flex items-center gap-1.5 transition-all cursor-pointer"
+            >
+              {#if currentStep < 6}
+                Próximo Passo <ArrowRight class="w-4 h-4" />
+              {:else if $currentSeasonNum < 5}
+                Iniciar Temporada {$currentSeasonNum + 1} <ArrowRight class="w-4 h-4" />
+              {:else}
+                Ver Balanço do Quinquênio <Trophy class="w-4 h-4 text-amber-300" />
+              {/if}
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Leaflet Map (7 Cols) -->
+        <div class="lg:col-span-7 h-[420px] lg:h-full relative bg-slate-950">
+          <div bind:this={mapElement} class="w-full h-full"></div>
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 {/if}

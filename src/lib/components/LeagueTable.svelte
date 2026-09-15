@@ -1,125 +1,199 @@
 <script>
-  import { activeStandings, selectedDivision, focusedTeamId, cityHubs, activeLeagueKey } from '$lib/stores/gameStore.js';
-  import { getLeagueDisplayName } from '$lib/utils/leagueNames.js';
+  import {
+    progressiveStandings,
+    activeDivision,
+    activeGroup,
+    focusedTeamId,
+    focusTeam,
+    teamsDb,
+    simulatedRoundsCount,
+    totalRounds,
+    seasonStage
+  } from '$lib/stores/gameStore.js';
+  import { getFriendlyGroupName, getQualificationCutoff } from '$lib/utils/leagueNames.js';
   import TeamBadge from './TeamBadge.svelte';
-  import { Trophy } from 'lucide-svelte';
+  import { Trophy, HelpCircle, Navigation } from 'lucide-svelte';
 
   function handleRowClick(teamId) {
-    if ($focusedTeamId === teamId) {
-      focusedTeamId.set(null);
-    } else {
-      focusedTeamId.set(teamId);
-    }
+    focusTeam(teamId);
   }
 
-  // Get zone styling based on division and rank
-  function getZoneClass(idx, total, div) {
-    if (div === 'serie_A' || div === 'serie_B') {
-      if (idx < 4) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // G4 Promotion / Libertadores
-      if (idx >= total - 4) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Z4 Relegation
-    } else if (div === 'serie_C' || div === 'serie_D') {
-      if (idx === 0) return 'border-l-4 border-l-emerald-500 bg-emerald-950/20'; // Champion / 1st place promotion
-      if (idx >= total - 3) return 'border-l-4 border-l-rose-500 bg-rose-950/20'; // Bottom 3 relegation
+  function getZone(idx, total, div) {
+    if ($simulatedRoundsCount === 0 && $seasonStage === 'grupos') return null;
+
+    if (div === 'serie_c') {
+      if (idx === 0) {
+        return {
+          label: 'Nacional dos 8 (BYE)',
+          rowClass: 'border-l-4 border-l-emerald-500 bg-emerald-950/25',
+          badgeClass: 'bg-emerald-950 text-emerald-300 border-emerald-800'
+        };
+      }
+      if (idx >= 1 && idx <= 4) {
+        return {
+          label: 'Play-in Local',
+          rowClass: 'border-l-4 border-l-indigo-500 bg-indigo-950/20',
+          badgeClass: 'bg-indigo-950 text-indigo-300 border-indigo-800'
+        };
+      }
+      if (idx >= total - 2) {
+        return {
+          label: 'Descenso Série D',
+          rowClass: 'border-l-4 border-l-rose-500 bg-rose-950/25',
+          badgeClass: 'bg-rose-950 text-rose-300 border-rose-800'
+        };
+      }
+    } else {
+      // Serie D: dynamic cutoff (G-4 in general and Norte-Centro 3, 4; G-2 in Norte-Centro 1, 2, 5, 6)
+      const cutoff = getQualificationCutoff(div, $activeGroup);
+      if (idx < cutoff) {
+        return {
+          label: 'Playoffs Regionais',
+          rowClass: 'border-l-4 border-l-emerald-500 bg-emerald-950/25',
+          badgeClass: 'bg-emerald-950 text-emerald-300 border-emerald-800'
+        };
+      }
     }
-    return '';
+
+    return null;
   }
 </script>
 
-<div class="bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden shadow-xl">
-  <!-- Header Title -->
-  <div class="px-4 py-3 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
-    <div class="flex items-center gap-2 font-bold text-sm text-slate-200">
+<div class="bg-slate-900/90 border border-slate-800 rounded-2xl overflow-hidden shadow-xl space-y-0">
+  
+  <!-- Table Header Bar -->
+  <div class="px-4 sm:px-5 py-3.5 bg-slate-950/90 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+    <div class="flex items-center gap-2">
       <Trophy class="w-4 h-4 text-amber-400" />
-      <span>Classificação:</span>
-      <span class="text-emerald-400 font-extrabold">{ getLeagueDisplayName($activeLeagueKey) }</span>
+      <span class="font-black text-xs text-white">
+        Classificação: {getFriendlyGroupName($activeGroup)}
+      </span>
+      <span class="text-[11px] font-mono text-slate-400">
+        {#if $seasonStage !== 'grupos'}
+          (Classificação Final • {$totalRounds} rodadas)
+        {:else}
+          (Rodada {Math.min($simulatedRoundsCount, $totalRounds)} de {$totalRounds})
+        {/if}
+      </span>
     </div>
-    <div class="text-xs text-slate-400 font-normal">
-      Clique na linha para focar no Mapa
+
+    <!-- UX Hint -->
+    <div class="text-[11px] text-indigo-400 font-medium flex items-center gap-1">
+      <Navigation class="w-3 h-3 text-indigo-400" />
+      <span>Clique na linha para focar no Mapa</span>
     </div>
   </div>
 
+  <!-- Zone Legend (when matches have started) -->
+  {#if $simulatedRoundsCount > 0}
+    <div class="px-4 py-2 bg-slate-950/50 border-b border-slate-800/80 flex flex-wrap items-center gap-3 text-[10px] font-bold">
+      {#if $activeDivision === 'serie_c'}
+        <span class="flex items-center gap-1 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> 1º: Nacional dos 8 (BYE)
+        </span>
+        <span class="flex items-center gap-1 text-indigo-400">
+          <span class="w-2 h-2 rounded-full bg-indigo-500 inline-block"></span> 2º-5º: Play-in Local
+        </span>
+        <span class="flex items-center gap-1 text-rose-400">
+          <span class="w-2 h-2 rounded-full bg-rose-500 inline-block"></span> Z-2: Descenso D
+        </span>
+      {:else}
+        {@const cutoff = getQualificationCutoff($activeDivision, $activeGroup)}
+        <span class="flex items-center gap-1 text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block"></span> G-{cutoff}: Playoffs Regionais
+        </span>
+      {/if}
+    </div>
+  {/if}
+
   <!-- Table Body -->
-  <div class="overflow-x-auto max-h-[520px] overflow-y-auto">
+  <div class="overflow-x-auto max-h-[560px] overflow-y-auto scrollbar-thin">
     <table class="w-full text-left text-xs text-slate-300">
-      <thead class="bg-slate-950/90 text-slate-400 font-semibold uppercase text-[10px] tracking-wider sticky top-0 z-10">
+      <thead class="bg-slate-950 text-slate-400 font-semibold uppercase text-[10px] tracking-wider sticky top-0 z-10 border-b border-slate-800">
         <tr>
           <th class="py-2.5 px-3 text-center w-8">#</th>
           <th class="py-2.5 px-3">Clube</th>
-          <th class="py-2.5 px-2 text-center font-extrabold text-white">PTS</th>
+          <th class="py-2.5 px-2 text-center font-black text-amber-300">PTS</th>
           <th class="py-2.5 px-2 text-center">J</th>
           <th class="py-2.5 px-2 text-center">V</th>
           <th class="py-2.5 px-2 text-center">E</th>
           <th class="py-2.5 px-2 text-center">D</th>
           <th class="py-2.5 px-2 text-center">GP</th>
           <th class="py-2.5 px-2 text-center">GC</th>
-          <th class="py-2.5 px-2 text-center">SG</th>
-          <th class="py-2.5 px-3 text-center">PageRank</th>
-          <th class="py-2.5 px-3 text-left hidden sm:table-cell">Hub Aéreo</th>
+          <th class="py-2.5 px-2 text-center font-bold">SG</th>
+          <th class="py-2.5 px-3 text-right hidden sm:table-cell">PageRank</th>
         </tr>
       </thead>
       <tbody class="divide-y divide-slate-800/60 font-medium">
-        {#each $activeStandings as item, idx (item.teamId)}
-          {@const isFocused = $focusedTeamId === item.teamId}
-          {@const zoneClass = getZoneClass(idx, $activeStandings.length, $selectedDivision)}
-          {@const hubInfo = $cityHubs[item.teamId]}
+        {#each $progressiveStandings as row, idx (row.clube)}
+          {@const zone = getZone(idx, $progressiveStandings.length, $activeDivision)}
+          {@const teamObj = $teamsDb ? $teamsDb[row.clube] : null}
+          {@const isFocused = $focusedTeamId === row.clube}
 
           <tr
-            on:click={() => handleRowClick(item.teamId)}
-            class={`cursor-pointer transition-colors hover:bg-slate-800/80 ${zoneClass} ${
-              isFocused ? 'bg-emerald-950/40 ring-1 ring-emerald-500/50' : 'even:bg-slate-950/30'
+            on:click={() => handleRowClick(row.clube)}
+            class={`cursor-pointer transition-all hover:bg-slate-800/80 even:bg-slate-950/30 ${
+              isFocused
+                ? 'bg-indigo-950/50 border-l-4 border-l-indigo-400 ring-1 ring-indigo-400/50 shadow-inner'
+                : zone ? zone.rowClass : ''
             }`}
           >
-            <!-- Position -->
-            <td class="py-2 px-3 text-center font-bold text-slate-400">
-              {idx + 1}
+            <!-- Rank # -->
+            <td class="py-2.5 px-3 text-center font-mono font-black text-slate-400">
+              {row.pos || idx + 1}
             </td>
 
-            <!-- Team Badge & Name -->
-            <td class="py-2 px-3 flex items-center gap-2.5 min-w-[170px]">
-              <TeamBadge teamId={item.teamId} name={item.name} state={item.state} size="w-6 h-6" />
-              <div class="truncate">
-                <span class="font-bold text-slate-100 block text-xs truncate max-w-[130px]" title={item.name}>
-                  {item.name}
+            <!-- Club Info -->
+            <td class="py-2.5 px-3 flex items-center gap-2.5">
+              <TeamBadge teamId={row.clube} name={row.nome} size="w-6 h-6" />
+              <div>
+                <span class="font-extrabold text-white text-xs block">
+                  {row.nome || row.clube.split('/')[0]}
                 </span>
-                <span class="text-[9px] text-slate-500 font-semibold uppercase">{item.state}</span>
+                <span class="text-[9px] text-slate-500 uppercase font-semibold">
+                  {teamObj?.cidade ? `${teamObj.cidade} - ${teamObj.uf}` : row.clube.split('/')[1]?.replace('_', ' ')}
+                </span>
               </div>
             </td>
 
             <!-- Points -->
-            <td class="py-2 px-2 text-center font-extrabold text-emerald-400 text-sm">
-              {item.points}
+            <td class="py-2.5 px-2 text-center font-mono font-black text-sm text-amber-300">
+              {row.pts}
             </td>
 
-            <!-- Stats -->
-            <td class="py-2 px-2 text-center text-slate-300">{item.played}</td>
-            <td class="py-2 px-2 text-center text-emerald-400">{item.won}</td>
-            <td class="py-2 px-2 text-center text-amber-400">{item.drawn}</td>
-            <td class="py-2 px-2 text-center text-rose-400">{item.lost}</td>
-            <td class="py-2 px-2 text-center text-slate-400">{item.goalsFor}</td>
-            <td class="py-2 px-2 text-center text-slate-400">{item.goalsAgainst}</td>
-            <td class={`py-2 px-2 text-center font-bold ${item.goalDifference > 0 ? 'text-emerald-400' : item.goalDifference < 0 ? 'text-rose-400' : 'text-slate-400'}`}>
-              {item.goalDifference > 0 ? `+${item.goalDifference}` : item.goalDifference}
+            <!-- Matches -->
+            <td class="py-2.5 px-2 text-center font-mono text-slate-400">{row.j}</td>
+
+            <!-- Victories -->
+            <td class="py-2.5 px-2 text-center font-mono text-emerald-400 font-bold">{row.v}</td>
+
+            <!-- Draws -->
+            <td class="py-2.5 px-2 text-center font-mono text-slate-400">{row.e}</td>
+
+            <!-- Losses -->
+            <td class="py-2.5 px-2 text-center font-mono text-rose-400 font-bold">{row.d}</td>
+
+            <!-- Goals For (GP) -->
+            <td class="py-2.5 px-2 text-center font-mono text-slate-300">{row.gp}</td>
+
+            <!-- Goals Against (GC) -->
+            <td class="py-2.5 px-2 text-center font-mono text-slate-400">{row.gc}</td>
+
+            <!-- Goal Difference (SG) -->
+            <td class={`py-2.5 px-2 text-center font-mono font-extrabold ${
+              row.sg > 0 ? 'text-emerald-400' : row.sg < 0 ? 'text-rose-400' : 'text-slate-400'
+            }`}>
+              {row.sg > 0 ? `+${row.sg}` : row.sg}
             </td>
 
-            <!-- PageRank Score -->
-            <td class="py-2 px-3 text-center font-mono text-[11px] text-purple-300">
-              {(item.pagerank * 1000).toFixed(2)}
-            </td>
-
-            <!-- Hub Aéreo -->
-            <td class="py-2 px-3 text-left text-[11px] text-slate-400 hidden sm:table-cell">
-              {#if hubInfo && hubInfo.hub_aero_iata}
-                <div class="flex items-center gap-1.5">
-                  <span class="font-bold text-cyan-300">{hubInfo.hub_aero_iata}</span>
-                  <span class="text-[10px] text-slate-500">({hubInfo.dist_ate_aero_km} km)</span>
-                </div>
-              {:else}
-                <span class="text-slate-600">-</span>
-              {/if}
+            <!-- PageRank -->
+            <td class="py-2.5 px-3 text-right font-mono text-[10px] text-slate-400 hidden sm:table-cell">
+              {teamObj?.pagerank ? teamObj.pagerank.toFixed(5) : '-'}
             </td>
           </tr>
         {/each}
       </tbody>
     </table>
   </div>
+
 </div>

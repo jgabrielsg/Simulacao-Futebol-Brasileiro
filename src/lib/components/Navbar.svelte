@@ -1,6 +1,6 @@
 <script>
-  import { currentSeason, advanceToNextSeason, simulateOneRound, simulateFullSeasonActive, loading, isSeasonComplete } from '$lib/stores/gameStore.js';
-  import { Play, SkipForward, RefreshCw, Trophy, MapPin, Compass, BarChart3, BookOpen, LayoutDashboard, Home } from 'lucide-svelte';
+  import { currentSeasonNum, seasonsIndex, loading, loadingSeason } from '$lib/stores/gameStore.js';
+  import { Trophy, Compass, BarChart3, BookOpen, LayoutDashboard, Home, Loader2 } from 'lucide-svelte';
   import { page } from '$app/stores';
 </script>
 
@@ -18,7 +18,7 @@
         <h1 class="font-extrabold text-sm sm:text-base tracking-tight text-white flex items-center gap-2">
           LOGÍSTICA BRASILEIRÃO
           <span class="text-[9px] font-semibold uppercase px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-            FGV TCC
+            TCC
           </span>
         </h1>
         <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Reestruturação Logística & Calendário</p>
@@ -75,47 +75,21 @@
       </a>
     </nav>
 
-    <!-- Simulation Control Actions (Visible on Dashboard) -->
+    <!-- Right Side Status Badge (Visible on Dashboard) -->
     <div class="flex items-center gap-2">
       {#if $page.url.pathname.startsWith('/dashboard')}
-        <!-- Season Badge -->
-        <div class="bg-slate-800/80 border border-slate-700/60 rounded-lg px-2.5 py-1 flex items-center gap-1.5">
-          <Trophy class="w-3.5 h-3.5 text-amber-400" />
-          <div class="text-[10px]">
-            <span class="text-slate-400 block text-[8px] uppercase font-bold">Temporada</span>
-            <span class="font-extrabold text-white text-xs">Ano {$currentSeason}</span>
+        <div class="bg-slate-800/80 border border-slate-700/60 rounded-xl px-3 py-1.5 flex items-center gap-2 shadow-sm">
+          <Trophy class="w-4 h-4 text-amber-400" />
+          <div class="text-[11px]">
+            <span class="text-slate-400 block text-[8px] uppercase font-extrabold tracking-wider">Temporada Ativa</span>
+            <span class="font-black text-white text-xs flex items-center gap-1">
+              Ano {$currentSeasonNum} de {$seasonsIndex?.length || 5}
+              {#if $loadingSeason}
+                <Loader2 class="w-3 h-3 text-indigo-400 animate-spin" />
+              {/if}
+            </span>
           </div>
         </div>
-
-        {#if !$loading}
-          <button
-            on:click={simulateOneRound}
-            title="Simular 1 Rodada de TODAS as Divisões"
-            class="bg-indigo-600 hover:bg-indigo-500 active:scale-95 transition-all text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
-          >
-            <Play class="w-3 h-3 fill-current" />
-            <span class="hidden sm:inline">Simular Rodada</span>
-          </button>
-
-          <button
-            on:click={simulateFullSeasonActive}
-            title="Simular Ano Completo"
-            class="bg-cyan-600 hover:bg-cyan-500 active:scale-95 transition-all text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
-          >
-            <SkipForward class="w-3 h-3 fill-current" />
-            <span class="hidden sm:inline">Simular Ano</span>
-          </button>
-
-          <button
-            on:click={advanceToNextSeason}
-            disabled={!$isSeasonComplete}
-            title={$isSeasonComplete ? "Virar Temporada (Promoções, Rebaixamentos e Alocação Logística)" : "Finalize as rodadas para virar a temporada"}
-            class="bg-purple-600 hover:bg-purple-500 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed shadow-none transition-all text-white text-xs font-semibold px-2.5 py-1.5 rounded-lg flex items-center gap-1 cursor-pointer"
-          >
-            <RefreshCw class="w-3 h-3" />
-            <span class="hidden xl:inline">Virar Ano</span>
-          </button>
-        {/if}
       {:else}
         <a
           href="/dashboard"

@@ -63,6 +63,16 @@
 .leaflet-popup-content {
   margin: 0.75rem 1rem !important;
   line-height: 1.4 !important;
+  color: #f8fafc !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button {
+  color: #94a3b8 !important;
+  padding: 8px !important;
+}
+
+.leaflet-container a.leaflet-popup-close-button:hover {
+  color: #ffffff !important;
 }
 
 .leaflet-popup-tip {

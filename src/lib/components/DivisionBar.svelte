@@ -1,86 +1,98 @@
 <script>
-  import { selectedDivision, selectedRegion, activeRoundIndex, activeSchedule } from '$lib/stores/gameStore.js';
-  import { macroOrder, macroNames, microOrder, getMicroName } from '$lib/utils/leagueNames.js';
-  import { Layers, MapPin } from 'lucide-svelte';
+  import {
+    activeDivision,
+    activeGroup,
+    setActiveGroup,
+    currentGroupTeams,
+    seasonDataStore,
+    seasonStage
+  } from '$lib/stores/gameStore.js';
+  import {
+    MACRO_REGIONS_D,
+    LEAGUES_BY_MACRO_D,
+    CONFERENCE_COLORS,
+    getConferenceFromLeague,
+    isLeague100Road
+  } from '$lib/utils/leagueNames.js';
+  import { Shield } from 'lucide-svelte';
 
-  const divisions = [
-    { id: 'serie_A', name: 'Série A', desc: 'Nacional (20 times)', color: 'from-emerald-500 to-teal-600' },
-    { id: 'serie_B', name: 'Série B', desc: 'Nacional (20 times)', color: 'from-cyan-500 to-blue-600' },
-    { id: 'serie_C', name: 'Série C', desc: '4 Macro-Regiões (Balanced K-Means)', color: 'from-amber-500 to-orange-600' },
-    { id: 'serie_D', name: 'Série D', desc: '12 Micro-Regiões (Logística Local)', color: 'from-purple-500 to-indigo-600' }
-  ];
+  // Active macro tab for Serie D filtering
+  let activeMacroD = 'SUDESTE';
 
-  function handleDivisionChange(divId) {
-    selectedDivision.set(divId);
-    if (divId === 'serie_C') {
-      selectedRegion.set('macro_1'); // North-to-South starting macro: macro_1 (Liga Verde)
-    } else if (divId === 'serie_D') {
-      selectedRegion.set('micro_4'); // North-to-South starting micro: micro_4 (Liga Grão-Pará)
+  $: if ($activeDivision === 'serie_d') {
+    activeMacroD = getConferenceFromLeague($activeGroup);
+  }
+
+  function handleSelectMacroD(macro) {
+    activeMacroD = macro;
+    const firstLeague = LEAGUES_BY_MACRO_D[macro]?.[0];
+    if (firstLeague) {
+      setActiveGroup(firstLeague);
     }
   }
 </script>
 
-<div class="bg-slate-900 border-b border-slate-800 py-3 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
-    <!-- Division Selector Tabs -->
-    <div class="flex items-center gap-2 overflow-x-auto pb-1 md:pb-0 scrollbar-none">
-      <div class="text-xs font-bold uppercase text-slate-500 tracking-wider flex items-center gap-1.5 mr-2 shrink-0">
-        <Layers class="w-4 h-4 text-emerald-400" />
-        Divisões:
+{#if $activeDivision === 'serie_d' && $seasonStage === 'grupos'}
+  <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-3">
+    
+    <!-- Macro-region & Active League Header -->
+    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-800/80 pb-2.5">
+      <div class="flex items-center gap-2 overflow-x-auto scrollbar-none">
+        <span class="text-[11px] font-bold text-slate-400 shrink-0">Macrorregião:</span>
+        {#each MACRO_REGIONS_D as macro}
+          {@const color = CONFERENCE_COLORS[macro]}
+          {@const isMacroSelected = activeMacroD === macro}
+          <button
+            on:click={() => handleSelectMacroD(macro)}
+            class={`px-2.5 py-1 rounded-lg text-xs font-extrabold transition-all shrink-0 cursor-pointer ${
+              isMacroSelected
+                ? `${color.badgeBg} ${color.badgeText} border ${color.badgeBorder} shadow-md`
+                : 'bg-slate-950 text-slate-400 hover:text-slate-200 border border-slate-800'
+            }`}
+          >
+            {color.name}
+          </button>
+        {/each}
       </div>
 
-      {#each divisions as div}
+      <div class="flex items-center gap-1.5 text-xs text-slate-400">
+        <Shield class="w-3.5 h-3.5 text-indigo-400" />
+        <span class="font-bold text-white">{$currentGroupTeams.length} clubes na liga</span>
+      </div>
+    </div>
+
+    <!-- Specific Leagues inside chosen Macro -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      {#each (LEAGUES_BY_MACRO_D[activeMacroD] || []) as lKey}
+        {@const isSelected = $activeGroup === lKey}
+        {@const count = $seasonDataStore?.serie_d?.ligas?.[lKey]?.length || 0}
+        {@const color = CONFERENCE_COLORS[activeMacroD]}
+        {@const is100Road = isLeague100Road($seasonDataStore?.serie_d?.rodadas?.[lKey])}
+
         <button
-          on:click={() => handleDivisionChange(div.id)}
-          class={`px-4 py-2 rounded-xl font-bold text-xs transition-all shrink-0 flex items-center gap-2 cursor-pointer border ${
-            $selectedDivision === div.id
-              ? `bg-gradient-to-r ${div.color} text-white border-transparent shadow-lg shadow-black/40 scale-105`
-              : 'bg-slate-800/60 text-slate-300 border-slate-700/60 hover:bg-slate-800 hover:text-white'
+          on:click={() => setActiveGroup(lKey)}
+          class={`px-3 py-2 rounded-xl border text-left transition-all cursor-pointer ${
+            isSelected
+              ? `${color.badgeBg} ${color.badgeBorder} text-white shadow-md ring-1 ring-offset-1 ring-offset-slate-950`
+              : 'bg-slate-950/70 border-slate-800 text-slate-400 hover:text-slate-200 hover:bg-slate-800/40'
           }`}
+          style={isSelected ? `ring-color: ${color.primary}` : ''}
         >
-          {div.name}
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-black block truncate">
+              {lKey.replace(`${activeMacroD}_`, '').replace('_', ' ')}
+            </span>
+            <span class="text-[10px] font-mono text-slate-500 font-bold">{count}c</span>
+          </div>
+          {#if is100Road}
+            <span class="text-[9px] text-emerald-400 block font-semibold">100% Rodoviário</span>
+          {:else}
+            <span class="text-[9px] text-amber-400/80 block font-semibold">Modal Misto</span>
+          {/if}
         </button>
       {/each}
     </div>
 
-    <!-- Active Division Status & Sub-region selector -->
-    <div class="flex items-center gap-3 shrink-0 text-xs">
-      <!-- Sub-region Selectors for Serie C or D -->
-      {#if $selectedDivision === 'serie_C'}
-        <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-1.5">
-          <MapPin class="w-3.5 h-3.5 text-amber-400" />
-          <span class="text-slate-400 font-medium">Liga:</span>
-          <select
-            bind:value={$selectedRegion}
-            class="bg-slate-900 text-amber-300 font-semibold text-xs border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-amber-500"
-          >
-            {#each macroOrder as mKey}
-              <option value={mKey}>{macroNames[mKey]}</option>
-            {/each}
-          </select>
-        </div>
-      {:else if $selectedDivision === 'serie_D'}
-        <div class="flex items-center gap-2 bg-slate-800/80 border border-slate-700/80 rounded-lg px-3 py-1.5">
-          <MapPin class="w-3.5 h-3.5 text-purple-400" />
-          <span class="text-slate-400 font-medium">Liga:</span>
-          <select
-            bind:value={$selectedRegion}
-            class="bg-slate-900 text-purple-300 font-semibold text-xs border border-slate-700 rounded px-2 py-1 focus:outline-none focus:border-purple-500 max-w-[200px]"
-          >
-            {#each microOrder as dKey}
-              <option value={dKey}>{getMicroName(dKey)}</option>
-            {/each}
-          </select>
-        </div>
-      {/if}
-
-      <!-- Round Progress Indicator -->
-      <div class="bg-slate-950 border border-slate-800 rounded-lg px-3 py-1.5 flex items-center gap-2">
-        <span class="text-slate-400 text-[10px] uppercase font-bold">Progresso:</span>
-        <span class="font-extrabold text-emerald-400">
-          Rodada {$activeRoundIndex} / {$activeSchedule.length}
-        </span>
-      </div>
-    </div>
   </div>
-</div>
+{/if}
+

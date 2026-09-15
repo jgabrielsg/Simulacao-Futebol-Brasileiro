@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "katex": "^0.18.7",
     "leaflet": "^1.9.4",
     "lucide-svelte": "^0.350.0"
   },

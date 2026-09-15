@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
-  import { Compass, MapPin, Trophy, ArrowRight, ArrowLeft, CheckCircle2, X, Sparkles, Layers } from 'lucide-svelte';
+  import { Compass, MapPin, Trophy, ArrowRight, ArrowLeft, CheckCircle2, X, Navigation, Play } from 'lucide-svelte';
+  import { loadSeason } from '$lib/stores/gameStore.js';
 
   export let isOpen = false;
 
@@ -8,38 +9,39 @@
 
   const steps = [
     {
-      title: "Bem-vindo ao Simulador Logístico",
-      subtitle: "Reestruturação do Futebol Brasileiro",
-      description: "Aqui você interage diretamente com o modelo de IA que reestrutura as divisões brasileiras. As Séries A e B continuam nacionais, enquanto as Séries C e D foram totalmente regionalizadas para garantir calendário o ano inteiro e reduzir custos operacionais.",
+      title: "Simulador de Reestruturação Logística",
+      subtitle: "Pesquisa Operacional Aplicada ao Futebol Brasileiro (TCC)",
+      description: "Esta plataforma apresenta os resultados de 5 temporadas otimizadas via Pesquisa Operacional (CP-SAT, LNS e TTP-k). O objetivo é demonstrar a viabilidade econômica e esportiva de um calendário sustentável para as Séries C e D, com redução de custos e preservação de limites fisiológicos de viagem.",
       icon: Compass,
-      highlight: "Otimização de Calendário & Sobrevivência de Clubes Periféricos"
+      highlight: "Otimização Combinatória • 5 Temporadas Determinísticas"
     },
     {
-      title: "Foque nas Séries C e D (Ligas Regionais)",
-      subtitle: "Navegação por Macrorregiões e Microrregiões",
-      description: "Utilize o painel lateral para alternar entre as 4 Macrorregiões da Série C e as 12 Microrregiões da Série D. Observe no mapa Leaflet como as partidas ocorrem em raios geográficos curtos, eliminando viagens exaustivas de ponta a ponta do país.",
-      icon: MapPin,
-      highlight: "Redução de até 60% na distância percorrida por viagem"
+      title: "Simulação Progressiva & Viagens TTP-k",
+      subtitle: "Turnês Sequenciais e Matriz Modal",
+      description: "Utilize os controles de avanço ('Simular 1 Rodada' ou 'Simular Toda a Fase') para calcular os resultados progressivamente. No mapa, observe as rotas rodoviárias e os trechos de turnê TTP-k, onde os clubes realizam partidas fora consecutivas sem retorno à sede, gerando economias substanciais.",
+      icon: Navigation,
+      highlight: "Teto de Fadiga de 15h • Ônibus Regional e Aéreo Compulsório"
     },
     {
-      title: "Avanço no Tempo e Alocação Inteligente",
-      subtitle: "Promoções, Rebaixamentos e Algoritmo de Alocação",
-      description: "Clique em 'Simular Rodada' ou 'Simular Ano' para gerar as partidas. Ao concluir o ano, clique em 'Virar Temporada' para ver o modelo re-alocando geograficamente os clubes promovidos e rebaixados de forma automática sem destruir a simetria das ligas.",
+      title: "Playoffs, Acessos & Invariância Federativa",
+      subtitle: "Estrutura de Mata-Matas e Cotas Estaduais",
+      description: "Acompanhe os play-ins locais e as decisões de acesso na Série C (Nacional dos 8) e Série D (8 acessos regionais). A cada encerramento de temporada, o wizard de transição consolida o balanço da pirâmide e desbloqueia a temporada seguinte com preservação das cotas das 27 federações.",
       icon: Trophy,
-      highlight: "Motor Matemático de Atribuição Linear contínua"
+      highlight: "Equilíbrio Esportivo • Invariância Federativa Preservada"
     }
   ];
 
   onMount(() => {
-    const hasSeen = localStorage.getItem('geo_onboarding_seen_v1');
+    const hasSeen = localStorage.getItem('geo_onboarding_seen_master');
     if (!hasSeen) {
       isOpen = true;
     }
   });
 
   function closeOnboarding() {
-    localStorage.setItem('geo_onboarding_seen_v1', 'true');
+    localStorage.setItem('geo_onboarding_seen_master', 'true');
     isOpen = false;
+    loadSeason(1, true);
   }
 
   function nextStep() {
@@ -58,97 +60,81 @@
 </script>
 
 {#if isOpen}
-  <!-- Backdrop Overlay -->
-  <div class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 selection:bg-indigo-500 selection:text-slate-950 animate-fade-in">
+  <div class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-sm">
     
-    <!-- Modal Card Container -->
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden">
+    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-md w-full p-4 sm:p-5 shadow-2xl space-y-4 relative animate-in fade-in zoom-in duration-150">
       
-      <!-- Subtle Accent Background Glow -->
-      <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+      <!-- Close Button -->
+      <button
+        on:click={closeOnboarding}
+        class="absolute top-3.5 right-3.5 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
+        title="Fechar"
+      >
+        <X class="w-4 h-4" />
+      </button>
 
-      <!-- Header & Close Button -->
-      <div class="flex items-start justify-between gap-4 border-b border-slate-800 pb-4">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center font-bold">
-            <svelte:component this={steps[currentStep].icon} class="w-5 h-5" />
-          </div>
-          <div>
-            <span class="text-[10px] uppercase font-bold text-indigo-400 tracking-wider">
-              Passo {currentStep + 1} de {steps.length}
-            </span>
-            <h3 class="text-lg font-black text-white leading-tight">
-              {steps[currentStep].title}
-            </h3>
-          </div>
+      <!-- Step Counter Indicators -->
+      <div class="flex items-center gap-1.5">
+        {#each steps as _, idx}
+          <div class={`h-1 rounded-full transition-all duration-300 ${
+            currentStep === idx ? 'w-6 bg-indigo-500' : 'w-1.5 bg-slate-800'
+          }`}></div>
+        {/each}
+        <span class="text-[9px] font-mono font-bold text-slate-500 ml-1.5">
+          {currentStep + 1} de {steps.length}
+        </span>
+      </div>
+
+      <!-- Icon & Title -->
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center shadow-md shrink-0">
+          <svelte:component this={steps[currentStep].icon} class="w-4 h-4" />
         </div>
 
+        <div>
+          <h3 class="text-base font-black text-white tracking-tight leading-snug">
+            {steps[currentStep].title}
+          </h3>
+          <p class="text-[10px] font-bold text-indigo-400 uppercase tracking-wider mt-0.5">
+            {steps[currentStep].subtitle}
+          </p>
+        </div>
+      </div>
+
+      <!-- Description Body -->
+      <p class="text-xs text-slate-300 leading-relaxed text-justify">
+        {steps[currentStep].description}
+      </p>
+
+      <!-- Highlight Banner -->
+      <div class="bg-slate-950/80 border border-slate-800 rounded-xl p-2.5 flex items-center gap-2 text-[11px] font-medium text-emerald-400">
+        <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+        <span>{steps[currentStep].highlight}</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-between pt-1 border-t border-slate-800">
         <button
-          on:click={closeOnboarding}
-          class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition-colors cursor-pointer"
-          title="Fechar Tutorial"
+          on:click={prevStep}
+          disabled={currentStep === 0}
+          class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white disabled:opacity-20 transition-colors flex items-center gap-1 cursor-pointer"
         >
-          <X class="w-5 h-5" />
+          <ArrowLeft class="w-3.5 h-3.5" /> Voltar
+        </button>
+
+        <button
+          on:click={nextStep}
+          class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+        >
+          {#if currentStep < steps.length - 1}
+            Próximo <ArrowRight class="w-3.5 h-3.5" />
+          {:else}
+            Iniciar Temporada 1 <Play class="w-3 h-3 fill-current text-amber-300" />
+          {/if}
         </button>
       </div>
 
-      <!-- Step Content Description -->
-      <div class="space-y-4">
-        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed text-justify">
-          {steps[currentStep].description}
-        </p>
-
-        <!-- Highlight Box -->
-        <div class="bg-slate-950 border border-indigo-950/60 rounded-xl p-3 flex items-center gap-2.5 text-xs text-indigo-300 font-semibold">
-          <Sparkles class="w-4 h-4 text-indigo-400 shrink-0" />
-          <span>{steps[currentStep].highlight}</span>
-        </div>
-      </div>
-
-      <!-- Progress Indicator Dots & Navigation Actions -->
-      <div class="flex items-center justify-between pt-2 border-t border-slate-800">
-        
-        <!-- Step Dots -->
-        <div class="flex items-center gap-1.5">
-          {#each steps as _, idx}
-            <div
-              class={`h-1.5 rounded-full transition-all ${
-                idx === currentStep ? 'w-6 bg-indigo-500' : 'w-1.5 bg-slate-800'
-              }`}
-            ></div>
-          {/each}
-        </div>
-
-        <!-- Buttons -->
-        <div class="flex items-center gap-2">
-          {#if currentStep > 0}
-            <button
-              on:click={prevStep}
-              class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs flex items-center gap-1 transition-all cursor-pointer"
-            >
-              <ArrowLeft class="w-3.5 h-3.5" /> Anterior
-            </button>
-          {/if}
-
-          {#if currentStep < steps.length - 1}
-            <button
-              on:click={nextStep}
-              class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-indigo-950/60 transition-all cursor-pointer"
-            >
-              Próximo <ArrowRight class="w-3.5 h-3.5" />
-            </button>
-          {:else}
-            <button
-              on:click={closeOnboarding}
-              class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-950/60 transition-all cursor-pointer"
-            >
-              <CheckCircle2 class="w-3.5 h-3.5" /> Entendi, iniciar simulação
-            </button>
-          {/if}
-        </div>
-
-      </div>
-
     </div>
+
   </div>
 {/if}
