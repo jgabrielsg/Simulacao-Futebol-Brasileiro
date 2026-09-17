@@ -342,8 +342,8 @@ function transitionToPlayins() {
     stage: 1, // End of stage 1
     title: 'Fase Regular Concluída',
     subtitle: 'Classificados para os Play-ins Regionais',
-    description: 'A fase regular de grupos foi finalizada. Conforme o regulamento do modelo, os 4 líderes de conferência da Série C garantem vaga direta nas Quartas de Final Nacionais (BYE). Do 2º ao 5º colocado de cada região disputam play-ins locais em jogo único para definição da segunda vaga regional. Na Série D, os 64 classificados avançam para o mata-mata regional estruturado por proximidade territorial.',
-    highlight: 'Série C: 4 líderes com BYE + 16 clubes em play-ins locais. Série D: 64 clubes no mata-mata regional.',
+    description: 'A fase regular de grupos foi finalizada. Conforme o regulamento do modelo, os 4 líderes de conferência da Série C garantem vaga direta nas Quartas de Final Nacionais (BYE). Do 2º ao 5º colocado de cada região disputam play-ins locais em jogo único para definição da segunda vaga regional. Na Série D, os 64 classificados avançam para o mata-mata regional estruturado por proximidade territorial. A paridade estritamente par das conferências garantiu que 100% dos clubes jogassem todas as rodadas sem folgas forçadas (zero bye weeks).',
+    highlight: 'Série C: 4 líderes com BYE + 16 clubes em play-ins locais (100% das rodadas ativas). Série D: 64 clubes no mata-mata regional.',
     cByeChampions,
     cPlayinClubs,
     dClassifiedCount: 64

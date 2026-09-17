@@ -24,17 +24,17 @@
 
 O Brasil possui dimensões continentais (mais de 8,5 milhões de km²), o que impõe desafios logísticos severos às competições esportivas. No modelo vigente organizado pela Confederação Brasileira de Futebol (CBF):
 
-1. **Vácuo de Calendário Anual:** O calendário nacional integral é assegurado apenas para 60 agremiações (Séries A, B e C). Mais de 180 agremiações profissionais encerram suas atividades desportivas precocemente em abril, logo após o término dos campeonatos estaduais, resultando em demissões em massa de atletas e comissões técnicas, desvalorização de patrimônio físico e insolvência econômica.
-2. **Ineficiência Logística Subsidiada:** Os custos logísticos das Séries C e D são **100% bancados pela CBF**, uma vez que os clubes dessas divisões não dispõem de receita operacional para cobrir despesas de transporte e hospedagem. No formato atual da Série C (turno único nacional de 20 clubes) e da Série D (grupos sem turnês encadeadas), o modelo gera trajetos cruzados de longa distância, com dependência excessiva de voos comerciais de última hora e pernoites intermediários desnecessários.
+1. **Vácuo de Calendário Anual:** O calendário nacional integral é assegurado apenas para 60 agremiações (Séries A, B e C). Na Série C atual, os clubes têm apenas 19 jogos garantidos e 60% são eliminados em agosto; na Série D atual (mesmo com 96 clubes em 2026), são apenas 10 jogos mínimos na 1ª fase, eliminando 33% dos clubes em julho. Mais de 180 agremiações profissionais encerram suas atividades desportivas precocemente, resultando em descontinuidade de vínculos de trabalho e insolvência econômica.
+2. **Ineficiência Logística Subsidiada:** Os custos logísticos das Séries C e D são **100% custeados pela CBF**, pois os clubes dessas divisões não possuem receitas televisivas para bancar passagens aéreas e hotelaria corporativa. No formato radial atual sem turnês encadeadas, a CBF subsidia voos comerciais de última hora com conexões circulares e pernoites intermediários desnecessários.
 
 ### O Modelo Proposto
 O projeto formula e resolve um modelo matemático rigoroso que viabiliza **244 agremiações em atividade simultânea regular sob subsídio CBF**:
-* **Série A (20 clubes):** Turno e returno simétrico de âmbito nacional (38 rodadas, 380 partidas).
-* **Série B (20 clubes):** Turno e returno simétrico de âmbito nacional (38 rodadas, 380 partidas).
-* **Série C (60 clubes):** 4 Conferências Regionais (Sul-MS com 14 clubes, Sudeste com 16, Nordeste com 16, Norte-Centro com 14).
-* **Série D (144 clubes):** 18 Ligas Regionais em 4 Macrorregiões (Sul-MS: 32 clubes em 4 ligas; Sudeste: 36 em 4 ou 5 ligas; Nordeste: 36 em 4 ou 5 ligas; Norte-Centro: 40 em 5 ligas).
+* **Série A (20 clubes):** Turno e returno de âmbito nacional (38 rodadas, 380 partidas).
+* **Série B (20 clubes):** Turno e returno de âmbito nacional (38 rodadas, 380 partidas).
+* **Série C (60 clubes):** 4 Conferências Regionais (Sul-MS: 14 clubes, Sudeste: 16, Nordeste: 16, Norte-Centro: 14) com 26 a 30 rodadas regulares.
+* **Série D (144 clubes):** 18 Ligas Regionais em 4 Macrorregiões (Sul-MS: 32 clubes em 4 ligas; Sudeste: 36 em 4 ligas; Nordeste: 36 em 4 ligas; Norte-Centro: 40 em 6 ligas) com 10 a 22 partidas.
 
-**Resultado Consolidado (Séries C e D):** Expansão de **+160% no volume de partidas oficiais** (de 758 para 1.972 jogos) e ampliação de 116 para **204 clubes com calendário de abril a novembro**, com aumento de apenas **+13,66% no orçamento global CBF** (de R$ 79,62M para R$ 90,50M) e redução de **-56,3% no custo logístico médio por partida** (de R$ 105.036 para R$ 45.890).
+**Resultado Consolidado (Séries C e D):** Expansão de **+160% no volume de partidas oficiais** (de 758 para 1.959 jogos) e ampliação de 116 para **204 clubes com calendário de abril a novembro**, mantendo o equilíbrio orçamentário da CBF e reduzindo em **-56,3% o custo logístico médio por partida**.
 
 ---
 
@@ -44,18 +44,24 @@ A plataforma organiza a investigação e os resultados em três módulos princip
 
 ### A. Estudo de Caso Comparativo (`/estudo-de-caso`)
 * **Placar Macro Executivo:** Comparação direta dos parâmetros orçamentários, distâncias percorridas, noites de hotelaria e emissões de carbono ($CO_2$) entre o Status Quo CBF 2026 e o Modelo Proposto (Temporada 1).
-* **Duelo das Divisões:** Visão comparativa das regras estruturais e operacionais das Séries C e D atuais frente às divisões propostas.
-* **Matriz de Prós & Contras e Trade-offs:** Análise crítica honesta dos benefícios (sustentabilidade, empregabilidade, menor pegada ecológica) e das concessões necessárias (turnês com múltiplos jogos consecutivos fora de casa no Norte-Centro, aumento de R$ 10,88M no investimento global).
-* **Análise Micro por Clube & Laboratório de Rotas:** Detalhamento individual de rota para clubes emblemáticos de todas as regiões (Trem-AP, Ji-Paraná-RO, América-RN, Maricá-RJ, Barra-SC, Manauara-AM, entre outros), exibindo as turnês encadeadas ($TTP-2$ a $TTP-6$), conexões terrestres, trechos aéreos e deslocamentos urbanos/locais.
-* **Mapa Interativo com Leaflet:** Visualização geográfica vetorial das rotas e itinerários de turnê de cada clube analisado.
+* **Explorador Interativo de Grupos & Tabelas Oficiais (CBF 2026 vs. Proposto):**
+  * **Série D:** Inspeção dos 16 grupos oficiais da CBF (A1 a A16, 6 clubes cada) via seletor com slider e botões de passo, alternável com a visualização das 18 Ligas Regionais Propostas.
+  * **Série C:** Tabela detalhada do grupo único continental oficial da CBF (20 clubes, 19 rodadas) comparada às 4 Conferências Regionais Propostas.
+* **Duelo das Divisões & Regulamento Oficial 2026:** Especificação canônica dos formatos da Série C (19 rodadas iniciais + quadrangulares de acesso) e Série D (96 clubes em 16 grupos + mata-mata em 5 fases).
+* **Matriz de Prós & Contras e Trade-offs:** Análise crítica dos benefícios e das concessões operacionais necessárias (turnês encadeadas com múltiplos jogos fora de casa).
+* **Análise Micro por Clube & Laboratório de Rotas:** Detalhamento individual de rota para clubes de todas as regiões (Trem-AP, Ji-Paraná-RO, América-RN, Maricá-RJ, Barra-SC, Manauara-AM, etc.), com turnês encadeadas ($TTP-2$ a $TTP-6$), conexões terrestres e aéreo.
+* **Mapa Interativo com Leaflet:** Visualização geográfica vetorial das rotas e itinerários de cada clube analisado.
 
 ### B. Especificação Canônica & Metodologia (`/metodologia`)
-* **Fundamentação Matemática em KaTeX:** Formulação completa das equações de Teoria dos Grafos e Pesquisa Operacional diretamente na tela.
-* **Modelagem do PageRank Esportivo:** Grafo direcionado ponderado $G = (V, E)$ com 876 clubes catalogados, fluxo de prestígio do perdedor para o vencedor ($w \in [1, 20]$), decaimento temporal ($\lambda = 0.20$) e amortecimento $d = 0.85$.
-* **State PageRank & Residual Federativo:** Invariância de conservação de 100% do prestígio distribuído, garantindo o atendimento estrito ao critério federativo de no mínimo 2 agremiações por UF na Série D.
-* **Engenharia de Dados Multimodal:** Pipeline estruturado com raspagem de partidas históricas (Selenium/Ogol), batimento cadastral (Wikidata), distâncias rodoviárias reais via Open Source Routing Machine (OSRM) e malha aeroviária comercial real baseada no Registro de Voos da ANAC (VRA) e dados GeoFlight-BR.
-* **Pesquisa Operacional (CP-SAT & TTP-k):** Otimização do *Traveling Tournament Problem* com janelas de turnê, distritamento *Bounded-Radius* e restrições fisiológicas (limite de 15 horas de estrada, 500/700 km de raio de ônibus e *Smart Ground Override*).
-* **Analytics Interativo de PageRank:** Tabela com busca, paginação e ordenação dos 876 clubes cadastrados e matriz analítica das 27 Unidades Federativas.
+Apresentada rigorosamente em 8 seções sequenciais seguindo padrões de excelência científica:
+1. **O Problema & Vazio de Calendário:** Diagnóstico da descontinuidade desportiva nacional (apenas 19 jogos mínimos na C e 10 jogos na D atual) e o objetivo fundamental de manter 244 agremiações com calendário estável sob subsídio sustentável da CBF.
+2. **Engenharia de Dados & Redes Reais:** Coleta auditada de 6 temporadas (2019–2024 via Ogol e `BrazilianFootball/Data`), rede aeroviária comercial real ANAC VRA ($\ge 52$ voos anuais no GeoFlight-BR) e matriz viária rodoviária OSRM ($< 1.000$ km com fator de tortuosidade 1,30).
+3. **Prestígio Esportivo & PageRank:** Grafo direcionado ponderado $G = (V, E)$ com 876 agremiações catalogadas, fluxo do perdedor para o vencedor, ponderação por torneios de $w=1$ a $w=20$, amortecimento $\alpha = 0{,}85$, decaimento temporal e o conceito de PageRank Residual Estadual.
+4. **Arquitetura da Pirâmide dos 244 Clubes:** Estruturação em 4 divisões (A: 20, B: 20, C: 60, D: 144), cotas regionais da Série D (Sul-MS: 32, Sudeste: 36, Nordeste: 36, Norte-Centro: 40), Teto Antitruste do Sudeste (36 vagas), Princípio do Elevador Fechado ($\Delta K_r = 0$) e Equação de Invariância Federativa.
+5. **Zoneamento Espacial (Séries C e D):** Causalidade hierárquica — Série C resolvida primeiro em 4 Conferências Regionais contíguas; Série D com 6 Corredores Canônicos Blindados no Norte-Centro (restrições fluviais amazônicas) e 12 Ligas otimizadas via CP-SAT *Bounded-Radius Medoids*.
+6. **Escalonamento Otimizado (TTP-k via CP-SAT):** Otimização do *Traveling Tournament Problem*, modelo *Unmirrored 2DRR*, restrição *No-Repeat* $|r_1 - r_2| \ge 2$, limites TTP-4 (Sudeste), TTP-5 (Sul e Nordeste) e TTP-6 (Norte-Centro), com *Warm-Start* Berger Poligonal ($< 0{,}01$s) e busca local LNS (*Sliding Window Exchange*), economizando R$ 31,14M anualmente.
+7. **Engenharia Multimodal, Custos & Monte Carlo:** Teto fisiológico de 15h, limiares de ônibus mandatório ($\le 500$ km na Série C e $\le 700$ km na Série D), equações canônicas de custo auditadas da CBF (bate-volta, rodoviário pleno e aéreo comercial) e validação estocástica com 10.000 iterações de Monte Carlo.
+8. **Laboratório Interativo de Dados & Reprodutibilidade:** Tabela analítica interativa com 876 clubes e 27 Federações Estaduais, filtros reativos por divisão e estado, ordenação dinâmica por PageRank e pipelines abertos.
 
 ### C. Simulador Quinquenal & Visualizador Cartográfico (`/` e `/dashboard`)
 * **Simulação Sequencial de 5 Temporadas:** Execução interativa ano a ano com cálculo de classificações, play-ins, decisões regionais e transições entre divisões (princípio do elevador fechado entre Séries C e D).
@@ -72,25 +78,29 @@ O simulador opera inteiramente em arquitetura estática no cliente (Client-Side 
 ```
 Simulacao-Futebol-Brasileiro/
 ├── static/
-│   └── json/
-│       ├── teams_db.json                 # 876 agremiações catalogadas com coordenadas e métricas
-│       ├── pagerank_analytics.json       # Analytics de PageRank individual, estadual e macrorregional
-│       ├── case_study_baseline.json      # Insumos do estudo de caso comparativo macro e micro
-│       ├── comparison_cbf_serie_C.json   # Base comparativa clube a clube para a Série C
-│       ├── comparison_cbf_serie_D.json   # Base comparativa clube a clube para a Série D
-│       └── seasons/
-│           ├── season_1.json             # Rodadas, jogos, custos e classificações da Temporada 1
-│           ├── season_2.json             # Dados da Temporada 2
-│           ├── season_3.json             # Dados da Temporada 3
-│           ├── season_4.json             # Dados da Temporada 4
-│           └── season_5.json             # Dados da Temporada 5
+│   ├── json/
+│   │   ├── teams_db.json                 # 876 agremiações catalogadas com coordenadas e métricas
+│   │   ├── pagerank_analytics.json       # Analytics de PageRank individual, estadual e macrorregional
+│   │   ├── case_study_baseline.json      # Insumos do estudo de caso comparativo macro, micro e tabelas
+│   │   ├── cbf_official_formats_2026.json# Base de regras, fases e regulamentos oficiais CBF 2026
+│   │   ├── comparison_cbf_serie_C.json   # Base comparativa clube a clube para a Série C
+│   │   ├── comparison_cbf_serie_D.json   # Base comparativa clube a clube para a Série D
+│   │   └── seasons/
+│   │       ├── season_1.json             # Rodadas, jogos, custos e classificações da Temporada 1
+│   │       ├── season_2.json             # Dados da Temporada 2
+│   │       ├── season_3.json             # Dados da Temporada 3
+│   │       ├── season_4.json             # Dados da Temporada 4
+│   │       └── season_5.json             # Dados da Temporada 5
+│   └── plots/
+│       ├── mapa_estatico_isoligas.png    # Cartograma vetorial oficial das ligas e conferências
+│       └── pyramid_tabular_flowchart.png # Diagrama de fluxo e hierarquia da pirâmide de 244 clubes
 ├── src/
 │   ├── routes/
 │   │   ├── +page.svelte                  # Página Inicial (Apresentação, Pirâmide e Pilares)
 │   │   ├── estudo-de-caso/
-│   │   │   └── +page.svelte              # Módulo do Estudo de Caso Comparativo
+│   │   │   └── +page.svelte              # Módulo do Estudo de Caso Comparativo (Sliders & Tabelas)
 │   │   ├── metodologia/
-│   │   │   └── +page.svelte              # Módulo da Metodologia e Especificação Canônica
+│   │   │   └── +page.svelte              # Módulo da Metodologia Científica em 8 Seções KaTeX
 │   │   └── dashboard/
 │   │       └── +page.svelte              # Módulo do Simulador Quinquenal
 │   ├── lib/
@@ -106,13 +116,14 @@ Simulacao-Futebol-Brasileiro/
 
 ## 5. Pilares Matemáticos e Parametrização Logística
 
-### Parâmetros Logísticos CBF Adotados
+### Parâmetros Logísticos CBF Auditados
 * **Delegação Padrão:** 32 pessoas por clube visitante (atletas, comissão técnica, médica e dirigentes).
-* **Diária de Hospedagem e Alimentação:** R$ 350,00 por pessoa/dia (R$ 11.200,00/dia para a delegação).
-* **Transporte Terrestre Fretado (Ônibus Leito):** R$ 15,50 por km rodado real (calculado via OSRM).
-* **Transporte Aéreo Regular Comercial:** R$ 850,00 por trecho/pessoa (R$ 27.200,00 por trecho para a delegação de 32 pessoas).
-* **Deslocamento Urbano / Metropolitano:** Para distâncias $\le 45\text{ km}$, o jogo é classificado como trajeto local (sem custos de diária ou pernoite).
-* **Fadiga Fisiológica Limite:** Máximo de 15 horas contínuas de deslocamento rodoviário.
+* **Diária de Hospedagem e Alimentação:** R$ 350,00 por pessoa/dia (R$ 11.200,00/dia para a delegação de 32 pessoas).
+* **Viagem Bate-Volta Curta ($D_{\text{rod}} \le 200\text{ km}$):** $C = (D_{\text{rod}} \times 40{,}00) + 4.800{,}00$ (ônibus local e refeições, sem pernoite de hotel).
+* **Viagem Terrestre Plena ($D_{\text{rod}} > 200\text{ km}$):** $C = (D_{\text{rod}} \times 40{,}00) + 25.000{,}00$ (ônibus leito fretado + 2 diárias de hotel corporativo para 32 pessoas).
+* **Viagem Aérea Comercial:** $C = 40.000{,}00 + (D_{\text{rod}} \times 45{,}00) + 35.000{,}00$ (passagens aéreas para 32 pessoas com bagagem pesada de uniformes/equipamentos + traslados de conexão + diárias).
+* **Deslocamento Urbano / Metropolitano:** Para distâncias $\le 45\text{ km}$, o jogo é classificado como trajeto metropolitano.
+* **Fadiga Fisiológica Limite:** Máximo de 15 horas contínuas de deslocamento rodoviário (limiar de corte de modal: 500 km na Série C e 700 km na Série D).
 
 ---
 

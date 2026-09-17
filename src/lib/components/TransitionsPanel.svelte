@@ -1,8 +1,10 @@
 <script>
   import {
     currentTransitions,
+    currentSeasonSummary,
     currentSeasonNum
   } from '$lib/stores/gameStore.js';
+  import { getDetailedTransitionData } from '$lib/utils/transitionAnalysis.js';
   import TeamBadge from './TeamBadge.svelte';
   import {
     ArrowUpCircle,
@@ -11,8 +13,11 @@
     Trophy,
     Shield,
     ArrowRight,
-    Building2
+    Building2,
+    MapPin
   } from 'lucide-svelte';
+
+  $: transitionMeta = getDetailedTransitionData($currentSeasonNum, $currentTransitions, $currentSeasonSummary);
 </script>
 
 <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 sm:p-6 shadow-xl space-y-6">
@@ -172,58 +177,117 @@
     <!-- Seção de Iso-Ligas & Estaduais -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
       
-      <!-- Iso-Ligas (Rebalanceamento de Conferências) -->
-      <div class="bg-slate-950/70 border border-indigo-900/40 rounded-xl p-4 space-y-3">
-        <div class="flex items-center gap-2">
-          <Shuffle class="w-4 h-4 text-indigo-400" />
-          <h4 class="font-black text-xs text-white uppercase tracking-wider">
-            Rebalanceamento Geográfico por Iso-Ligas (Série C)
-          </h4>
-        </div>
-
-        {#if $currentTransitions.trocas_de_liga_c && $currentTransitions.trocas_de_liga_c.length > 0}
-          <div class="space-y-2">
-            {#each $currentTransitions.trocas_de_liga_c as troca}
-              <div class="p-2.5 rounded-lg bg-indigo-950/40 border border-indigo-700/50 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-2">
-                  <TeamBadge teamId={troca.clube} size="w-5 h-5" />
-                  <span class="font-bold text-white">{troca.clube.split('/')[0]}</span>
-                </div>
-                <div class="flex items-center gap-2 font-mono text-[11px]">
-                  <span class="text-rose-300">{troca.de}</span>
-                  <ArrowRight class="w-3 h-3 text-slate-400" />
-                  <span class="text-emerald-300 font-bold">{troca.para}</span>
-                </div>
-              </div>
-              {#if troca.motivo}
-                <p class="text-[10px] text-slate-400 italic px-1">{troca.motivo}</p>
-              {/if}
-            {/each}
-          </div>
-        {:else}
-          <p class="text-xs text-slate-400 italic p-3 rounded-lg bg-slate-900/60 border border-slate-800">
-            Nenhuma troca de conferência foi necessária nesta temporada. A distribuição geográfica dos 60 clubes permaneceu perfeitamente balanceada dentro da faixa estrita de 14 a 18 equipes por conferência.
-          </p>
-        {/if}
-      </div>
-
-      <!-- Ingressantes dos Campeonatos Estaduais -->
-      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-3">
+      <!-- Iso-Ligas & Evolução de Conferências (Série C) -->
+      <div class="bg-slate-950/70 border border-indigo-900/40 rounded-xl p-4 space-y-4">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <Building2 class="w-4 h-4 text-emerald-400" />
+            <Shuffle class="w-4 h-4 text-indigo-400" />
             <h4 class="font-black text-xs text-white uppercase tracking-wider">
-              Ingressantes dos Campeonatos Estaduais na Série D
+              Rebalanceamento Geográfico por Iso-Ligas (Série C)
             </h4>
           </div>
-          <span class="text-xs font-mono font-bold text-emerald-400">
-            {$currentTransitions.ingressantes_d_estaduais?.length || 136} Clubes
+          <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">
+            ✓ Paridade Par (Zero Folgas)
           </span>
         </div>
 
-        <p class="text-xs text-slate-400 leading-relaxed">
-          136 clubes de todas as 27 Unidades Federativas conquistaram vaga na Série D via mérito técnico nos seus respectivos Campeonatos Estaduais e Copas Regionais, garantindo calendário e sustentabilidade ao longo de todo o ano.
-        </p>
+        <!-- 1. Evolução dos tamanhos -->
+        <div class="space-y-1">
+          <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+            Evolução de Vagas por Conferência:
+          </span>
+          <div class="grid grid-cols-2 gap-1.5">
+            {#each transitionMeta.evolution as evo}
+              <div class="bg-slate-900/80 p-2 rounded-lg border border-slate-800 flex items-center justify-between">
+                <div>
+                  <span class="text-[9px] font-bold text-slate-400 uppercase block">{evo.conf}</span>
+                  <div class="flex items-center gap-1 font-mono text-xs">
+                    <span class="text-slate-300 font-bold">{evo.before}</span>
+                    <ArrowRight class="w-2.5 h-2.5 text-slate-500" />
+                    <span class="text-white font-black">{evo.after}</span>
+                    <span class="text-[9px] text-slate-500">clubes</span>
+                  </div>
+                </div>
+                <span class={`text-[9px] font-mono font-bold px-1.5 py-0.5 rounded border ${evo.badgeColor}`}>
+                  {evo.badgeText}
+                </span>
+              </div>
+            {/each}
+          </div>
+        </div>
+
+        <!-- 2. Clubes Migrados -->
+        {#if transitionMeta.trocas.length > 0}
+          <div class="space-y-2 pt-1 border-t border-slate-800/60">
+            <span class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider block">
+              Clubes Iso-Liga Remanejados pelo Solver CP-SAT:
+            </span>
+            {#each transitionMeta.trocas as troca}
+              <div class="p-2.5 rounded-lg bg-indigo-950/40 border border-indigo-700/50 space-y-1.5 text-xs">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2 truncate">
+                    <TeamBadge teamId={troca.clube} size="w-5 h-5" />
+                    <div>
+                      <span class="font-bold text-white block">{troca.nome || troca.clube.split('/')[0]}</span>
+                      <span class="text-[10px] text-slate-400">{troca.cidade} - {troca.uf}</span>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-1.5 font-mono text-[10px] bg-slate-950 px-2 py-1 rounded border border-indigo-800 shrink-0">
+                    <span class="text-rose-300 font-bold">{troca.de}</span>
+                    <ArrowRight class="w-3 h-3 text-indigo-400" />
+                    <span class="text-emerald-300 font-bold">{troca.para}</span>
+                  </div>
+                </div>
+                <p class="text-[10px] text-slate-300 leading-relaxed text-justify bg-slate-950/80 p-2 rounded border border-indigo-900/40">
+                  {troca.motivo}
+                </p>
+              </div>
+            {/each}
+          </div>
+        {:else}
+          <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800 text-xs text-slate-300 space-y-1">
+            <span class="text-[10px] font-bold text-emerald-400 uppercase block">Simetria Geográfica Perfeita</span>
+            <p class="text-[11px] text-slate-300 leading-relaxed text-justify">
+              {transitionMeta.paridadeText}
+            </p>
+          </div>
+        {/if}
+      </div>
+
+      <!-- Ingressantes dos Campeonatos Estaduais & Re-clusterização Série D -->
+      <div class="bg-slate-950/70 border border-slate-800 rounded-xl p-4 space-y-4 flex flex-col justify-between">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <Building2 class="w-4 h-4 text-emerald-400" />
+              <h4 class="font-black text-xs text-white uppercase tracking-wider">
+                Ingressantes dos Campeonatos Estaduais na Série D
+              </h4>
+            </div>
+            <span class="text-xs font-mono font-bold text-emerald-400">
+              {$currentTransitions.ingressantes_d_estaduais?.length || 136} Clubes
+            </span>
+          </div>
+
+          <p class="text-xs text-slate-300 leading-relaxed text-justify">
+            136 clubes de todas as 27 Unidades Federativas conquistaram vaga na Série D via mérito técnico nos seus respectivos Campeonatos Estaduais e Copas Regionais, preservando a <strong>Invariância Federativa</strong> e garantindo 10 meses de calendário oficial ao futebol de base nacional.
+          </p>
+        </div>
+
+        <!-- Estatística de Re-clusterização Série D -->
+        <div class="bg-slate-900/90 border border-cyan-900/40 rounded-xl p-3 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-bold text-cyan-400 uppercase tracking-wider flex items-center gap-1">
+              <MapPin class="w-3.5 h-3.5 text-cyan-400" /> Otimização Territorial Série D
+            </span>
+            <span class="text-xs font-mono font-black text-cyan-300">
+              {transitionMeta.reclusteredD} Clubes Re-clusterizados
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 leading-relaxed text-justify">
+            O algoritmo Bounded-Radius Medoids reorganizou as 18 ligas regionais de 8 times para que os novos clubes promovidos dos estaduais realizem mais de 91% dos seus deslocamentos por vias terrestres.
+          </p>
+        </div>
       </div>
 
     </div>

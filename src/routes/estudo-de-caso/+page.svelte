@@ -10,7 +10,7 @@
     Layers, Calculator, Compass, ChevronRight, ChevronDown, ChevronUp,
     Info, ArrowUpDown, ArrowUp, ArrowDown, HelpCircle, AlertCircle,
     Building2, Users, CheckCircle2, Calendar, Award, Activity, Filter,
-    Scale, Globe, Route, ArrowRight, Eye, RefreshCw
+    Scale, Globe, Route, ArrowRight, Eye, RefreshCw, Table2
   } from 'lucide-svelte';
 
   let L;
@@ -19,6 +19,28 @@
 
   // Master Executive Dataset
   let baselineData = null;
+
+  // Formatos Oficiais CBF 2026 (Dataset Estruturado)
+  $: officialFormats = baselineData?.formatos_oficiais_cbf_2026 || null;
+  $: serieCFormats = officialFormats?.serie_c_cbf_2026 || null;
+  $: serieDFormats = officialFormats?.serie_d_cbf_2026 || null;
+
+  // Explorador Interativo de Tabelas e Grupos da 1ª Fase
+  let selectedGroupDIdx = 0; // 0 to 15 (A1 to A16)
+  let selectedConfCIdx = 0; // 0 to 3 (Sudeste, Sul, Nordeste, Norte-Centro)
+  let serieCTableViewMode = 'cbf'; // 'cbf' | 'proposto'
+  let serieDTableViewMode = 'cbf'; // 'cbf' | 'proposto'
+  let selectedLigaDIdx = 0; // 0 to 17
+
+  $: tabelasFase1 = baselineData?.tabelas_fase1 || null;
+  $: gruposSerieDCbf = tabelasFase1?.serie_d_cbf_grupos || [];
+  $: clubesSerieCCbf = tabelasFase1?.serie_c_cbf_clubes || [];
+  $: confsSerieCProp = tabelasFase1?.serie_c_proposto_conferencias || [];
+  $: ligasSerieDProp = tabelasFase1?.serie_d_proposto_ligas || [];
+
+  $: currentGroupD = gruposSerieDCbf[selectedGroupDIdx] || null;
+  $: currentConfC = confsSerieCProp[selectedConfCIdx] || null;
+  $: currentLigaD = ligasSerieDProp[selectedLigaDIdx] || null;
 
   // Active Division View in "Duelo das Divisões": 'consolidado' | 'serie_c' | 'serie_d' | 'tradeoffs'
   let activeDivisionTab = 'consolidado';
@@ -688,131 +710,1008 @@
         </div>
 
         {#if activeDivisionTab === 'consolidado'}
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8" transition:fade={{ duration: 150 }}>
-            <!-- Card Comparativo Série C -->
-            <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Divisão de Acesso Intermediária</span>
-                <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 font-mono">60 Clubes • 4 Conferências</span>
-              </div>
-              <h3 class="text-xl font-bold text-white">Nova Série C: Quadruplicação de Jogos</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                {baselineData.divisoes.serie_c.resumo_academico}
-              </p>
+          <div class="space-y-8" transition:fade={{ duration: 150 }}>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <!-- Card Comparativo Série C -->
+              <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Divisão de Acesso Intermediária</span>
+                  <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 font-mono">60 Clubes • 4 Conferências</span>
+                </div>
+                <h3 class="text-xl font-bold text-white">Nova Série C: Quadruplicação de Jogos</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  {baselineData.divisoes.serie_c.resumo_academico}
+                </p>
 
-              <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-800/80 text-xs">
-                <div>
-                  <span class="text-slate-500 block">Clubes Participantes</span>
-                  <span class="text-base font-bold text-white">20 → 60 (+200%)</span>
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-800/80 text-xs">
+                  <div>
+                    <span class="text-slate-500 block">Clubes Participantes</span>
+                    <span class="text-base font-bold text-white">20 → 60 (+200%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Total de Partidas</span>
+                    <span class="text-base font-bold text-white">216 → 863 (+299%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Custo Total da Divisão</span>
+                    <span class="text-base font-bold text-amber-400">R$ 34,7M → R$ 50,7M (+46%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Custo Unitário / Jogo</span>
+                    <span class="text-base font-bold text-emerald-400">R$ 160,8k → R$ 58,8k (-63,4%)</span>
+                  </div>
                 </div>
-                <div>
-                  <span class="text-slate-500 block">Total de Partidas</span>
-                  <span class="text-base font-bold text-white">216 → 863 (+299%)</span>
+              </div>
+
+              <!-- Card Comparativo Série D -->
+              <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Base da Pirâmide Profissional</span>
+                  <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold font-mono">Economia Direta de R$ 11,66M</span>
                 </div>
-                <div>
-                  <span class="text-slate-500 block">Custo Total da Divisão</span>
-                  <span class="text-base font-bold text-amber-400">R$ 34,7M → R$ 50,7M (+46%)</span>
-                </div>
-                <div>
-                  <span class="text-slate-500 block">Custo Unitário / Jogo</span>
-                  <span class="text-base font-bold text-emerald-400">R$ 160,8k → R$ 58,8k (-63,4%)</span>
+                <h3 class="text-xl font-bold text-white">Nova Série D: A Alavanca de Eficiência</h3>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                  {baselineData.divisoes.serie_d.resumo_academico}
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-800/80 text-xs">
+                  <div>
+                    <span class="text-slate-500 block">Clubes Participantes</span>
+                    <span class="text-base font-bold text-white">96 → 144 (+50%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Total de Partidas</span>
+                    <span class="text-base font-bold text-white">610 → 1.096 (+79,7%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Custo Total da Divisão</span>
+                    <span class="text-base font-bold text-emerald-400">R$ 44,9M → R$ 33,2M (-26,0%)</span>
+                  </div>
+                  <div>
+                    <span class="text-slate-500 block">Custo Unitário / Jogo</span>
+                    <span class="text-base font-bold text-emerald-400">R$ 82,8k → R$ 30,3k (-63,4%)</span>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- Card Comparativo Série D -->
-            <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
-              <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Base da Pirâmide Profissional</span>
-                <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold font-mono">Economia Direta de R$ 11,66M</span>
-              </div>
-              <h3 class="text-xl font-bold text-white">Nova Série D: A Alavanca de Eficiência</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                {baselineData.divisoes.serie_d.resumo_academico}
-              </p>
+            <!-- Síntese Sistêmica das Duas Divisões Combinadas -->
+            {#if baselineData.comparativo_macro}
+              <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                  <div>
+                    <h4 class="text-sm font-bold text-white flex items-center gap-2">
+                      <Scale class="w-4 h-4 text-emerald-400" />
+                      Balanço Macroeconômico Consolidado (Séries C e D Combinadas)
+                    </h4>
+                    <p class="text-xs text-slate-400 mt-0.5">
+                      Comparação entre o orçamento consolidado CBF 2026 e o modelo otimizado com turnês TTP.
+                    </p>
+                  </div>
+                  <span class="text-xs px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 font-mono">
+                    204 Clubes • 1.959 Partidas
+                  </span>
+                </div>
 
-              <div class="grid grid-cols-2 gap-4 pt-3 border-t border-slate-800/80 text-xs">
-                <div>
-                  <span class="text-slate-500 block">Clubes Participantes</span>
-                  <span class="text-base font-bold text-white">96 → 144 (+50%)</span>
-                </div>
-                <div>
-                  <span class="text-slate-500 block">Total de Partidas</span>
-                  <span class="text-base font-bold text-white">542 → 1.096 (+102%)</span>
-                </div>
-                <div>
-                  <span class="text-slate-500 block">Custo Total da Divisão</span>
-                  <span class="text-base font-bold text-emerald-400">R$ 44,9M → R$ 33,2M (-26,0%)</span>
-                </div>
-                <div>
-                  <span class="text-slate-500 block">Custo Unitário / Jogo</span>
-                  <span class="text-base font-bold text-emerald-400">R$ 82,8k → R$ 30,3k (-63,4%)</span>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs">
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Clubes no Sistema</span>
+                    <span class="text-base font-bold text-white font-mono mt-0.5 block">116 → 204</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold">+75,9% inclusão</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Partidas Disputadas</span>
+                    <span class="text-base font-bold text-white font-mono mt-0.5 block">758 → 1.959</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold">+158,4% volume</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Custo Total Logístico</span>
+                    <span class="text-base font-bold text-white font-mono mt-0.5 block">R$ 79,6M → R$ 84,0M</span>
+                    <span class="text-[10px] text-amber-400 font-semibold">+5,5% variação líquida</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Custo Médio / Partida</span>
+                    <span class="text-base font-bold text-emerald-400 font-mono mt-0.5 block">R$ 105k → R$ 42,9k</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold">-59,2% eficiência</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Distância Média / Jogo</span>
+                    <span class="text-base font-bold text-emerald-400 font-mono mt-0.5 block">1.268 → 459 km</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold">-63,8% km viajado</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="text-slate-500 block text-[11px]">Calendário Ativo Médio</span>
+                    <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">3,8 → 7,8 meses</span>
+                    <span class="text-[10px] text-cyan-400 font-semibold">+105% perenidade</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            {/if}
           </div>
         {/if}
 
         {#if activeDivisionTab === 'serie_c'}
-          <div class="space-y-6" transition:fade={{ duration: 150 }}>
-            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-              <h4 class="text-lg font-bold text-white flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
-                Série C: Decomposição Orçamentária e Estrutura de Conferências
+          <div class="space-y-8" transition:fade={{ duration: 150 }}>
+            <!-- 1. Header & Contexto Regulamentar -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                  <Shield class="w-3.5 h-3.5" />
+                  Divisão de Acesso Intermediária • Auditoria Oficial REC CBF 2026
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded bg-slate-800 text-slate-300 font-mono">
+                  20 Clubes Oficiais ➔ 60 Clubes Propostos
+                </span>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-white">
+                  Série C: Diagnóstico Estrutural CBF 2026 vs. Modelo de 4 Conferências
+                </h3>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                  No formato oficial da CBF para 2026, a Série C é estruturada em <strong>grupo único continental</strong> com 20 clubes disputando 19 rodadas em turno desbalanceado, seguido por quadrangulares de acesso. Apesar de ser o terceiro escalão nacional, o modelo replica distâncias de primeira divisão com alto custo unitário e causa desmobilização prematura de 60% das agremiações.
+                </p>
+              </div>
+
+              <!-- Indicadores Macroeconômicos CBF 2026 -->
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-4 border-t border-slate-800/80 text-xs">
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Clubes Participantes</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">20 clubes</span>
+                  <span class="text-[10px] text-slate-500">19 a 27 jogos/clube</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Total de Partidas</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">216 jogos</span>
+                  <span class="text-[10px] text-slate-500">27 datas (Abr-Out)</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Custo Total CBF</span>
+                  <span class="text-base font-bold text-amber-400 font-mono mt-0.5 block">R$ 34,73M</span>
+                  <span class="text-[10px] text-slate-500">Subsídio centralizado</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Custo Médio / Jogo</span>
+                  <span class="text-base font-bold text-rose-400 font-mono mt-0.5 block">R$ 160.766</span>
+                  <span class="text-[10px] text-slate-500">Viagens isoladas</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Divisão Modal CBF</span>
+                  <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">71,5% Aéreo</span>
+                  <span class="text-[10px] text-slate-500">28,5% rodoviário</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Distância Média</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">1.580 km</span>
+                  <span class="text-[10px] text-slate-500">Média por deslocamento</span>
+                </div>
+              </div>
+
+              <!-- Critérios de Entrada -->
+              <div class="p-3 rounded-lg bg-slate-900/40 border border-slate-800/40 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-400">
+                <span class="font-bold text-slate-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400" /> Critérios de Entrada Oficiais:
+                </span>
+                <span>• 4 rebaixados da Série B (2025)</span>
+                <span>• 12 remanescentes da Série C (5º ao 16º)</span>
+                <span>• 4 semifinalistas promovidos da Série D (2025)</span>
+              </div>
+            </div>
+
+            <!-- 2. Linha do Tempo das Fases & Gargalos Estruturais -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-6">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Activity class="w-4 h-4 text-emerald-400" />
+                    Fluxo das Fases Oficiais & Diagnóstico de Gargalos da Série C (CBF 2026)
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Decomposição passo a passo das 3 fases regulamentares e os impactos de ociosidade e custo.
+                  </p>
+                </div>
+                <span class="text-[11px] px-2.5 py-1 rounded bg-slate-900 text-slate-400 font-mono border border-slate-800">
+                  3 Fases • 27 Rodadas
+                </span>
+              </div>
+
+              <div class="space-y-4">
+                <!-- Fase 1 -->
+                <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">1</span>
+                      <span class="text-sm font-bold text-white">Primeira Fase: Grupo Único Continental</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">20 clubes • 19 rodadas • 190 partidas</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Disputada em turno único simples com todos os 20 clubes se enfrentando apenas uma vez. Os 8 primeiros avançam para a 2ª fase, os classificados de 9º a 16º permanecem na divisão mas encerram sua temporada, e os 4 últimos (17º a 20º) são rebaixados à Série D.
+                  </p>
+
+                  <!-- Alertas de Gargalos -->
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+                    <div class="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20 space-y-1">
+                      <div class="flex items-center gap-1.5 text-xs font-bold text-rose-300">
+                        <AlertCircle class="w-3.5 h-3.5" /> Assimetria de Mandos
+                      </div>
+                      <p class="text-[11px] text-slate-300 leading-relaxed">
+                        10 clubes jogam 10 vezes em casa e 9 fora, enquanto os outros 10 jogam 9 em casa e 10 fora por sorteio técnico, rompendo a isonomia esportiva primária.
+                      </p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 space-y-1">
+                      <div class="flex items-center gap-1.5 text-xs font-bold text-amber-300">
+                        <AlertCircle class="w-3.5 h-3.5" /> Inatividade Precoce (60%)
+                      </div>
+                      <p class="text-[11px] text-slate-300 leading-relaxed">
+                        12 das 20 agremiações (60%) encerram as atividades em agosto com apenas 19 partidas, enfrentando 8 meses ininterruptos sem futebol oficial ou receitas de bilheteria.
+                      </p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 space-y-1">
+                      <div class="flex items-center gap-1.5 text-xs font-bold text-cyan-300">
+                        <AlertCircle class="w-3.5 h-3.5" /> Custo Unitário Elevado
+                      </div>
+                      <p class="text-[11px] text-slate-300 leading-relaxed">
+                        Deslocamentos radiais isolados de até 3.500 km sem agrupamento em turnês geram um custo médio por partida de R$ 160.766,43 (71,5% em modal aéreo comercial).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fase 2 -->
+                <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">2</span>
+                      <span class="text-sm font-bold text-white">Segunda Fase: Quadrangulares do Acesso</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">8 clubes • 2 grupos de 4 • 6 rodadas • 24 partidas</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Os 8 melhores clubes são divididos em 2 chaves (Grupo B: 1º, 4º, 5º, 8º | Grupo C: 2º, 3º, 6º, 7º) em turno e returno (6 partidas). Os 2 melhores de cada grupo garantem acesso à Série B (4 promovidos), e o líder de cada grupo avança à grande final.
+                  </p>
+                  <div class="text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/60 flex items-center gap-2">
+                    <Info class="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>Apenas 8 equipes usufruem do calendário de setembro e outubro; as demais 12 amargam a desmobilização forçada de suas comissões técnicas.</span>
+                  </div>
+                </div>
+
+                <!-- Fase 3 -->
+                <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">3</span>
+                      <span class="text-sm font-bold text-white">Terceira Fase: Grande Final Nacional</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">2 clubes • Ida e volta (180 min) • 2 partidas</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Confronto direto eliminatório de ida e volta entre os dois líderes dos quadrangulares. O clube com melhor pontuação acumulada decide em casa. O campeão garante vaga direta na 3ª Fase da Copa do Brasil subsequente.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explorador Interativo de Clubes e Chaves da 1ª Fase da Série C -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Table2 class="w-4 h-4 text-emerald-400" />
+                    Explorador de Clubes e Chaves da 1ª Fase (Série C)
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Compare os 20 clubes no grupo único continental da CBF contra as 4 Conferências Regionais propostas.
+                  </p>
+                </div>
+
+                <!-- Toggle CBF Oficial vs Modelo Proposto -->
+                <div class="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs shrink-0">
+                  <button
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieCTableViewMode === 'cbf' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    on:click={() => serieCTableViewMode = 'cbf'}
+                  >
+                    Oficial CBF (Grupo Único - 20 Clubes)
+                  </button>
+                  <button
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieCTableViewMode === 'proposto' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    on:click={() => serieCTableViewMode = 'proposto'}
+                  >
+                    Modelo Proposto (4 Conferências - 60 Clubes)
+                  </button>
+                </div>
+              </div>
+
+              {#if serieCTableViewMode === 'cbf'}
+                <div class="space-y-3">
+                  <div class="flex items-center justify-between text-xs text-slate-400">
+                    <span>A tabela abaixo expõe a <strong>assimetria de mandos</strong> sorteada pela CBF (10 em casa vs 9 em casa):</span>
+                    <span class="font-mono text-emerald-400">20 Clubes Continentais</span>
+                  </div>
+
+                  <div class="overflow-x-auto rounded-xl border border-slate-800/80 max-h-[460px] overflow-y-auto">
+                    <table class="w-full text-left text-xs border-collapse">
+                      <thead class="sticky top-0 z-10">
+                        <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900">
+                          <th class="py-2.5 px-4 w-12 text-center">#</th>
+                          <th class="py-2.5 px-4">Clube</th>
+                          <th class="py-2.5 px-4">UF / Cidade</th>
+                          <th class="py-2.5 px-4 text-center">Mandos (Casa / Fora)</th>
+                          <th class="py-2.5 px-4">Km Total Fora</th>
+                          <th class="py-2.5 px-4">Modal CBF</th>
+                        </tr>
+                      </thead>
+                      <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                        {#each clubesSerieCCbf as clube, idx}
+                          <tr class="hover:bg-slate-900/40 transition">
+                            <td class="py-2.5 px-4 text-center font-mono text-slate-400">{idx + 1}</td>
+                            <td class="py-2.5 px-4 font-bold text-white">{clube.nome}</td>
+                            <td class="py-2.5 px-4 text-slate-300">
+                              <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
+                              {clube.cidade}
+                            </td>
+                            <td class="py-2.5 px-4 text-center font-mono">
+                              <span class="px-2 py-0.5 rounded font-bold {clube.mandos_casa === 10 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">
+                                {clube.mandos_casa} Casa / {clube.mandos_fora} Fora
+                              </span>
+                            </td>
+                            <td class="py-2.5 px-4 font-mono text-slate-200">
+                              {formatKm(clube.km_total)}
+                            </td>
+                            <td class="py-2.5 px-4">
+                              <span class="px-2 py-0.5 rounded text-[10px] font-medium {clube.modal.includes('Rodoviário') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}">
+                                {clube.modal}
+                              </span>
+                            </td>
+                          </tr>
+                        {/each}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              {:else}
+                <!-- Conferências do Modelo Proposto com Slider / Seletor -->
+                {#if confsSerieCProp.length > 0}
+                  <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                    <div class="flex items-center justify-between gap-3">
+                      <div class="flex items-center gap-2">
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedConfCIdx === 0}
+                          on:click={() => selectedConfCIdx = Math.max(0, selectedConfCIdx - 1)}
+                        >
+                          ◀ Anterior
+                        </button>
+                        <span class="text-sm font-bold text-white font-mono">
+                          {currentConfC?.nome} <span class="text-xs text-emerald-400 font-bold">({currentConfC?.total_clubes} agremiações)</span>
+                        </span>
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedConfCIdx === confsSerieCProp.length - 1}
+                          on:click={() => selectedConfCIdx = Math.min(confsSerieCProp.length - 1, selectedConfCIdx + 1)}
+                        >
+                          Próximo ▶
+                        </button>
+                      </div>
+
+                      <span class="text-xs text-slate-400">
+                        Navegue pelas 4 Conferências Regionais contíguas:
+                      </span>
+                    </div>
+
+                    <input
+                      type="range"
+                      min="0"
+                      max={confsSerieCProp.length - 1}
+                      bind:value={selectedConfCIdx}
+                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
+                    />
+
+                    <div class="flex flex-wrap gap-2 pt-1">
+                      {#each confsSerieCProp as conf, idx}
+                        <button
+                          class="px-3 py-1 rounded-lg text-xs font-mono font-bold transition {selectedConfCIdx === idx ? 'bg-emerald-400 text-slate-950 ring-2 ring-emerald-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
+                          on:click={() => selectedConfCIdx = idx}
+                        >
+                          {conf.id} ({conf.total_clubes})
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+
+                  {#if currentConfC}
+                    <div class="overflow-x-auto rounded-xl border border-slate-800/80 max-h-[420px] overflow-y-auto">
+                      <table class="w-full text-left text-xs border-collapse">
+                        <thead class="sticky top-0 z-10">
+                          <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900">
+                            <th class="py-2.5 px-4 w-12 text-center">#</th>
+                            <th class="py-2.5 px-4">Clube</th>
+                            <th class="py-2.5 px-4">UF / Cidade</th>
+                            <th class="py-2.5 px-4 text-right">Calendário Regular Garantido</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                          {#each currentConfC.clubes as clube, cIdx}
+                            <tr class="hover:bg-slate-900/40 transition">
+                              <td class="py-2.5 px-4 text-center font-mono text-slate-400">{cIdx + 1}</td>
+                              <td class="py-2.5 px-4 font-bold text-white">{clube.nome}</td>
+                              <td class="py-2.5 px-4 text-slate-300">
+                                <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
+                                {clube.cidade}
+                              </td>
+                              <td class="py-2.5 px-4 text-right text-emerald-400 font-mono text-[11px]">
+                                {currentConfC.total_clubes === 16 ? '30 jogos (turno/returno)' : '26 jogos (turno/returno)'}
+                              </td>
+                            </tr>
+                          {/each}
+                        </tbody>
+                      </table>
+                    </div>
+                  {/if}
+                {/if}
+              {/if}
+            </div>
+
+            <!-- 3. A Resposta do Modelo Proposto: Otimização Operacional -->
+            <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/40 via-slate-950 to-slate-950 border border-emerald-500/30 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <Layers class="w-3.5 h-3.5" /> Solução pelo Modelo Proposto (Pesquisa Operacional)
+                </span>
+                <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono">
+                  60 Clubes • 4 Conferências
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-white">
+                Como a Otimização Transforma a Série C
               </h4>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                A Série C da CBF opera hoje em fase única de grupo continental (20 clubes, 19 rodadas) seguida de 2 quadrangulares nacionais. No modelo proposto, <strong>60 clubes são organizados em 4 Conferências Regionais</strong> (Sudeste 16, Nordeste 16, Sul 14 e Norte-Centro 14) com turno e returno completos.
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Ao reorganizar 60 clubes em <strong>4 Conferências Regionais contíguas</strong> (Sudeste 16, Nordeste 16, Sul 14 e Norte-Centro 14), eliminam-se os bate-voltas isolados. Clubes disputam turno e returno intra-conferência com <strong>26 a 30 partidas regulares garantidas</strong> (contra apenas 19 na CBF). Graças ao encadeamento de turnês TTP (Travelling Tournament Problem de 2 a 6 jogos fora), o <strong>custo médio por partida despenca 63,4% (de R$ 160,8k para R$ 58,8k)</strong>, permitindo que a CBF triplique os clubes atendidos e quadruplique o volume de confrontos (863 vs 216) com absorção sustentável do orçamento global.
               </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Fase Regular</span>
-                <span class="text-xl font-bold text-white mt-1 block">{formatCurrency(baselineData.divisoes.serie_c.modelo_proposto.custo_fase_regular_brl)}</span>
-                <span class="text-xs text-slate-500">844 partidas em 4 conferências regionais</span>
+            <!-- 4. Tabela Comparativa Sintética -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Scale class="w-4 h-4 text-emerald-400" />
+                    Comparativo Estrutural Sintético: Série C
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Confronto direto entre o regulamento oficial CBF 2026 e o modelo otimizado por Pesquisa Operacional.
+                  </p>
+                </div>
+                <span class="text-xs text-slate-400 font-mono">8 Dimensões Auditadas</span>
               </div>
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Playoffs Esperados (Monte Carlo)</span>
-                <span class="text-xl font-bold text-white mt-1 block">{formatCurrency(baselineData.divisoes.serie_c.modelo_proposto.custo_playoffs_esperado_brl)}</span>
-                <span class="text-xs text-slate-500">Mata-mata de acesso nacional</span>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Economia por Turnês TTP</span>
-                <span class="text-xl font-bold text-cyan-400 mt-1 block">{formatCurrency(baselineData.divisoes.serie_c.modelo_proposto.economia_turnes_ttp_brl)}</span>
-                <span class="text-xs text-slate-500">Viagens consecutivas de visitante</span>
-              </div>
+
+              {#if officialFormats?.comparativo_estrutural_sintetico?.serie_c?.dimensoes}
+                <div class="overflow-x-auto rounded-xl border border-slate-800/80">
+                  <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
+                        <th class="py-3 px-4 w-1/5">Dimensão</th>
+                        <th class="py-3 px-4 w-1/4 text-rose-300">CBF Oficial 2026 (REC)</th>
+                        <th class="py-3 px-4 w-1/4 text-emerald-400">Modelo Proposto</th>
+                        <th class="py-3 px-4 w-[30%] text-cyan-300">Impacto Estrutural</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                      {#each officialFormats.comparativo_estrutural_sintetico.serie_c.dimensoes as item}
+                        <tr class="hover:bg-slate-900/40 transition">
+                          <td class="py-3 px-4 font-semibold text-white">{item.dimensao}</td>
+                          <td class="py-3 px-4 text-slate-300">{item.cbf_oficial_2026}</td>
+                          <td class="py-3 px-4 font-semibold text-emerald-300">{item.modelo_proposto_fgv}</td>
+                          <td class="py-3 px-4 text-xs text-slate-300 leading-relaxed">
+                            <span class="inline-block px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-200">
+                              {item.impacto}
+                            </span>
+                          </td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
             </div>
           </div>
         {/if}
 
         {#if activeDivisionTab === 'serie_d'}
-          <div class="space-y-6" transition:fade={{ duration: 150 }}>
-            <div class="p-5 rounded-xl bg-slate-950 border border-slate-800 space-y-3">
-              <h4 class="text-lg font-bold text-white flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-cyan-400"></span>
-                Série D: 18 Ligas Regionais Bounded-Radius (A Prova de Eficiência)
+          <div class="space-y-8" transition:fade={{ duration: 150 }}>
+            <!-- 1. Header & Contexto Regulamentar -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+                  <Shield class="w-3.5 h-3.5" />
+                  Base da Pirâmide Nacional • Novo Formato Oficial de 96 Clubes CBF 2026
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold font-mono">
+                  Economia Direta CBF: R$ 11,66M (-26,0%)
+                </span>
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold text-white">
+                  Série D: Diagnóstico da Expansão CBF 2026 (96 Clubes) vs. 18 Ligas Regionais (144 Clubes)
+                </h3>
+                <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+                  Em 2026, a CBF implementa a ampliação histórica da Série D de 64 para 96 clubes. No entanto, o regulamento mantém <strong>dois gargalos estruturais severos</strong>: 32 clubes são eliminados prematuramente com apenas 10 jogos em junho/julho, e, nas Quartas de Final, a CBF <strong>abandona completamente a regionalização</strong>, gerando cruzamentos transcontinentais de véspera que elevam os custos de mata-mata a mais de R$ 8,10 milhões.
+                </p>
+              </div>
+
+              <!-- Indicadores Macroeconômicos CBF 2026 -->
+              <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-4 border-t border-slate-800/80 text-xs">
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Clubes Participantes</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">96 clubes</span>
+                  <span class="text-[10px] text-slate-500">10 a 22 jogos/clube</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Total de Partidas</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">610 jogos</span>
+                  <span class="text-[10px] text-slate-500">24 datas (Abr-Set)</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Custo Total CBF</span>
+                  <span class="text-base font-bold text-amber-400 font-mono mt-0.5 block">R$ 44,89M</span>
+                  <span class="text-[10px] text-slate-500">Subsídio integral</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Custo Mata-mata CBF</span>
+                  <span class="text-base font-bold text-rose-400 font-mono mt-0.5 block">R$ 8,10M</span>
+                  <span class="text-[10px] text-slate-500">18,0% do custo da D</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Modal Aéreo CBF</span>
+                  <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">53,8% Aéreo</span>
+                  <span class="text-[10px] text-slate-500">46,2% rodoviário</span>
+                </div>
+                <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                  <span class="text-slate-400 block text-[11px]">Custo Médio / Jogo</span>
+                  <span class="text-base font-bold text-white font-mono mt-0.5 block">R$ 82.827</span>
+                  <span class="text-[10px] text-slate-500">Média CBF por partida</span>
+                </div>
+              </div>
+
+              <!-- 4 Critérios de Entrada -->
+              <div class="space-y-2 pt-2">
+                <span class="font-bold text-slate-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <CheckCircle2 class="w-3.5 h-3.5 text-cyan-400" /> Os 4 Critérios Oficiais de Entrada da Série D (CBF 2026):
+                </span>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
+                  <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="font-bold text-white block">Critério 1: Rebaixamento C</span>
+                    <span class="text-slate-400 text-[11px]">4 clubes despromovidos da Série C de 2025.</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="font-bold text-white block">Critério 2: Estaduais 2025</span>
+                    <span class="text-slate-400 text-[11px]">64 vagas pelo RNF (SP 4; RJ/MG/RS/PR/CE/GO/SC/BA 3; demais 2).</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="font-bold text-white block">Critério 3: Remanescentes</span>
+                    <span class="text-slate-400 text-[11px]">28 vagas para clubes que alcançaram a 2ª fase da Série D 2025.</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
+                    <span class="font-bold text-white block">Critério 4: Ranking CBF</span>
+                    <span class="text-slate-400 text-[11px]">Vagas excedentes redistribuídas pelos melhores sem divisão no RNC.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Linha do Tempo das Fases & O Ponto Crítico de Inflexão Logística -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-6">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Activity class="w-4 h-4 text-cyan-400" />
+                    Fluxo das 7 Fases da Série D & O Ponto Crítico de Inflexão Logística (REC CBF 2026)
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Como a mudança de regra a partir das Quartas de Final rompe o isolamento geográfico e inflaciona os custos operacionais.
+                  </p>
+                </div>
+                <span class="text-[11px] px-2.5 py-1 rounded bg-slate-900 text-slate-400 font-mono border border-slate-800">
+                  7 Fases • 24 Datas
+                </span>
+              </div>
+
+              <div class="space-y-4">
+                <!-- Fase 1 -->
+                <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">1</span>
+                      <span class="text-sm font-bold text-white">Primeira Fase: 16 Grupos Regionalizados</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono">96 clubes • 16 grupos de 6 • 10 rodadas • 480 partidas</span>
+                  </div>
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    Disputa em turno e returno intra-grupo. Os 4 primeiros de cada chave avançam ao mata-mata (64 clubes).
+                  </p>
+                  <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-start gap-2 text-xs">
+                    <AlertCircle class="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                    <div>
+                      <strong class="text-amber-300">Gargalo de Eliminação Prematura:</strong>
+                      <span class="text-slate-300"> 32 agremiações (33,3% do torneio) disputam apenas 10 partidas no ano todo e encerram suas atividades já entre junho e julho, gerando um calendário profissional ativo de menos de 3 meses para um terço da competição.</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Fases 2 e 3 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
+                    <div class="flex items-center gap-2">
+                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">2</span>
+                      <span class="text-sm font-bold text-white">Segunda Fase: Mata-mata de 64</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono block">32 confrontos de ida e volta • 64 jogos</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                      Cruzamento regional direcionado entre chaves adjacentes (ex: 1º Grupo 1 x 4º Grupo 2). Os 32 classificados garantem vaga assegurada na Série D de 2027.
+                    </p>
+                  </div>
+
+                  <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
+                    <div class="flex items-center gap-2">
+                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">3</span>
+                      <span class="text-sm font-bold text-white">Terceira Fase: Oitavas de Final (32 Clubes)</span>
+                    </div>
+                    <span class="text-xs text-slate-400 font-mono block">16 confrontos de ida e volta • 32 jogos</span>
+                    <p class="text-xs text-slate-300 leading-relaxed">
+                      Manutenção dos ramais regionais pré-definidos. 16 vencedores avançam para as Quartas de Final.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Fase 4: O PONTO CRÍTICO DE INFLEXÃO -->
+                <div class="p-5 rounded-xl bg-rose-950/30 border-2 border-rose-500/40 space-y-3">
+                  <div class="flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-xs">4</span>
+                      <span class="text-sm font-bold text-rose-200 uppercase tracking-wide flex items-center gap-1.5">
+                        <AlertCircle class="w-4 h-4 text-rose-400" />
+                        Quartas de Final (Mata-mata de 16): O Ponto Crítico de Inflexão Logística
+                      </span>
+                    </div>
+                    <span class="text-xs font-mono text-rose-300 bg-rose-500/20 px-2.5 py-0.5 rounded border border-rose-500/30">
+                      8 confrontos • 16 partidas
+                    </span>
+                  </div>
+
+                  <p class="text-xs text-slate-200 leading-relaxed">
+                    <strong>Regra Regulamentar CBF:</strong> O CHAVEAMENTO REGIONAL É ABANDONADO. Os confrontos passam a ser determinados estritamente pela <strong>Campanha Geral acumulada</strong> de todas as fases anteriores (1º x 16º, 2º x 15º, etc.).
+                  </p>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs">
+                    <div class="p-3 rounded-lg bg-slate-950/70 border border-rose-500/30 space-y-1">
+                      <span class="font-bold text-rose-300 block text-[11px]">Cruzamentos Continentais Imprevisíveis</span>
+                      <p class="text-slate-300 text-[11px] leading-relaxed">
+                        Provoca viagens transcontinentais extremas (ex: interior do RS vs Amapá ou Roraima) para agremiações de menor porte sem malha aérea direta.
+                      </p>
+                    </div>
+                    <div class="p-3 rounded-lg bg-slate-950/70 border border-rose-500/30 space-y-1">
+                      <span class="font-bold text-rose-300 block text-[11px]">Explosão de Custos em Passagens Aéreas de Véspera</span>
+                      <p class="text-slate-300 text-[11px] leading-relaxed">
+                        Passagens comerciais emitidas com prazos exíguos de 4 a 6 dias para delegações inteiras de 32 passageiros. Apenas os mata-matas da Série D consomem <strong>R$ 8,10 milhões</strong> dos cofres da CBF.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div class="text-[11px] text-slate-300 border-t border-rose-500/20 pt-2 flex items-center justify-between">
+                    <span><strong>Desfecho Esportivo:</strong> Os 4 vencedores sobem direto à Série C de 2027. Os 4 eliminados disputam os Playoffs de Acesso.</span>
+                  </div>
+                </div>
+
+                <!-- Fases 5, 6 e 7 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">5</span>
+                      <strong class="text-white">Playoffs de Acesso à Série C</strong>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                      Repescagem entre os 4 eliminados das quartas (1º x 4º, 2º x 3º da campanha). Os 2 vencedores garantem a 5ª e 6ª vagas de acesso à Série C.
+                    </p>
+                  </div>
+
+                  <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">6</span>
+                      <strong class="text-white">Semifinais (4 Clubes)</strong>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                      2 confrontos de ida e volta entre os 4 semifinalistas já promovidos. Vencedores disputam o título nacional.
+                    </p>
+                  </div>
+
+                  <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
+                    <div class="flex items-center gap-1.5">
+                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">7</span>
+                      <strong class="text-white">Grande Final Nacional</strong>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed">
+                      Confronto em ida e volta. Campeão garante vaga direta na 3ª Fase da Copa do Brasil de 2027.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explorador Interativo de Grupos da 1ª Fase (Série D) -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-5">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Table2 class="w-4 h-4 text-cyan-400" />
+                    Explorador de Grupos e Tabelas da 1ª Fase (Série D)
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Navegue pelos 16 grupos oficiais da CBF (A1 a A16) ou pelas 18 Ligas Regionais do Modelo Proposto.
+                  </p>
+                </div>
+
+                <!-- Toggle CBF Oficial vs Modelo Proposto -->
+                <div class="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs shrink-0">
+                  <button
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'cbf' ? 'bg-cyan-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    on:click={() => serieDTableViewMode = 'cbf'}
+                  >
+                    Oficial CBF (Grupos A1 a A16)
+                  </button>
+                  <button
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'proposto' ? 'bg-cyan-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    on:click={() => serieDTableViewMode = 'proposto'}
+                  >
+                    Modelo Proposto (18 Ligas)
+                  </button>
+                </div>
+              </div>
+
+              {#if serieDTableViewMode === 'cbf'}
+                {#if gruposSerieDCbf.length > 0}
+                  <!-- Slider / Stepper Bar para A1 a A16 -->
+                  <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div class="flex items-center gap-2">
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedGroupDIdx === 0}
+                          on:click={() => selectedGroupDIdx = Math.max(0, selectedGroupDIdx - 1)}
+                        >
+                          ◀ Anterior
+                        </button>
+                        <span class="text-sm font-bold text-white font-mono">
+                          {currentGroupD?.nome} <span class="text-xs text-slate-400 font-normal">({selectedGroupDIdx + 1} de 16)</span>
+                        </span>
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedGroupDIdx === gruposSerieDCbf.length - 1}
+                          on:click={() => selectedGroupDIdx = Math.min(gruposSerieDCbf.length - 1, selectedGroupDIdx + 1)}
+                        >
+                          Próximo ▶
+                        </button>
+                      </div>
+
+                      <span class="text-xs text-slate-400">
+                        Use o slider ou clique nos botões para navegar entre as chaves:
+                      </span>
+                    </div>
+
+                    <!-- Range slider -->
+                    <input
+                      type="range"
+                      min="0"
+                      max={gruposSerieDCbf.length - 1}
+                      bind:value={selectedGroupDIdx}
+                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                    />
+
+                    <!-- Pills A1 a A16 -->
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                      {#each gruposSerieDCbf as g, idx}
+                        <button
+                          class="px-2 py-1 rounded text-[11px] font-mono font-bold transition {selectedGroupDIdx === idx ? 'bg-cyan-400 text-slate-950 ring-2 ring-cyan-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
+                          on:click={() => selectedGroupDIdx = idx}
+                        >
+                          {g.id}
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+
+                  <!-- Tabela do Grupo Selecionado -->
+                  {#if currentGroupD}
+                    <div class="overflow-x-auto rounded-xl border border-slate-800/80">
+                      <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
+                            <th class="py-2.5 px-4 w-12 text-center">#</th>
+                            <th class="py-2.5 px-4">Clube</th>
+                            <th class="py-2.5 px-4">UF / Cidade</th>
+                            <th class="py-2.5 px-4">Km Total Fora</th>
+                            <th class="py-2.5 px-4">Modal CBF</th>
+                            <th class="py-2.5 px-4 text-right">Desfecho Esportivo 1ª Fase</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                          {#each currentGroupD.clubes as clube, cIdx}
+                            <tr class="hover:bg-slate-900/40 transition">
+                              <td class="py-2.5 px-4 text-center font-mono font-bold {cIdx < 4 ? 'text-emerald-400' : 'text-rose-400'}">
+                                {cIdx + 1}º
+                              </td>
+                              <td class="py-2.5 px-4 font-bold text-white">
+                                {clube.nome}
+                              </td>
+                              <td class="py-2.5 px-4 text-slate-300">
+                                <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
+                                {clube.cidade}
+                              </td>
+                              <td class="py-2.5 px-4 font-mono text-slate-200">
+                                {formatKm(clube.km_total)}
+                              </td>
+                              <td class="py-2.5 px-4">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-medium {clube.modal.includes('100%') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}">
+                                  {clube.modal}
+                                </span>
+                              </td>
+                              <td class="py-2.5 px-4 text-right font-mono text-[11px]">
+                                {#if cIdx < 4}
+                                  <span class="text-emerald-400">Classifica ao Mata-mata de 64</span>
+                                {:else}
+                                  <span class="text-rose-400">Eliminado precocemente (jun/jul)</span>
+                                {/if}
+                              </td>
+                            </tr>
+                          {/each}
+                        </tbody>
+                      </table>
+                    </div>
+                  {/if}
+                {/if}
+              {:else}
+                <!-- Tabela do Modelo Proposto (18 Ligas Regionais) -->
+                {#if ligasSerieDProp.length > 0}
+                  <div class="space-y-3 bg-slate-900/60 p-4 rounded-xl border border-slate-800/60">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div class="flex items-center gap-2">
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedLigaDIdx === 0}
+                          on:click={() => selectedLigaDIdx = Math.max(0, selectedLigaDIdx - 1)}
+                        >
+                          ◀ Anterior
+                        </button>
+                        <span class="text-sm font-bold text-white font-mono">
+                          {currentLigaD?.nome} <span class="text-xs text-slate-400 font-normal">({selectedLigaDIdx + 1} de 18)</span>
+                        </span>
+                        <button
+                          class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition disabled:opacity-30"
+                          disabled={selectedLigaDIdx === ligasSerieDProp.length - 1}
+                          on:click={() => selectedLigaDIdx = Math.min(ligasSerieDProp.length - 1, selectedLigaDIdx + 1)}
+                        >
+                          Próximo ▶
+                        </button>
+                      </div>
+                      <span class="text-xs text-slate-400">
+                        18 Ligas compactas de raio limitado (ônibus leito até 650 km):
+                      </span>
+                    </div>
+
+                    <input
+                      type="range"
+                      min="0"
+                      max={ligasSerieDProp.length - 1}
+                      bind:value={selectedLigaDIdx}
+                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                    />
+
+                    <div class="flex flex-wrap gap-1.5 pt-1">
+                      {#each ligasSerieDProp as l, idx}
+                        <button
+                          class="px-2 py-1 rounded text-[10px] font-mono font-bold transition {selectedLigaDIdx === idx ? 'bg-cyan-400 text-slate-950 ring-2 ring-cyan-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
+                          on:click={() => selectedLigaDIdx = idx}
+                        >
+                          L{idx + 1}
+                        </button>
+                      {/each}
+                    </div>
+                  </div>
+
+                  {#if currentLigaD}
+                    <div class="overflow-x-auto rounded-xl border border-slate-800/80">
+                      <table class="w-full text-left text-xs border-collapse">
+                        <thead>
+                          <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
+                            <th class="py-2.5 px-4 w-12 text-center">#</th>
+                            <th class="py-2.5 px-4">Clube</th>
+                            <th class="py-2.5 px-4">UF / Cidade</th>
+                            <th class="py-2.5 px-4 text-right">Formato Desportivo</th>
+                          </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                          {#each currentLigaD.clubes as clube, cIdx}
+                            <tr class="hover:bg-slate-900/40 transition">
+                              <td class="py-2.5 px-4 text-center font-mono text-slate-400">{cIdx + 1}</td>
+                              <td class="py-2.5 px-4 font-bold text-white">{clube.nome}</td>
+                              <td class="py-2.5 px-4 text-slate-300">
+                                <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
+                                {clube.cidade}
+                              </td>
+                              <td class="py-2.5 px-4 text-right text-emerald-400 font-mono text-[11px]">
+                                Turno e returno regionalizado + Playoffs Concêntricos
+                              </td>
+                            </tr>
+                          {/each}
+                        </tbody>
+                      </table>
+                    </div>
+                  {/if}
+                {/if}
+              {/if}
+            </div>
+
+            <!-- 3. A Solução pelo Modelo Proposto: 18 Ligas Regionais Bounded-Radius -->
+            <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-slate-950 to-slate-950 border border-cyan-500/30 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+                  <Layers class="w-3.5 h-3.5" /> Solução pelo Modelo Proposto (Pesquisa Operacional)
+                </span>
+                <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">
+                  Economia Líquida CBF: R$ 11.662.805,74 (-26,0%)
+                </span>
+              </div>
+              <h4 class="text-lg font-bold text-white">
+                18 Ligas Regionais Bounded-Radius: Mais Clubes por um Menor Custo Global
               </h4>
-              <p class="text-sm text-slate-300 leading-relaxed">
-                A Série D atual da CBF cruza times de regiões distantes precocemente, gerando custos de R$ 44,89 milhões para apenas 96 equipes. Ao subdividir a Série D em <strong>18 Ligas Regionais de raio restrito</strong>, <strong>75,9% dos trajetos passam a ser 100% rodoviários</strong> em ônibus leito fretado.
+              <p class="text-xs text-slate-300 leading-relaxed">
+                Ao estruturar 144 agremiações em <strong>18 Ligas Regionais de raio compacto</strong> com limite rodoviário operacional de 650 km em ônibus leito fretado, o modelo proposto viabiliza que <strong>75,9% de todos os confrontos sejam operados por malha terrestre</strong> (contra apenas 46,2% na CBF). Além disso, os <strong>Playoffs Concêntricos 100% Regionais até as semifinais</strong> eliminam completamente a explosão de gastos com voos transcontinentais prematuros. O resultado é a expansão da base profissional para 144 polos esportivos (+50%) e 1.096 partidas (+79,7%), gerando uma <strong>economia líquida direta de R$ 11,66 milhões para os cofres da CBF</strong>, alavanca orçamentária que subsidia com folga a reestruturação da Série C.
               </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Economia Direta para a CBF</span>
-                <span class="text-xl font-bold text-emerald-400 mt-1 block">R$ 11.662.805,74</span>
-                <span class="text-xs text-slate-500">-26,0% em relação ao gasto atual da CBF</span>
+            <!-- 4. Tabela Comparativa Sintética -->
+            <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
+              <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
+                <div>
+                  <h4 class="text-base font-bold text-white flex items-center gap-2">
+                    <Scale class="w-4 h-4 text-cyan-400" />
+                    Comparativo Estrutural Sintético: Série D
+                  </h4>
+                  <p class="text-xs text-slate-400 mt-0.5">
+                    Confronto analítico entre a nova Série D de 96 clubes da CBF e o modelo de 18 Ligas Regionais.
+                  </p>
+                </div>
+                <span class="text-xs text-slate-400 font-mono">8 Dimensões Auditadas</span>
               </div>
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Participação Rodoviária</span>
-                <span class="text-xl font-bold text-white mt-1 block">75,9% dos confrontos</span>
-                <span class="text-xs text-slate-500">Ônibus leito com limite operacional de 650 km</span>
-              </div>
-              <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-                <span class="text-xs text-slate-400 block">Custo Médio Unitário / Jogo</span>
-                <span class="text-xl font-bold text-emerald-400 mt-1 block">{formatCurrency(baselineData.divisoes.serie_d.modelo_proposto.custo_medio_jogo_brl)}</span>
-                <span class="text-xs text-slate-500">Queda de 63,4% vs R$ 82,8k da CBF</span>
-              </div>
+
+              {#if officialFormats?.comparativo_estrutural_sintetico?.serie_d?.dimensoes}
+                <div class="overflow-x-auto rounded-xl border border-slate-800/80">
+                  <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
+                        <th class="py-3 px-4 w-1/5">Dimensão</th>
+                        <th class="py-3 px-4 w-1/4 text-rose-300">CBF Oficial 2026 (96 Clubes)</th>
+                        <th class="py-3 px-4 w-1/4 text-cyan-300">Modelo Proposto (144 Clubes)</th>
+                        <th class="py-3 px-4 w-[30%] text-emerald-400">Impacto Estrutural & Orçamentário</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                      {#each officialFormats.comparativo_estrutural_sintetico.serie_d.dimensoes as item}
+                        <tr class="hover:bg-slate-900/40 transition">
+                          <td class="py-3 px-4 font-semibold text-white">{item.dimensao}</td>
+                          <td class="py-3 px-4 text-slate-300">{item.cbf_oficial_2026}</td>
+                          <td class="py-3 px-4 font-semibold text-cyan-300">{item.modelo_proposto_fgv}</td>
+                          <td class="py-3 px-4 text-xs text-slate-300 leading-relaxed">
+                            <span class="inline-block px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-200">
+                              {item.impacto}
+                            </span>
+                          </td>
+                        </tr>
+                      {/each}
+                    </tbody>
+                  </table>
+                </div>
+              {/if}
             </div>
           </div>
         {/if}

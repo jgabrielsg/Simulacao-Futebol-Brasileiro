@@ -25,8 +25,10 @@
     DollarSign,
     Bus,
     TrendingDown,
+    MapPin,
     X
   } from 'lucide-svelte';
+  import { getDetailedTransitionData, CONFERENCE_CENTROIDS } from '$lib/utils/transitionAnalysis.js';
 
   let mapElement;
   let L;
@@ -35,6 +37,8 @@
   let hullLayer;
 
   let currentStep = 1; // Steps 1 to 6
+
+  $: transitionMeta = getDetailedTransitionData($currentSeasonNum, $currentTransitions, $currentSeasonSummary);
 
   $: if ($showWizardModal) {
     initWizardMap();
@@ -169,10 +173,81 @@
       });
 
     } else if (step === 5) {
-      // Step 5: Iso-Ligas da Série C & Balanço Financeiro
-      (trans.trocas_de_liga_c || []).forEach(troca => {
-        teamsToPlot.push({ id: troca.clube, color: '#6366f1', label: `Iso-Liga: ${troca.de} ➔ ${troca.para}` });
-      });
+      // Step 5: Iso-Ligas da Série C & Reorganização Regional
+      const trocas = transitionMeta?.trocas || [];
+      if (trocas.length > 0) {
+        trocas.forEach(troca => {
+          const clubObj = tDb[troca.clube];
+          const lat = troca.lat || clubObj?.lat;
+          const lon = troca.lon || clubObj?.lon;
+          const destCentroid = CONFERENCE_CENTROIDS[troca.para];
+
+          if (lat && lon) {
+            bounds.extend([lat, lon]);
+
+            // Draw dashed transition vector to new conference centroid
+            if (destCentroid) {
+              bounds.extend([destCentroid.lat, destCentroid.lon]);
+              const polyline = L.polyline([[lat, lon], [destCentroid.lat, destCentroid.lon]], {
+                color: '#6366f1',
+                weight: 3,
+                dashArray: '6, 8',
+                opacity: 0.85
+              });
+              polyline.bindTooltip(`Migração Iso-Liga: ${troca.de} ➔ ${troca.para}`, { sticky: true });
+              polyline.addTo(markersLayer);
+            }
+
+            // Migrated club marker with pulsing indicator
+            const markerHtml = `
+              <div class="relative flex items-center justify-center">
+                <span class="animate-ping absolute inline-flex h-8 w-8 rounded-full bg-indigo-400 opacity-75"></span>
+                <div class="relative w-7 h-7 rounded-full border-2 border-white shadow-xl flex items-center justify-center text-white text-[10px] font-black bg-indigo-600">
+                  ★
+                </div>
+              </div>
+            `;
+            const icon = L.divIcon({
+              html: markerHtml,
+              className: 'custom-wizard-iso-pin',
+              iconSize: [28, 28],
+              iconAnchor: [14, 14]
+            });
+            const marker = L.marker([lat, lon], { icon });
+            marker.bindPopup(`
+              <div class="p-1 space-y-1">
+                <div class="font-bold text-sm text-indigo-900">${troca.nome || troca.clube.split('/')[0]}</div>
+                <div class="text-xs font-semibold text-slate-700">${troca.cidade} - ${troca.uf}</div>
+                <div class="text-[11px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200 inline-block">
+                  ${troca.de} ➔ ${troca.para}
+                </div>
+                <div class="text-[11px] text-slate-600 mt-1 leading-tight">${troca.motivo}</div>
+              </div>
+            `);
+            marker.addTo(markersLayer);
+          }
+        });
+      } else {
+        // No direct migrations in Serie C: plot 4 conference centroids with their stable sizes
+        for (const [confKey, centroid] of Object.entries(CONFERENCE_CENTROIDS)) {
+          bounds.extend([centroid.lat, centroid.lon]);
+          const confSize = summary.tamanhos_conferencias_c?.[confKey] || 14;
+          const markerHtml = `
+            <div class="w-8 h-8 rounded-full border-2 border-white shadow-lg flex items-center justify-center text-white text-[11px] font-black bg-emerald-600">
+              ${confSize}
+            </div>
+          `;
+          const icon = L.divIcon({
+            html: markerHtml,
+            className: 'custom-wizard-stable-pin',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+          });
+          const marker = L.marker([centroid.lat, centroid.lon], { icon });
+          marker.bindPopup(`<b>Conferência ${confKey}</b><br/>${confSize} Clubes (Paridade Par Estável)`);
+          marker.addTo(markersLayer);
+        }
+      }
 
     } else if (step === 6) {
       // Step 6: Ingresso dos Estaduais para a Série D
@@ -252,7 +327,7 @@
           '2. Série A ⇄ B',
           '3. Série B ⇄ C',
           '4. Série C ⇄ D',
-          '5. Balanço CBF',
+          '5. Iso-Ligas & Paridade',
           '6. Preparação Ano ' + ($currentSeasonNum + 1)
         ] as label, idx}
           <div
@@ -468,62 +543,124 @@
                 </div>
               </div>
 
-            <!-- STEP 5: BALANÇO FINANCEIRO & ISO-LIGAS -->
+            <!-- STEP 5: REORGANIZAÇÃO REGIONAL & ISO-LIGAS -->
             {:else if currentStep === 5}
-              <div class="space-y-3">
+              <div class="space-y-3.5">
                 <div>
-                  <span class="text-[10px] font-black uppercase text-purple-400 tracking-wider">Passo 5</span>
-                  <h3 class="text-base font-black text-white">Balanço Financeiro CBF & Iso-Ligas</h3>
+                  <div class="inline-flex items-center gap-1 text-[10px] font-black uppercase text-indigo-400 tracking-wider">
+                    <Shuffle class="w-3 h-3" />
+                    <span>Passo 5 • Reorganização Regional & Paridade</span>
+                  </div>
+                  <h3 class="text-base font-black text-white">Rebalanceamento das Conferências & Clubes Iso-Liga</h3>
                   <p class="text-slate-300 leading-relaxed text-justify mt-1">
-                    Auditoria econômica oficial dos resultados logísticos obtidos com a reestruturação da pirâmide:
+                    A cada virada de temporada, o solver CP-SAT equaliza as 4 conferências da Série C entre 14 e 18 clubes, assegurando <strong>paridade rigorosamente par</strong> para que nenhum clube fique sem jogar em nenhuma rodada (<em>zero bye weeks</em>).
                   </p>
                 </div>
 
-                <div class="space-y-2 pt-1">
-                  <!-- Total Cost Card -->
-                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div>
-                      <span class="text-[10px] text-slate-400 font-bold block uppercase">Custo Total da Pirâmide</span>
-                      <span class="text-base font-black text-emerald-300 font-mono">
-                        {formatMoney($currentSeasonSummary?.financeiro?.custo_total_piramide_brl)}
-                      </span>
-                    </div>
-                    <DollarSign class="w-6 h-6 text-emerald-400 shrink-0" />
+                <!-- 1. Evolução do Tamanho das 4 Conferências -->
+                <div class="space-y-1.5 pt-1">
+                  <div class="flex items-center justify-between">
+                    <span class="text-[10px] font-bold text-slate-300 uppercase tracking-wider">
+                      Evolução das Conferências (Série C):
+                    </span>
+                    <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-800/60">
+                      ✓ Paridade Par (Zero Folgas)
+                    </span>
                   </div>
 
-                  <!-- TTP Savings -->
-                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
-                    <div>
-                      <span class="text-[10px] text-slate-400 font-bold block uppercase">Economia com Turnês TTP-k</span>
-                      <span class="text-base font-black text-indigo-300 font-mono">
-                        {formatMoney(($currentSeasonSummary?.financeiro?.economia_turnes_c_brl || 0) + ($currentSeasonSummary?.financeiro?.economia_turnes_d_brl || 0))}
-                      </span>
-                    </div>
-                    <TrendingDown class="w-6 h-6 text-indigo-400 shrink-0" />
-                  </div>
-
-                  <!-- Road Transport Percentage -->
-                  <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
-                    <div class="flex justify-between text-[11px] font-mono">
-                      <span class="text-slate-400">Transporte Terrestre:</span>
-                      <span class="text-cyan-300 font-bold">{$currentSeasonSummary?.financeiro?.pct_rodoviario_c || 68}% (C) • {$currentSeasonSummary?.financeiro?.pct_rodoviario_d || 100}% (D)</span>
-                    </div>
-                    <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
-                      <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full" style="width: 85%"></div>
-                    </div>
-                  </div>
-
-                  {#if ($currentTransitions?.trocas_de_liga_c || []).length > 0}
-                    <div class="bg-indigo-950/40 p-2.5 rounded-xl border border-indigo-800/60 space-y-1">
-                      <span class="text-[10px] font-black text-indigo-300 uppercase block">Trocas de Iso-Ligas:</span>
-                      {#each $currentTransitions.trocas_de_liga_c as troca}
-                        <div class="text-[10px] text-slate-300">
-                          <strong>{troca.clube.split('/')[0]}</strong> remanejado de {troca.de} para {troca.para} para manter cardinalidade par.
+                  <div class="grid grid-cols-2 gap-1.5">
+                    {#each transitionMeta.evolution as evo}
+                      <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 flex items-center justify-between">
+                        <div>
+                          <span class="text-[9px] font-bold text-slate-400 uppercase block">{evo.conf}</span>
+                          <div class="flex items-center gap-1.5 font-mono text-xs">
+                            <span class="text-slate-300 font-bold">{evo.before}</span>
+                            <ArrowRight class="w-2.5 h-2.5 text-slate-500" />
+                            <span class="text-white font-black">{evo.after}</span>
+                            <span class="text-[10px] text-slate-500">clubes</span>
+                          </div>
                         </div>
-                      {/each}
-                    </div>
-                  {/if}
+                        <span class={`text-[9px] font-mono font-bold px-2 py-0.5 rounded-full border ${evo.badgeColor}`}>
+                          {evo.badgeText}
+                        </span>
+                      </div>
+                    {/each}
+                  </div>
                 </div>
+
+                <!-- 2. Clubes Iso-Liga de Fronteira -->
+                {#if transitionMeta.trocas.length > 0}
+                  <div class="space-y-2 pt-1">
+                    <span class="text-[10px] font-bold text-indigo-300 uppercase tracking-wider block">
+                      Clubes Iso-Liga Remanejados pelo Solver CP-SAT:
+                    </span>
+                    {#each transitionMeta.trocas as troca}
+                      <div class="bg-indigo-950/40 p-2.5 rounded-xl border border-indigo-700/60 space-y-1.5">
+                        <div class="flex items-center justify-between">
+                          <div class="flex items-center gap-2 truncate">
+                            <TeamBadge teamId={troca.clube} size="w-5 h-5" />
+                            <div>
+                              <span class="font-black text-white text-xs block">{troca.nome || troca.clube.split('/')[0]}</span>
+                              <span class="text-[10px] text-slate-400">{troca.cidade} - {troca.uf}</span>
+                            </div>
+                          </div>
+                          <div class="flex items-center gap-1.5 font-mono text-[10px] bg-slate-950 px-2 py-1 rounded-lg border border-indigo-800 shrink-0">
+                            <span class="text-rose-300 font-bold">{troca.de}</span>
+                            <ArrowRight class="w-3 h-3 text-indigo-400" />
+                            <span class="text-emerald-300 font-bold">{troca.para}</span>
+                          </div>
+                        </div>
+                        <p class="text-[10px] text-slate-300 leading-relaxed text-justify bg-slate-950/80 p-2 rounded-lg border border-indigo-900/40">
+                          {troca.motivo}
+                        </p>
+                      </div>
+                    {/each}
+                  </div>
+                {:else}
+                  <div class="bg-slate-950/80 p-2.5 rounded-xl border border-slate-800 space-y-1 text-xs">
+                    <span class="text-[10px] font-bold text-emerald-400 uppercase block">
+                      Simetria Geográfica Perfeita
+                    </span>
+                    <p class="text-[11px] text-slate-300 leading-relaxed text-justify">
+                      {transitionMeta.paridadeText}
+                    </p>
+                  </div>
+                {/if}
+
+                <!-- 3. Re-clusterização da Série D & Balanço Econômico -->
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                  <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 space-y-1">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Re-clusterização Série D</span>
+                    <span class="text-sm font-black text-cyan-300 font-mono block">
+                      {transitionMeta.reclusteredD} Clubes
+                    </span>
+                    <span class="text-[9px] text-slate-400 block leading-tight">
+                      Rearranjados nas 18 ligas pelo CP-SAT Medoids para encurtar rotas.
+                    </span>
+                  </div>
+
+                  <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 space-y-1">
+                    <span class="text-[9px] font-bold text-slate-400 uppercase block">Economia Turnês TTP-k</span>
+                    <span class="text-sm font-black text-emerald-300 font-mono block">
+                      {formatMoney(($currentSeasonSummary?.financeiro?.economia_turnes_c_brl || 0) + ($currentSeasonSummary?.financeiro?.economia_turnes_d_brl || 0))}
+                    </span>
+                    <span class="text-[9px] text-slate-400 block leading-tight">
+                      Custo total: {formatMoney($currentSeasonSummary?.financeiro?.custo_total_piramide_brl)}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- 4. Indicador de Divisão Modal -->
+                <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 space-y-1">
+                  <div class="flex justify-between text-[10px] font-mono">
+                    <span class="text-slate-400">Modal Rodoviário:</span>
+                    <span class="text-cyan-300 font-bold">{$currentSeasonSummary?.financeiro?.pct_rodoviario_c || 39}% na Série C • {$currentSeasonSummary?.financeiro?.pct_rodoviario_d || 92}% na Série D</span>
+                  </div>
+                  <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                    <div class="bg-gradient-to-r from-cyan-500 to-emerald-400 h-full rounded-full" style="width: 85%"></div>
+                  </div>
+                </div>
+
               </div>
 
             <!-- STEP 6: PREPARAÇÃO PARA O PRÓXIMO ANO / QUINQUÊNIO -->
