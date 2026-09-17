@@ -103,3 +103,62 @@
 
   </div>
 </header>
+
+<!-- Mobile Bottom Navigation Bar (Visible only on screens < md) -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-lg border-t border-slate-800/90 shadow-[0_-4px_20px_rgba(0,0,0,0.5)]">
+  <div class="grid grid-cols-4 h-16 max-w-md mx-auto px-2">
+    <!-- 1. Início -->
+    <a
+      href="/"
+      class={`flex flex-col items-center justify-center gap-1 transition-all min-h-[48px] ${
+        $page.url.pathname === '/'
+          ? 'text-indigo-400 font-extrabold'
+          : 'text-slate-400 hover:text-slate-200'
+      }`}
+    >
+      <Home class="w-5 h-5" />
+      <span class="text-[10px] tracking-tight">Início</span>
+    </a>
+
+    <!-- 2. Estudo de Caso -->
+    <a
+      href="/estudo-de-caso"
+      class={`flex flex-col items-center justify-center gap-1 transition-all min-h-[48px] ${
+        $page.url.pathname.startsWith('/estudo-de-caso')
+          ? 'text-cyan-400 font-extrabold'
+          : 'text-slate-400 hover:text-slate-200'
+      }`}
+    >
+      <BarChart3 class="w-5 h-5" />
+      <span class="text-[10px] tracking-tight">Problema</span>
+    </a>
+
+    <!-- 3. Metodologia -->
+    <a
+      href="/metodologia"
+      class={`flex flex-col items-center justify-center gap-1 transition-all min-h-[48px] ${
+        $page.url.pathname.startsWith('/metodologia')
+          ? 'text-purple-400 font-extrabold'
+          : 'text-slate-400 hover:text-slate-200'
+      }`}
+    >
+      <BookOpen class="w-5 h-5" />
+      <span class="text-[10px] tracking-tight">Ciência</span>
+    </a>
+
+    <!-- 4. Simulador -->
+    <a
+      href="/dashboard"
+      class={`flex flex-col items-center justify-center gap-1 transition-all min-h-[48px] relative ${
+        $page.url.pathname.startsWith('/dashboard')
+          ? 'text-white font-extrabold'
+          : 'text-indigo-400 hover:text-indigo-300'
+      }`}
+    >
+      <div class={`p-1 rounded-xl transition-all ${$page.url.pathname.startsWith('/dashboard') ? 'bg-indigo-600 text-white shadow-md shadow-indigo-950' : 'bg-indigo-950/60 border border-indigo-800/60'}`}>
+        <LayoutDashboard class="w-4 h-4" />
+      </div>
+      <span class="text-[10px] tracking-tight">Simulador</span>
+    </a>
+  </div>
+</nav>

@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { base } from '$app/paths';
   import Navbar from '$lib/components/Navbar.svelte';
+  import ClubImpactSearch from '$lib/components/ClubImpactSearch.svelte';
   import {
     Compass, Shield, MapPin, Award, ArrowRight, Play, CheckCircle2,
     BarChart3, TrendingDown, DollarSign, BookOpen, Clock, AlertTriangle,
@@ -42,8 +43,8 @@
       clubs: 20,
       matches: 380,
       rounds: '38 rodadas',
-      accentColor: 'border-blue-500/50 bg-blue-500/5 text-blue-400',
-      badgeBg: 'bg-blue-400',
+      accentColor: 'border-slate-500/50 bg-slate-500/5 text-slate-300',
+      badgeBg: 'bg-slate-400',
       tagline: 'O Segundo Escalão Nacional',
       desc: 'Competição nacional com 20 equipes em 38 rodadas. Promove os 4 primeiros colocados à divisão de elite e rebaixa os 4 últimos colocados para as Conferências Regionais da Série C.',
       details: [
@@ -60,8 +61,8 @@
       clubs: 60,
       matches: 870,
       rounds: '26 a 30 rodadas',
-      accentColor: 'border-indigo-500/50 bg-indigo-500/5 text-indigo-400',
-      badgeBg: 'bg-indigo-400',
+      accentColor: 'border-slate-500/50 bg-slate-500/5 text-slate-300',
+      badgeBg: 'bg-slate-400',
       tagline: 'A Divisão Regionalizada de Transição',
       desc: 'Particionada em 4 Conferências Regionais geográficas (Sudeste com 16, Nordeste com 16, Sul-MS com 14 e Norte-Centro com 14). Disputada em turno e returno intra-conferência com play-ins locais e Quartas de Acesso Nacionais.',
       details: [
@@ -77,7 +78,7 @@
       scope: '18 Ligas Regionais em 4 Macrorregiões',
       clubs: 144,
       matches: 1102,
-      rounds: '10 a 22 rodadas',
+      rounds: '10 a 18 rodadas',
       accentColor: 'border-emerald-500/50 bg-emerald-500/5 text-emerald-400',
       badgeBg: 'bg-emerald-400',
       tagline: 'A Grande Base Continental do País',
@@ -218,7 +219,7 @@
         edge,
         t: Math.random(),
         speed: 0.0012 + Math.random() * 0.0018,
-        color: idx % 3 === 0 ? 'rgba(56, 189, 248, 0.85)' : 'rgba(129, 140, 248, 0.85)'
+        color: idx % 3 === 0 ? 'rgba(52, 211, 153, 0.75)' : 'rgba(148, 163, 184, 0.75)'
       };
     });
 
@@ -253,7 +254,7 @@
         const p2 = hubMap.get(toName);
         if (!p1 || !p2) return;
 
-        ctx.strokeStyle = 'rgba(79, 70, 229, 0.09)';
+        ctx.strokeStyle = 'rgba(148, 163, 184, 0.08)';
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -288,13 +289,13 @@
 
         if (h.hub) {
           // Outer halo for main hubs
-          ctx.strokeStyle = 'rgba(99, 102, 241, 0.25)';
+          ctx.strokeStyle = 'rgba(16, 185, 129, 0.25)';
           ctx.lineWidth = 1;
           ctx.beginPath();
           ctx.arc(p.x, p.y, 5.5, 0, Math.PI * 2);
           ctx.stroke();
 
-          ctx.fillStyle = 'rgba(129, 140, 248, 0.8)';
+          ctx.fillStyle = 'rgba(52, 211, 153, 0.8)';
           ctx.beginPath();
           ctx.arc(p.x, p.y, 2.5, 0, Math.PI * 2);
           ctx.fill();
@@ -322,7 +323,7 @@
   });
 </script>
 
-<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-slate-950 font-sans">
+<div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-emerald-500 selection:text-slate-950 font-sans">
   <Navbar />
 
   <!-- ═══════════════════════════════════════════════════════════ -->
@@ -342,11 +343,11 @@
       
       <!-- Academic & Operational Header Badge -->
       <div class="flex flex-wrap items-center justify-center gap-2">
-        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-indigo-400 text-xs font-mono font-semibold tracking-wide shadow-sm">
-          <Compass class="w-3.5 h-3.5 text-indigo-400" />
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-300 text-xs font-mono font-semibold tracking-wide shadow-sm">
+          <Compass class="w-3.5 h-3.5 text-slate-400" />
           PESQUISA OPERACIONAL & CIÊNCIA DE REDES
         </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-400 text-xs font-mono">
+        <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-slate-400 text-xs font-mono">
           <GraduationCap class="w-3.5 h-3.5 text-slate-400" />
           FGV EMAp (2026)
         </span>
@@ -370,7 +371,7 @@
       <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 pt-2">
         <a
           href="/estudo-de-caso"
-          class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-lg shadow-indigo-900/30 transition-all flex items-center justify-center gap-2.5 group cursor-pointer"
+          class="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm shadow-lg shadow-emerald-950/40 transition-all flex items-center justify-center gap-2.5 group cursor-pointer"
         >
           <BarChart3 class="w-4 h-4 text-white" />
           Explorar Estudo de Caso & Rotas
@@ -381,7 +382,7 @@
           href="#piramide"
           class="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 font-bold text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
-          <Layers class="w-4 h-4 text-indigo-400" />
+          <Layers class="w-4 h-4 text-slate-400" />
           A Pirâmide Interativa
           <ChevronDown class="w-4 h-4 text-slate-400" />
         </a>
@@ -399,7 +400,7 @@
       <div class="bg-slate-900/80 border border-slate-800/90 rounded-2xl p-4 sm:p-5 shadow-2xl backdrop-blur-sm grid grid-cols-2 lg:grid-cols-4 gap-4 divide-y sm:divide-y-0 sm:divide-x divide-slate-800/80 text-center font-mono">
         <div class="pt-2 sm:pt-0">
           <span class="text-2xl sm:text-3xl font-black text-white block">244</span>
-          <span class="text-[11px] font-sans text-indigo-300 font-semibold uppercase tracking-wider block mt-0.5">Clubes na Pirâmide</span>
+          <span class="text-[11px] font-sans text-slate-400 font-semibold uppercase tracking-wider block mt-0.5">Clubes na Pirâmide</span>
           <span class="text-[10px] font-sans text-slate-400">A: 20 | B: 20 | C: 60 | D: 144</span>
         </div>
 
@@ -410,8 +411,8 @@
         </div>
 
         <div class="pt-3 sm:pt-0 sm:pl-4">
-          <span class="text-2xl sm:text-3xl font-black text-cyan-400 block">-56,3%</span>
-          <span class="text-[11px] font-sans text-cyan-300 font-semibold uppercase tracking-wider block mt-0.5">Custo Médio / Partida</span>
+          <span class="text-2xl sm:text-3xl font-black text-emerald-400 block">-56,3%</span>
+          <span class="text-[11px] font-sans text-slate-400 font-semibold uppercase tracking-wider block mt-0.5">Custo Médio / Partida</span>
           <span class="text-[10px] font-sans text-slate-400">R$ 105k &rarr; R$ 45,8k</span>
         </div>
 
@@ -426,7 +427,7 @@
   </section>
 
   <!-- MAIN EDITORIAL BODY -->
-  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+  <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-14 space-y-24">
 
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- ATO 2: O ABISMO DA DESCONTINUIDADE (THE CONFLICT)          -->
@@ -516,7 +517,7 @@
                 <span class="text-rose-400 font-bold">SET</span><span class="text-rose-400 font-bold">OUT</span><span class="text-rose-400 font-bold">NOV</span><span class="text-rose-400 font-bold">DEZ</span>
               </div>
               <div class="h-4 rounded-full bg-slate-950 border border-slate-800 overflow-hidden flex">
-                <div class="w-1/3 bg-indigo-500/70" title="Estaduais"></div>
+                <div class="w-1/3 bg-slate-700" title="Estaduais"></div>
                 <div class="w-1/4 bg-amber-500/70" title="Séries C e D Fases Iniciais"></div>
                 <div class="flex-1 bg-rose-950/80 border-l border-rose-500/30 flex items-center justify-center">
                   <span class="text-[9px] font-mono text-rose-400 uppercase font-bold tracking-wider">Vazio de Calendário</span>
@@ -529,7 +530,7 @@
           <div class="space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
               <div class="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-1.5">
-                <span class="text-[10px] font-mono text-indigo-400 uppercase block">Janeiro a Março/Abril</span>
+                <span class="text-[10px] font-mono text-slate-400 uppercase block">Janeiro a Março/Abril</span>
                 <span class="font-bold text-white text-sm block">Estaduais como Seletivas Meritocráticas</span>
                 <p class="text-slate-300 leading-relaxed">
                   As federações mantém seus campeonatos locais intactos, que classificam os clubes para as vagas invariantes da Série D por mérito técnico (PageRank Residual).
@@ -561,7 +562,7 @@
                 <span class="text-emerald-400 font-bold">SET</span><span class="text-emerald-400 font-bold">OUT</span><span class="text-emerald-400 font-bold">NOV</span><span>DEZ</span>
               </div>
               <div class="h-4 rounded-full bg-slate-950 border border-slate-800 overflow-hidden flex">
-                <div class="w-1/4 bg-indigo-500/70" title="Estaduais"></div>
+                <div class="w-1/4 bg-slate-700" title="Estaduais"></div>
                 <div class="w-2/3 bg-emerald-500/80" title="Séries C e D em Atividade Regular"></div>
                 <div class="flex-1 bg-slate-800/60" title="Férias e Pré-Temporada"></div>
               </div>
@@ -572,12 +573,15 @@
       </div>
     </section>
 
+    <!-- BUSCA & IMPACTO POR CLUBE (Hook do Martini Glass: Club Ego Search) -->
+    <ClubImpactSearch />
+    
     <!-- ═══════════════════════════════════════════════════════════ -->
     <!-- ATO 3: A NOVA PIRÂMIDE DOS 244 CLUBES (#piramide)         -->
     <!-- ═══════════════════════════════════════════════════════════ -->
     <section id="piramide" class="space-y-8 scroll-mt-20">
       <div class="max-w-3xl space-y-2">
-        <span class="text-xs font-mono uppercase tracking-wider text-indigo-400 font-bold flex items-center gap-1.5">
+        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
           <Trophy class="w-3.5 h-3.5" />
           A Estrutura Integral do Futebol Nacional
         </span>
@@ -635,7 +639,7 @@
             <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4 text-xs">
               <div class="flex items-center justify-between border-b border-slate-800 pb-3">
                 <span class="font-bold text-white text-sm flex items-center gap-2">
-                  <Shield class="w-4 h-4 text-indigo-400" />
+                  <Shield class="w-4 h-4 text-slate-400" />
                   {tier.tagline}
                 </span>
                 <span class="font-mono text-slate-400">{tier.name} — Especificação Canônica</span>
@@ -698,12 +702,12 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Salto 1: Volume & Empregabilidade -->
-        <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-indigo-500/40 transition-all space-y-4">
-          <div class="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold">
+        <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition-all space-y-4">
+          <div class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center font-bold">
             <Users class="w-5 h-5" />
           </div>
           <div>
-            <span class="text-[10px] font-mono uppercase tracking-wider text-indigo-400 font-bold block">1. Empregabilidade Desportiva</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold block">1. Empregabilidade Desportiva</span>
             <h3 class="text-lg font-bold text-white mt-0.5">+160% em Jogos Oficiais</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
@@ -711,7 +715,7 @@
           </p>
           <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-500">Clubes Ativos (C+D):</span>
-            <span class="text-indigo-300 font-bold">116 &rarr; 204 clubes</span>
+            <span class="text-emerald-400 font-bold">116 &rarr; 204 clubes</span>
           </div>
         </div>
 
@@ -734,23 +738,132 @@
         </div>
 
         <!-- Salto 3: Paradoxo Orçamentário Resolvido -->
-        <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-cyan-500/40 transition-all space-y-4">
-          <div class="w-10 h-10 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold">
+        <div class="p-6 rounded-3xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all space-y-4">
+          <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
             <DollarSign class="w-5 h-5" />
           </div>
           <div>
-            <span class="text-[10px] font-mono uppercase tracking-wider text-cyan-400 font-bold block">3. Equilíbrio Orçamentário CBF</span>
-            <h3 class="text-lg font-bold text-white mt-0.5">-56,3% no Custo Unitário</h3>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-emerald-400 font-bold block">3. Equilíbrio Orçamentário CBF</span>
+            <h3 class="text-lg font-bold text-white mt-0.5">-59,2% no Custo Unitário</h3>
           </div>
           <p class="text-xs text-slate-300 leading-relaxed">
-            O custo logístico médio despenca de <strong>R$ 105.036,00 para R$ 45.890,00 por partida</strong>. Com isso, a CBF necessita de um acréscimo líquido de apenas <strong>+13,66% no orçamento global</strong> (R$ 79,6M para R$ 90,5M) para viabilizar mais que o dobro de jogos no país.
+            O custo logístico médio despenca de <strong>R$ 105.036,00 para R$ 42.862,00 por partida</strong>. Com isso, a CBF necessita de um acréscimo líquido de apenas <strong>+5,46% no orçamento global</strong> (R$ 79,6M para R$ 83,97M) para viabilizar mais que o dobro de jogos no país (+158,4%).
           </p>
           <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono">
             <span class="text-slate-500">Economia em Turnês:</span>
-            <span class="text-cyan-300 font-bold">R$ 31,14M anuais</span>
+            <span class="text-emerald-400 font-bold">R$ 31,14M anuais</span>
           </div>
         </div>
 
+      </div>
+
+      <!-- COMPARATIVO ORÇAMENTÁRIO CBF: "COMO A CONTA FECHA" -->
+      <div class="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 sm:p-8 space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div>
+            <span class="text-xs font-mono uppercase tracking-wider text-emerald-400 font-bold block">
+              Auditoria de Viabilidade Financeira
+            </span>
+            <h3 class="text-lg sm:text-xl font-black text-white mt-0.5">
+              O Paradoxo Resolvido: +158% de Futebol com Apenas +5,5% de Custo
+            </h3>
+          </div>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950 border border-slate-800 text-[11px] font-mono text-slate-300">
+            <DollarSign class="w-3.5 h-3.5 text-emerald-400" />
+            Parâmetros Oficiais CBF 2026
+          </span>
+        </div>
+
+        <!-- Comparative Side-by-Side Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs font-mono">
+            <thead>
+              <tr class="border-b border-slate-800 text-slate-400 text-[11px]">
+                <th class="py-3 px-3 font-sans font-semibold">Dimensão Analisada</th>
+                <th class="py-3 px-3 text-slate-400 font-bold">Status Quo CBF (2026)</th>
+                <th class="py-3 px-3 text-emerald-400 font-bold">Nova Pirâmide Proposta</th>
+                <th class="py-3 px-3 text-right text-slate-400 font-bold">Variação Real</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 text-slate-200">
+              <tr class="hover:bg-slate-800/30 transition-colors">
+                <td class="py-3 px-3 font-sans font-medium text-white flex items-center gap-2">
+                  <Play class="w-3 h-3 text-slate-400 shrink-0" />
+                  Volume Total de Jogos (C + D)
+                </td>
+                <td class="py-3 px-3 text-slate-400">758 partidas</td>
+                <td class="py-3 px-3 font-bold text-white">1.959 partidas</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">+158,4% (+1.201 jogos)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition-colors">
+                <td class="py-3 px-3 font-sans font-medium text-white flex items-center gap-2">
+                  <Shield class="w-3 h-3 text-slate-400 shrink-0" />
+                  Clubes com Calendário Nacional Completo
+                </td>
+                <td class="py-3 px-3 text-slate-400">40 clubes (A e B)</td>
+                <td class="py-3 px-3 font-bold text-white">244 clubes (A, B, C e D)</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">+510% (+204 clubes)</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition-colors">
+                <td class="py-3 px-3 font-sans font-medium text-white flex items-center gap-2">
+                  <DollarSign class="w-3 h-3 text-slate-400 shrink-0" />
+                  Custo Logístico Médio por Partida
+                </td>
+                <td class="py-3 px-3 text-slate-400 font-medium">R$ 105.036,00</td>
+                <td class="py-3 px-3 text-emerald-400 font-bold">R$ 42.862,00</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">-59,19% de economia unitária</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition-colors">
+                <td class="py-3 px-3 font-sans font-medium text-white flex items-center gap-2">
+                  <Bus class="w-3 h-3 text-slate-400 shrink-0" />
+                  Predominância de Ônibus Leito vs. Aéreo
+                </td>
+                <td class="py-3 px-3 text-slate-400">18,6% rodoviário (81,4% aéreo)</td>
+                <td class="py-3 px-3 font-bold text-white">80,9% rodoviário (1.595 jogos)</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">4,3x mais transporte rodoviário</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30 transition-colors">
+                <td class="py-3 px-3 font-sans font-medium text-white flex items-center gap-2">
+                  <Route class="w-3 h-3 text-slate-400 shrink-0" />
+                  Economia Logística com Turnês TTP-k
+                </td>
+                <td class="py-3 px-3 text-slate-400">R$ 0,00 (modelo radial bate-volta)</td>
+                <td class="py-3 px-3 font-bold text-white">R$ 31,14 milhões / ano</td>
+                <td class="py-3 px-3 text-right font-bold text-emerald-400">Viagens encadeadas otimizadas</td>
+              </tr>
+              <tr class="bg-slate-950/60 border-t border-slate-700 font-bold text-white">
+                <td class="py-3 px-3 font-sans flex items-center gap-2">
+                  <Scale class="w-3 h-3 text-slate-400 shrink-0" />
+                  Orçamento Global de Deslocamento CBF
+                </td>
+                <td class="py-3 px-3 text-slate-400">R$ 79,62 milhões</td>
+                <td class="py-3 px-3 text-white">R$ 83,97 milhões</td>
+                <td class="py-3 px-3 text-right text-emerald-400 font-bold">+5,46% (+R$ 4,35M)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Explanatory Insight Callout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+            <span class="font-bold text-rose-400 flex items-center gap-1.5 font-sans">
+              <AlertTriangle class="w-3.5 h-3.5" /> O Gargalo Atual (R$ 105k / jogo)
+            </span>
+            <p class="text-slate-400 leading-relaxed">
+              No modelo vigente, 81,4% das viagens da Série C e D dependem de passagens aéreas comerciais adquiridas em janelas curtas, com conexões em grandes hubs (Brasília, Campinas, Guarulhos) e frete aéreo para 32 pessoas, encarecendo desproporcionalmente confrontos regionais.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-1.5">
+            <span class="font-bold text-emerald-400 flex items-center gap-1.5 font-sans">
+              <CheckCircle2 class="w-3.5 h-3.5" /> A Solução Matemática (R$ 42,9k / jogo)
+            </span>
+            <p class="text-slate-400 leading-relaxed">
+              A clusterização geográfica por medóides aproxima os adversários para o raio de ônibus leito (R$ 40/km). Nas viagens longas, o algoritmo TTP-k agrupa de 2 a 4 jogos fora seguidos, evitando idas e voltas semanais e poupando R$ 31,14M por temporada.
+            </p>
+          </div>
+        </div>
       </div>
 
       <!-- Direct Link to Detailed Case Study Table -->
@@ -759,7 +872,7 @@
           href="/estudo-de-caso"
           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 text-xs font-bold transition shadow-sm"
         >
-          <BarChart3 class="w-4 h-4 text-indigo-400" />
+          <BarChart3 class="w-4 h-4 text-slate-400" />
           Ver Tabela Mestre Completa & Análise Clube a Clube no Estudo de Caso
           <ArrowRight class="w-3.5 h-3.5 text-slate-400" />
         </a>
@@ -771,7 +884,7 @@
     <!-- ═══════════════════════════════════════════════════════════ -->
     <section class="space-y-8 pt-4">
       <div class="text-center max-w-3xl mx-auto space-y-2">
-        <span class="text-xs font-mono uppercase tracking-wider text-indigo-400 font-bold">
+        <span class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">
           Exploração da Pesquisa
         </span>
         <h2 class="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight">
@@ -785,28 +898,28 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
         
         <!-- Portal 1: Estudo de Caso -->
-        <div class="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-indigo-500/50 transition-all flex flex-col justify-between space-y-6 group">
+        <div class="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-6 group">
           <div class="space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center">
               <BarChart3 class="w-6 h-6" />
             </div>
             <div>
-              <span class="text-[10px] font-mono text-indigo-400 font-bold uppercase tracking-wider">Módulo de Auditoria</span>
-              <h3 class="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors">Estudo de Caso & Rotas</h3>
+              <span class="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">Módulo de Auditoria</span>
+              <h3 class="text-xl font-bold text-white group-hover:text-slate-200 transition-colors">Estudo de Caso & Rotas</h3>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
               Auditoria de rotas para clubes reais de todas as regiões (Trem-AP, Barra-SC, Ji-Paraná-RO, América-RN), explorador interativo com slider dos 16 grupos da Série D oficial e comparador com a Série C.
             </p>
             <ul class="text-[11px] text-slate-400 space-y-1 pt-1 font-mono">
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-indigo-400" /> Sliders oficiais dos Grupos A1 a A16</li>
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-indigo-400" /> Detalhamento de turnês TTP-2 a TTP-6</li>
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-indigo-400" /> Mapa interativo com traçado vetorial</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Sliders oficiais dos Grupos A1 a A16</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Detalhamento de turnês TTP-2 a TTP-6</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Mapa interativo com traçado vetorial</li>
             </ul>
           </div>
 
           <a
             href="/estudo-de-caso"
-            class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer"
+            class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold text-xs flex items-center justify-center gap-2 transition shadow-md cursor-pointer"
           >
             Acessar Estudo de Caso <ArrowRight class="w-3.5 h-3.5" />
           </a>
@@ -841,22 +954,22 @@
         </div>
 
         <!-- Portal 3: Simulador Quinquenal -->
-        <div class="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-cyan-500/50 transition-all flex flex-col justify-between space-y-6 group">
+        <div class="p-6 rounded-3xl bg-slate-900/70 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between space-y-6 group">
           <div class="space-y-3">
-            <div class="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center">
+            <div class="w-12 h-12 rounded-2xl bg-slate-800 border border-slate-700 text-slate-300 flex items-center justify-center">
               <LayoutDashboard class="w-6 h-6" />
             </div>
             <div>
-              <span class="text-[10px] font-mono text-cyan-400 font-bold uppercase tracking-wider">Módulo Interativo</span>
-              <h3 class="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">Simulador Quinquenal</h3>
+              <span class="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider">Módulo Interativo</span>
+              <h3 class="text-xl font-bold text-white group-hover:text-slate-200 transition-colors">Simulador Quinquenal</h3>
             </div>
             <p class="text-xs text-slate-300 leading-relaxed">
               O motor de simulação dinâmica rodando 5 temporadas consecutivas. Acompanhe a tabela e custos rodada a rodada, play-ins, playoffs e a re-clusterização geográfica bianual de conferências.
             </p>
             <ul class="text-[11px] text-slate-400 space-y-1 pt-1 font-mono">
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-cyan-400" /> Player interativo rodada a rodada</li>
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-cyan-400" /> Rastreamento logístico em tempo real</li>
-              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-cyan-400" /> Algoritmo Húngaro de designação ótima</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Player interativo rodada a rodada</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Rastreamento logístico em tempo real</li>
+              <li class="flex items-center gap-1.5"><Check class="w-3.5 h-3.5 text-emerald-400" /> Algoritmo Húngaro de designação ótima</li>
             </ul>
           </div>
 
@@ -889,7 +1002,7 @@
           rel="noreferrer"
           class="hover:text-white transition flex items-center gap-1.5"
         >
-          <GitBranch class="w-3.5 h-3.5 text-indigo-400" /> Repositório GitHub
+          <GitBranch class="w-3.5 h-3.5 text-slate-400" /> Repositório GitHub
         </a>
         <span class="text-slate-800">•</span>
         <span>Licença MIT</span>

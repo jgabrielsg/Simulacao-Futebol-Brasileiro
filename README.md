@@ -32,7 +32,7 @@ O projeto formula e resolve um modelo matemático rigoroso que viabiliza **244 a
 * **Série A (20 clubes):** Turno e returno de âmbito nacional (38 rodadas, 380 partidas).
 * **Série B (20 clubes):** Turno e returno de âmbito nacional (38 rodadas, 380 partidas).
 * **Série C (60 clubes):** 4 Conferências Regionais (Sul-MS: 14 clubes, Sudeste: 16, Nordeste: 16, Norte-Centro: 14) com 26 a 30 rodadas regulares.
-* **Série D (144 clubes):** 18 Ligas Regionais em 4 Macrorregiões (Sul-MS: 32 clubes em 4 ligas; Sudeste: 36 em 4 ligas; Nordeste: 36 em 4 ligas; Norte-Centro: 40 em 6 ligas) com 10 a 22 partidas.
+* **Série D (144 clubes):** 18 Ligas Regionais em 4 Macrorregiões (Sul-MS: 32 clubes em 4 ligas; Sudeste: 36 em 4 ligas; Nordeste: 36 em 4 ligas; Norte-Centro: 40 em 6 ligas) com 10 a 18 partidas.
 
 **Resultado Consolidado (Séries C e D):** Expansão de **+160% no volume de partidas oficiais** (de 758 para 1.959 jogos) e ampliação de 116 para **204 clubes com calendário de abril a novembro**, mantendo o equilíbrio orçamentário da CBF e reduzindo em **-56,3% o custo logístico médio por partida**.
 

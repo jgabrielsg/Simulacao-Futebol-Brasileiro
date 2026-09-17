@@ -379,6 +379,22 @@
 <div class="min-h-screen bg-slate-950 text-slate-100 flex flex-col selection:bg-indigo-500 selection:text-slate-950 font-sans">
   <Navbar />
 
+  <!-- MOBILE TOC HORIZONTAL SCROLLER (Sticky under Navbar on mobile/tablet) -->
+  <div class="lg:hidden sticky top-16 z-30 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 px-3 py-2 overflow-x-auto scrollbar-none flex items-center gap-1.5 shadow-md">
+    {#each tocItems as item}
+      <button
+        on:click={() => scrollToSection(item.id)}
+        class={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap shrink-0 transition-all cursor-pointer ${
+          activeSection === item.id
+            ? 'bg-indigo-600 text-white shadow-sm ring-1 ring-indigo-400'
+            : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+        }`}
+      >
+        {item.label}
+      </button>
+    {/each}
+  </div>
+
   <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="flex flex-col lg:flex-row gap-10 items-start relative">
 
@@ -496,7 +512,7 @@
               <p class="text-slate-200 leading-relaxed">
                 Desenhar e validar matematicamente um novo sistema desportivo que:
                 <strong>(1)</strong> Eleve o contingente em atividade plena para <strong>244 agremiações regulares</strong>;
-                <strong>(2)</strong> Garanta um calendário perene de abril a novembro com <strong>26 a 34 partidas para a Série C</strong> e de <strong>10 a 22 partidas para a Série D</strong>; e
+                <strong>(2)</strong> Garanta um calendário perene de abril a novembro com <strong>26 a 34 partidas para a Série C</strong> e de <strong>10 a 18 partidas para a Série D</strong>; e
                 <strong>(3)</strong> Mantenha o orçamento global de logística subsidiado pela CBF em equilíbrio fiscal estrito (variação líquida de apenas +5,5% em relação ao gasto real atual, mesmo saltando de 758 para 1.959 partidas oficiais no somatório das duas divisões).
               </p>
             </div>
@@ -595,12 +611,12 @@
                 <li><strong>Direção do Fluxo de Prestígio:</strong> O prestígio não flui aleatoriamente; ele é direcionado <strong>do derrotado para o vencedor</strong> ((u 	o v) se (v) venceu (u)). Em caso de empate, o fluxo é simétrico e dividido igualmente. Quem vence drena autoridade desportiva do adversário.</li>
                 <li><strong>Ponderação por Hierarquia de Competição ((w)):</strong> O volume de prestígio em disputa é calibrado pela relevância do torneio:
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-[11px]">
-                    <span class="p-2 rounded bg-slate-950 border border-slate-800 text-amber-300">Série A / Copa do Brasil: w = 20</span>
+                    <span class="p-2 rounded bg-slate-950 border border-slate-800 text-amber-300">Série A / C. do Brasil: w = 20</span>
                     <span class="p-2 rounded bg-slate-950 border border-slate-800 text-blue-300">Série B: w = 10</span>
                     <span class="p-2 rounded bg-slate-950 border border-slate-800 text-indigo-300">Série C: w = 5</span>
                     <span class="p-2 rounded bg-slate-950 border border-slate-800 text-emerald-300">Série D: w = 3</span>
                   </div>
-                  <span class="block text-slate-500 pt-1">Estaduais 1ª Divisão: w = 2 a 3 | Divisões de Acesso Estaduais: w = 1</span>
+                  <span class="block text-slate-500 pt-1">Estaduais 1ª Divisão: w = 3 | 2ª Divisão: w = 2 | 3ª ou menos: w = 1</span>
                 </li>
                 <li><strong>Amortecimento Temporal (Half-life):</strong> Aplica-se um decaimento exponencial sobre o histórico de partidas para que campanhas recentes possuam peso substantivamente superior a vitórias de anos pretéritos.</li>
               </ul>
@@ -902,7 +918,7 @@
               <div class="p-3 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
                 <span class="font-bold text-white block">Restrição Canônica No-Repeat:</span>
                 <p class="text-slate-400">Nenhum par de clubes pode se enfrentar em rodadas consecutivas:</p>
-                <div class="text-center text-cyan-300 py-1 font-mono">
+                <div class="text-center text-cyan-300 py-1 font-mono overflow-x-auto">
                   {@html renderMath(fNoRepeat)}
                 </div>
               </div>
@@ -1135,10 +1151,10 @@
                   <table class="w-full text-left text-xs border-collapse">
                     <thead class="sticky top-0 bg-slate-950 border-b border-slate-800 z-10">
                       <tr class="text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
-                        <th class="py-3 px-3 cursor-pointer hover:text-white w-14" on:click={() => handleClubSort('rank')}>
+                        <th class="py-3 px-3 cursor-pointer hover:text-white w-12 sticky left-0 z-20 bg-slate-950" on:click={() => handleClubSort('rank')}>
                           # <ArrowUpDown class="w-3 h-3 inline ml-0.5 opacity-60" />
                         </th>
-                        <th class="py-3 px-3 cursor-pointer hover:text-white" on:click={() => handleClubSort('clube')}>
+                        <th class="py-3 px-3 cursor-pointer hover:text-white sticky left-12 z-20 bg-slate-950 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px]" on:click={() => handleClubSort('clube')}>
                           Clube (Identificador) <ArrowUpDown class="w-3 h-3 inline ml-0.5 opacity-60" />
                         </th>
                         <th class="py-3 px-3 cursor-pointer hover:text-white w-14" on:click={() => handleClubSort('uf')}>
@@ -1162,8 +1178,8 @@
                       {#each displayedClubes as c}
                         {@const shareFiltro = getShareFiltrado(c)}
                         <tr class="hover:bg-slate-800/40 transition font-mono">
-                          <td class="py-2 px-3 text-slate-500 font-bold">{c.rank}</td>
-                          <td class="py-2 px-3 font-sans font-semibold text-white">
+                          <td class="py-2 px-3 text-slate-500 font-bold sticky left-0 z-10 bg-slate-950/95">{c.rank}</td>
+                          <td class="py-2 px-3 font-sans font-semibold text-white sticky left-12 z-10 bg-slate-950/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px] truncate">
                             {c.clube} <span class="text-slate-500 text-xs font-mono font-normal">({c.uf})</span>
                           </td>
                           <td class="py-2 px-3 font-bold text-indigo-400">{c.uf}</td>
@@ -1219,10 +1235,10 @@
                   <table class="w-full text-left text-xs border-collapse">
                     <thead class="sticky top-0 bg-slate-950 border-b border-slate-800 z-10">
                       <tr class="text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
-                        <th class="py-3 px-3 cursor-pointer hover:text-white" on:click={() => handleEstadoSort('uf')}>
+                        <th class="py-3 px-3 cursor-pointer hover:text-white sticky left-0 z-20 bg-slate-950 w-12" on:click={() => handleEstadoSort('uf')}>
                           UF <ArrowUpDown class="w-3 h-3 inline ml-0.5 opacity-60" />
                         </th>
-                        <th class="py-3 px-3 cursor-pointer hover:text-white" on:click={() => handleEstadoSort('nome')}>
+                        <th class="py-3 px-3 cursor-pointer hover:text-white sticky left-12 z-20 bg-slate-950 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[130px]" on:click={() => handleEstadoSort('nome')}>
                           Estado <ArrowUpDown class="w-3 h-3 inline ml-0.5 opacity-60" />
                         </th>
                         <th class="py-3 px-3 cursor-pointer hover:text-white" on:click={() => handleEstadoSort('macro_regiao')}>
@@ -1254,8 +1270,8 @@
                         {@const isMaiorQueMerecido = deltaResidual >= 0}
                         {@const clubesABC = (e.clubes_serie_a || 0) + (e.clubes_serie_b || 0) + (e.clubes_serie_c || 0)}
                         <tr class="hover:bg-slate-800/40 transition font-mono">
-                          <td class="py-2.5 px-3 font-bold text-white">{e.uf}</td>
-                          <td class="py-2.5 px-3 font-sans font-medium text-white">{e.nome}</td>
+                          <td class="py-2.5 px-3 font-bold text-white sticky left-0 z-10 bg-slate-900/95">{e.uf}</td>
+                          <td class="py-2.5 px-3 font-sans font-medium text-white sticky left-12 z-10 bg-slate-900/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[130px] truncate">{e.nome}</td>
                           <td class="py-2.5 px-3 font-sans text-slate-400 text-[11px]">{e.macro_regiao}</td>
                           <td class="py-2.5 px-3 text-right text-slate-400">{e.populacao_ibge.toLocaleString('pt-BR')}</td>
 

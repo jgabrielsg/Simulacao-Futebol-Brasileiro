@@ -90,6 +90,12 @@ export const showWizardModal = writable(false);
 // 5-Year Quinquennium Summary Modal
 export const showQuinquenniumSummaryModal = writable(false);
 
+// Social Share Card Modal for Focused Club
+export const showSocialShareModal = writable(false);
+export function openSocialShareModal() {
+  showSocialShareModal.set(true);
+}
+
 /**
  * Initializes global stores: teams_db.json & seasons_index.json, then loads season 1
  */

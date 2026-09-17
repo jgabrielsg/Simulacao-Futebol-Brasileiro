@@ -61,8 +61,24 @@
   let mapsLoading = false;
   let propTourLayers = []; // references to Leaflet tour layers
 
-  // Distinct palette for up to 6 tours
-  const TOUR_COLORS = ['#10b981', '#06b6d4', '#3b82f6', '#a855f7', '#f59e0b', '#ec4899'];
+  // Consistent emerald shades for up to 6 tours
+  const TOUR_COLORS = ['#10b981', '#34d399', '#059669', '#6ee7b7', '#047857', '#a7f3d0'];
+
+  let isCaseMapsInteractive = false;
+  function toggleCaseMapsTouch() {
+    isCaseMapsInteractive = !isCaseMapsInteractive;
+    [mapCBF, mapProposto].forEach(m => {
+      if (m) {
+        if (isCaseMapsInteractive) {
+          m.dragging.enable();
+          if (m.touchZoom) m.touchZoom.enable();
+        } else {
+          m.dragging.disable();
+          if (m.touchZoom) m.touchZoom.disable();
+        }
+      }
+    });
+  }
 
   onMount(async () => {
     try {
@@ -234,6 +250,12 @@
       if (boundsCBF.isValid()) {
         mapCBF.fitBounds(boundsCBF, { padding: [25, 25], maxZoom: 7 });
       }
+
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      if (isMobile && !isCaseMapsInteractive) {
+        mapCBF.dragging.disable();
+        if (mapCBF.touchZoom) mapCBF.touchZoom.disable();
+      }
     }
 
     // ==========================================
@@ -252,6 +274,12 @@
         subdomains: 'abcd'
       }).addTo(mapProposto);
 
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      if (isMobile && !isCaseMapsInteractive) {
+        mapProposto.dragging.disable();
+        if (mapProposto.touchZoom) mapProposto.touchZoom.disable();
+      }
+
       const boundsProp = L.latLngBounds();
 
       // Draw each Tour as an interconnected circuit
@@ -267,7 +295,7 @@
             color: color,
             weight: isHighlight ? 4 : 1.5,
             opacity: isHighlight ? 0.95 : 0.25,
-            dashArray: tour.partidas.some(p => p.modal === 'aereo') ? '6, 4' : null
+            dashArray: tour.partidas.some(p => getTourMatchModal(p, tour) === 'aereo') ? '6, 4' : null
           });
 
           polyline.bindTooltip(
@@ -287,6 +315,7 @@
           // Add markers along the tour stops
           tour.partidas.forEach((match, mIdx) => {
             const mPt = match.coords;
+            const matchModal = getTourMatchModal(match, tour);
             const markerIcon = L.divIcon({
               html: `<div style="background-color: ${color}; opacity: ${isHighlight ? 1 : 0.35}" class="px-1.5 py-0.5 rounded-full border border-white shadow flex items-center justify-center text-[9px] font-black text-slate-950 font-mono">R${match.rodada}</div>`,
               className: 'custom-tour-marker',
@@ -298,7 +327,7 @@
               .bindPopup(
                 `<b>${match.adversario_nome} (${match.uf})</b><br/>` +
                 `<span class="text-xs text-emerald-400 font-bold">Rodada ${match.rodada} • ${tour.titulo}</span><br/>` +
-                `Cidade: ${match.cidade} • Modal: ${match.modal}<br/>` +
+                `Cidade: ${match.cidade} • Modal: ${matchModal}<br/>` +
                 `Trecho da Turnê: ${formatKm(match.km_trecho)}`
               )
               .addTo(mapProposto);
@@ -419,6 +448,21 @@
     if (km === null || km === undefined || isNaN(km)) return '0 km';
     return new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 0 }).format(km) + ' km';
   }
+
+  // Fair Travel Model based on Season 1:
+  // Evaluates modal by the actual leg distance between stadiums in tour, not direct distance to home
+  function getTourMatchModal(p, tour) {
+    if (!p) return 'onibus';
+    // Urban / Local match in metropolitan area
+    if (p.km_trecho < 40 || p.modal === 'local') return 'local';
+    // Single-match expedition directly from home under 180 km
+    if (tour && tour.total_jogos === 1 && p.km_trecho <= 180) return 'bate_volta';
+    // Geographic constraint without road access
+    if (p.adversario_id && p.adversario_id.includes('AMAPA')) return 'aereo';
+    // Tour leg between stadiums: Season 1 uses highway bus up to 650 km
+    if (p.km_trecho <= 650) return 'onibus';
+    return 'aereo';
+  }
 </script>
 
 <svelte:head>
@@ -441,7 +485,7 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
           <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-            Estudo de Caso: <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">CBF 2026 vs. Modelo Proposto</span>
+            Estudo de Caso: CBF 2026 vs. <span class="text-emerald-400">Modelo Proposto</span>
           </h1>
           <p class="mt-2 text-slate-400 max-w-4xl text-base sm:text-lg leading-relaxed">
             Avaliação orçamentária rigorosa, escalonamento logístico e garantia de sustentabilidade desportiva para as divisões de acesso do futebol profissional brasileiro.
@@ -455,7 +499,7 @@
             <strong>204</strong> Clubes Ativos
           </span>
           <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-medium flex items-center gap-1.5 shadow-sm">
-            <Activity class="w-3.5 h-3.5 text-cyan-400" />
+            <Activity class="w-3.5 h-3.5 text-slate-400" />
             <strong>1.959</strong> Partidas Oficiais
           </span>
           <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 font-medium flex items-center gap-1.5 shadow-sm">
@@ -492,7 +536,7 @@
           <div>
             <h2 class="text-xl font-bold text-white flex items-center gap-2">
               A Premissa Institucional: Subsídio Logístico 100% CBF
-              <span class="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">Pilar Regulatório</span>
+              <span class="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 border border-slate-700">Pilar Regulatório</span>
             </h2>
             <p class="text-sm text-slate-300 mt-1 leading-relaxed">
               No futebol profissional brasileiro, os clubes participantes das <strong>Séries C e D não possuem faturamento</strong> suficiente com direitos de transmissão televisiva ou bilheteria para arcar com fretes aéreos e hotelaria em viagens interestaduais. Por regulamento oficial, a <strong>Confederação Brasileira de Futebol (CBF) banca 100% dos custos de transporte e hospedagem</strong> para delegações padronizadas de <strong>32 integrantes</strong>.
@@ -512,7 +556,7 @@
           </div>
 
           <div class="space-y-2">
-            <h4 class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
               <Building2 class="w-4 h-4" />
               Preservação das Arenas e Estádios
             </h4>
@@ -557,111 +601,111 @@
             </p>
           </div>
           <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-xs text-slate-300">
-            <BarChart3 class="w-4 h-4 text-indigo-400" />
+            <BarChart3 class="w-4 h-4 text-slate-400" />
             <span>Otimização MILP / CP-SAT + TTP-k</span>
           </div>
         </div>
 
-        <!-- 6 KPI CARDS -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- 6 KPI CARDS (2-column on mobile, 3-column on desktop) -->
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-5">
           <!-- Card 1: Clubes -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Clubes com Calendário Nacional</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Clubes c/ Calendário</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 text-[10px] sm:text-xs shrink-0">
                 +{baselineData.comparativo_macro.variacoes_impacto.clubes_diff_pct}%
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-white">{baselineData.comparativo_macro.modelo_proposto_t1.total_clubes}</span>
-              <span class="text-xs text-slate-500 line-through">CBF: {baselineData.comparativo_macro.cbf_status_quo.total_clubes}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-xl sm:text-3xl font-extrabold text-white">{baselineData.comparativo_macro.modelo_proposto_t1.total_clubes}</span>
+              <span class="text-[10px] sm:text-xs text-slate-500 line-through">CBF: {baselineData.comparativo_macro.cbf_status_quo.total_clubes}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Expansão de <strong>+88 agremiações</strong> profissionais ativas, eliminando o isolamento desportivo de dezenas de municípios.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Expansão de <strong>+88 agremiações</strong> ativas em todo o país.
             </p>
           </div>
 
           <!-- Card 2: Partidas -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Partidas Oficiais Realizadas</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Partidas Oficiais</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 text-[10px] sm:text-xs shrink-0">
                 +{baselineData.comparativo_macro.variacoes_impacto.jogos_diff_pct}%
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-white">{baselineData.comparativo_macro.modelo_proposto_t1.total_jogos.toLocaleString('pt-BR')}</span>
-              <span class="text-xs text-slate-500 line-through">CBF: {baselineData.comparativo_macro.cbf_status_quo.total_jogos.toLocaleString('pt-BR')}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-xl sm:text-3xl font-extrabold text-white">{baselineData.comparativo_macro.modelo_proposto_t1.total_jogos.toLocaleString('pt-BR')}</span>
+              <span class="text-[10px] sm:text-xs text-slate-500 line-through">CBF: {baselineData.comparativo_macro.cbf_status_quo.total_jogos.toLocaleString('pt-BR')}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Salto de <strong>+1.201 jogos no ano</strong> (~2,6x mais atividade), alimentando o ecossistema comercial e os direitos locais.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Salto de <strong>+1.201 jogos</strong> (~2,6x mais atividade regular).
             </p>
           </div>
 
           <!-- Card 3: Orçamento Global CBF -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Orçamento Logístico Anual CBF</span>
-              <span class="px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20">
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Orçamento Logístico CBF</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20 text-[10px] sm:text-xs shrink-0">
                 +{baselineData.comparativo_macro.variacoes_impacto.custo_total_diff_pct}%
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-white">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.custo_total_brl)}</span>
-              <span class="text-xs text-slate-500 line-through">{formatCurrency(baselineData.comparativo_macro.cbf_status_quo.custo_total_brl)}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-lg sm:text-3xl font-extrabold text-white truncate">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.custo_total_brl)}</span>
+              <span class="text-[10px] sm:text-xs text-slate-500 line-through truncate">{formatCurrency(baselineData.comparativo_macro.cbf_status_quo.custo_total_brl)}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Variação controlada de apenas <strong>+R$ 4,35 milhões</strong> para viabilizar um torneio com 2,6 vezes mais confrontos.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Variação de apenas <strong>+R$ 4,35 mi</strong> (+5,5%) para 2,6x mais jogos.
             </p>
           </div>
 
           <!-- Card 4: Custo Médio Unitário / Jogo -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Custo Médio Unitário / Jogo</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Custo Médio / Jogo</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 text-[10px] sm:text-xs shrink-0">
                 {baselineData.comparativo_macro.variacoes_impacto.custo_medio_jogo_diff_pct}%
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-emerald-400">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.custo_medio_jogo_brl)}</span>
-              <span class="text-xs text-slate-500 line-through">{formatCurrency(baselineData.comparativo_macro.cbf_status_quo.custo_medio_jogo_brl)}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-xl sm:text-3xl font-extrabold text-emerald-400 truncate">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.custo_medio_jogo_brl)}</span>
+              <span class="text-[10px] sm:text-xs text-slate-500 line-through truncate">{formatCurrency(baselineData.comparativo_macro.cbf_status_quo.custo_medio_jogo_brl)}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Redução unitária de <strong>R$ 62.174 por partida</strong> devido à regionalização e eliminação de conexões aéreas ociosas.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Redução de <strong>R$ 62.174 por jogo</strong> via regionalização e TTP.
             </p>
           </div>
 
           <!-- Card 5: Distância Média por Confronto -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Distância Média por Confronto</span>
-              <span class="px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Km Média / Jogo</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 text-[10px] sm:text-xs shrink-0">
                 {baselineData.comparativo_macro.variacoes_impacto.distancia_media_jogo_diff_pct}%
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-emerald-400">{formatKm(baselineData.comparativo_macro.modelo_proposto_t1.distancia_media_jogo_km)}</span>
-              <span class="text-xs text-slate-500 line-through">{formatKm(baselineData.comparativo_macro.cbf_status_quo.distancia_media_jogo_km)}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-xl sm:text-3xl font-extrabold text-emerald-400">{formatKm(baselineData.comparativo_macro.modelo_proposto_t1.distancia_media_jogo_km)}</span>
+              <span class="text-[10px] sm:text-xs text-slate-500 line-through">{formatKm(baselineData.comparativo_macro.cbf_status_quo.distancia_media_jogo_km)}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Desgaste físico mitigado em <strong>-808 km por viagem</strong>, aumentando a integridade física de atletas e reduzindo emissões.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Desgaste reduzido em <strong>-808 km por viagem</strong>.
             </p>
           </div>
 
           <!-- Card 6: Economia de Turnês TTP -->
-          <div class="p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-3">
-            <div class="flex items-center justify-between text-xs text-slate-400 font-medium">
-              <span>Economia Gerada por Turnês TTP</span>
-              <span class="px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 font-bold border border-cyan-500/20">
-                Travelling Tournament
+          <div class="p-3.5 sm:p-5 rounded-2xl bg-slate-900/90 border border-slate-800/90 hover:border-slate-700 transition space-y-2 sm:space-y-3 min-w-0 overflow-hidden">
+            <div class="flex items-center justify-between text-[11px] sm:text-xs text-slate-400 font-medium">
+              <span class="truncate">Economia Turnês TTP</span>
+              <span class="px-1.5 py-0.5 sm:px-2 rounded-full bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20 text-[10px] sm:text-xs shrink-0">
+                TTP Solver
               </span>
             </div>
-            <div class="flex items-baseline gap-3">
-              <span class="text-3xl font-extrabold text-cyan-400">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.economia_turnes_ttp_brl)}</span>
+            <div class="flex items-baseline gap-2 sm:gap-3 flex-wrap">
+              <span class="text-lg sm:text-3xl font-extrabold text-emerald-400 truncate">{formatCurrency(baselineData.comparativo_macro.modelo_proposto_t1.economia_turnes_ttp_brl)}</span>
             </div>
-            <p class="text-xs text-slate-400 border-t border-slate-800/80 pt-2 leading-relaxed">
-              Economia direta auferida encadeando 2 ou mais jogos fora consecutivos (TTP-2 até TTP-6), eliminando viagens de retorno intermediárias à sede.
+            <p class="text-[10px] sm:text-xs text-slate-400 border-t border-slate-800/80 pt-1.5 sm:pt-2 leading-relaxed line-clamp-2 sm:line-clamp-none">
+              Economia ao encadear jogos fora em turnê sequencial.
             </p>
           </div>
         </div>
@@ -746,7 +790,7 @@
               <!-- Card Comparativo Série D -->
               <div class="p-6 rounded-xl bg-slate-950 border border-slate-800 space-y-4">
                 <div class="flex items-center justify-between">
-                  <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Base da Pirâmide Profissional</span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Base da Pirâmide Profissional</span>
                   <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold font-mono">Economia Direta de R$ 11,66M</span>
                 </div>
                 <h3 class="text-xl font-bold text-white">Nova Série D: A Alavanca de Eficiência</h3>
@@ -821,8 +865,8 @@
                   </div>
                   <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
                     <span class="text-slate-500 block text-[11px]">Calendário Ativo Médio</span>
-                    <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">3,8 → 7,8 meses</span>
-                    <span class="text-[10px] text-cyan-400 font-semibold">+105% perenidade</span>
+                    <span class="text-base font-bold text-white font-mono mt-0.5 block">3,8 → 7,8 meses</span>
+                    <span class="text-[10px] text-emerald-400 font-semibold">+105% perenidade</span>
                   </div>
                 </div>
               </div>
@@ -877,7 +921,7 @@
                 </div>
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
                   <span class="text-slate-400 block text-[11px]">Divisão Modal CBF</span>
-                  <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">71,5% Aéreo</span>
+                  <span class="text-base font-bold text-slate-300 font-mono mt-0.5 block">71,5% Aéreo</span>
                   <span class="text-[10px] text-slate-500">28,5% rodoviário</span>
                 </div>
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
@@ -920,7 +964,7 @@
                 <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2.5">
-                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">1</span>
+                      <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">1</span>
                       <span class="text-sm font-bold text-white">Primeira Fase: Grupo Único Continental</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono">20 clubes • 19 rodadas • 190 partidas</span>
@@ -947,8 +991,8 @@
                         12 das 20 agremiações (60%) encerram as atividades em agosto com apenas 19 partidas, enfrentando 8 meses ininterruptos sem futebol oficial ou receitas de bilheteria.
                       </p>
                     </div>
-                    <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 space-y-1">
-                      <div class="flex items-center gap-1.5 text-xs font-bold text-cyan-300">
+                    <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20 space-y-1">
+                      <div class="flex items-center gap-1.5 text-xs font-bold text-amber-300">
                         <AlertCircle class="w-3.5 h-3.5" /> Custo Unitário Elevado
                       </div>
                       <p class="text-[11px] text-slate-300 leading-relaxed">
@@ -962,7 +1006,7 @@
                 <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2.5">
-                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">2</span>
+                      <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">2</span>
                       <span class="text-sm font-bold text-white">Segunda Fase: Quadrangulares do Acesso</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono">8 clubes • 2 grupos de 4 • 6 rodadas • 24 partidas</span>
@@ -980,7 +1024,7 @@
                 <div class="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2.5">
-                      <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-xs">3</span>
+                      <span class="w-6 h-6 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">3</span>
                       <span class="text-sm font-bold text-white">Terceira Fase: Grande Final Nacional</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono">2 clubes • Ida e volta (180 min) • 2 partidas</span>
@@ -1033,8 +1077,8 @@
                     <table class="w-full text-left text-xs border-collapse">
                       <thead class="sticky top-0 z-10">
                         <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900">
-                          <th class="py-2.5 px-4 w-12 text-center">#</th>
-                          <th class="py-2.5 px-4">Clube</th>
+                          <th class="py-2.5 px-3 w-12 text-center sticky left-0 z-20 bg-slate-900">#</th>
+                          <th class="py-2.5 px-3 sticky left-12 z-20 bg-slate-900 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px]">Clube</th>
                           <th class="py-2.5 px-4">UF / Cidade</th>
                           <th class="py-2.5 px-4 text-center">Mandos (Casa / Fora)</th>
                           <th class="py-2.5 px-4">Km Total Fora</th>
@@ -1044,22 +1088,20 @@
                       <tbody class="divide-y divide-slate-800/60 text-slate-300">
                         {#each clubesSerieCCbf as clube, idx}
                           <tr class="hover:bg-slate-900/40 transition">
-                            <td class="py-2.5 px-4 text-center font-mono text-slate-400">{idx + 1}</td>
-                            <td class="py-2.5 px-4 font-bold text-white">{clube.nome}</td>
+                            <td class="py-2.5 px-3 text-center font-mono text-slate-400 sticky left-0 z-10 bg-slate-950/95">{idx + 1}</td>
+                            <td class="py-2.5 px-3 font-bold text-white sticky left-12 z-10 bg-slate-950/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px] truncate">{clube.nome}</td>
                             <td class="py-2.5 px-4 text-slate-300">
                               <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
                               {clube.cidade}
                             </td>
-                            <td class="py-2.5 px-4 text-center font-mono">
-                              <span class="px-2 py-0.5 rounded font-bold {clube.mandos_casa === 10 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}">
-                                {clube.mandos_casa} Casa / {clube.mandos_fora} Fora
-                              </span>
+                            <td class="py-2.5 px-4 text-center font-mono text-slate-300 text-[11px]">
+                              {clube.mandos_casa}C / {clube.mandos_fora}F
                             </td>
                             <td class="py-2.5 px-4 font-mono text-slate-200">
                               {formatKm(clube.km_total)}
                             </td>
                             <td class="py-2.5 px-4">
-                              <span class="px-2 py-0.5 rounded text-[10px] font-medium {clube.modal.includes('Rodoviário') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}">
+                              <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">
                                 {clube.modal}
                               </span>
                             </td>
@@ -1193,7 +1235,7 @@
                         <th class="py-3 px-4 w-1/5">Dimensão</th>
                         <th class="py-3 px-4 w-1/4 text-rose-300">CBF Oficial 2026 (REC)</th>
                         <th class="py-3 px-4 w-1/4 text-emerald-400">Modelo Proposto</th>
-                        <th class="py-3 px-4 w-[30%] text-cyan-300">Impacto Estrutural</th>
+                        <th class="py-3 px-4 w-[30%] text-slate-400">Impacto Estrutural</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-800/60 text-slate-300">
@@ -1222,8 +1264,8 @@
             <!-- 1. Header & Contexto Regulamentar -->
             <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-4">
               <div class="flex flex-wrap items-center justify-between gap-2">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-                  <Shield class="w-3.5 h-3.5" />
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700">
+                  <Shield class="w-3.5 h-3.5 text-slate-400" />
                   Base da Pirâmide Nacional • Novo Formato Oficial de 96 Clubes CBF 2026
                 </div>
                 <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 font-bold font-mono">
@@ -1245,7 +1287,7 @@
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
                   <span class="text-slate-400 block text-[11px]">Clubes Participantes</span>
                   <span class="text-base font-bold text-white font-mono mt-0.5 block">96 clubes</span>
-                  <span class="text-[10px] text-slate-500">10 a 22 jogos/clube</span>
+                  <span class="text-[10px] text-slate-500">10 a 18 jogos/clube</span>
                 </div>
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
                   <span class="text-slate-400 block text-[11px]">Total de Partidas</span>
@@ -1264,7 +1306,7 @@
                 </div>
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
                   <span class="text-slate-400 block text-[11px]">Modal Aéreo CBF</span>
-                  <span class="text-base font-bold text-cyan-400 font-mono mt-0.5 block">53,8% Aéreo</span>
+                  <span class="text-base font-bold text-slate-300 font-mono mt-0.5 block">53,8% Aéreo</span>
                   <span class="text-[10px] text-slate-500">46,2% rodoviário</span>
                 </div>
                 <div class="p-3 rounded-lg bg-slate-900/60 border border-slate-800/60">
@@ -1277,7 +1319,7 @@
               <!-- 4 Critérios de Entrada -->
               <div class="space-y-2 pt-2">
                 <span class="font-bold text-slate-300 uppercase tracking-wider text-[11px] flex items-center gap-1.5">
-                  <CheckCircle2 class="w-3.5 h-3.5 text-cyan-400" /> Os 4 Critérios Oficiais de Entrada da Série D (CBF 2026):
+                  <CheckCircle2 class="w-3.5 h-3.5 text-emerald-400" /> Os 4 Critérios Oficiais de Entrada da Série D (CBF 2026):
                 </span>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2.5 text-xs">
                   <div class="p-2.5 rounded-lg bg-slate-900/60 border border-slate-800/60">
@@ -1300,13 +1342,13 @@
               </div>
             </div>
 
-            <!-- 2. Linha do Tempo das Fases & O Ponto Crítico de Inflexão Logística -->
+            <!-- 2. Linha do Tempo das Fases & Transição para o Mata-mata Nacional -->
             <div class="p-6 rounded-2xl bg-slate-950 border border-slate-800 space-y-6">
               <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
                 <div>
                   <h4 class="text-base font-bold text-white flex items-center gap-2">
-                    <Activity class="w-4 h-4 text-cyan-400" />
-                    Fluxo das 7 Fases da Série D & O Ponto Crítico de Inflexão Logística (REC CBF 2026)
+                    <Activity class="w-4 h-4 text-slate-400" />
+                    Fluxo das Fases da Série D & Transição para o Mata-mata Nacional (CBF 2026)
                   </h4>
                   <p class="text-xs text-slate-400 mt-0.5">
                     Como a mudança de regra a partir das Quartas de Final rompe o isolamento geográfico e inflaciona os custos operacionais.
@@ -1322,7 +1364,7 @@
                 <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
                   <div class="flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
-                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">1</span>
+                      <span class="w-5 h-5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">1</span>
                       <span class="text-sm font-bold text-white">Primeira Fase: 16 Grupos Regionalizados</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono">96 clubes • 16 grupos de 6 • 10 rodadas • 480 partidas</span>
@@ -1343,7 +1385,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
                     <div class="flex items-center gap-2">
-                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">2</span>
+                      <span class="w-5 h-5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">2</span>
                       <span class="text-sm font-bold text-white">Segunda Fase: Mata-mata de 64</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono block">32 confrontos de ida e volta • 64 jogos</span>
@@ -1354,7 +1396,7 @@
 
                   <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-2">
                     <div class="flex items-center gap-2">
-                      <span class="w-5 h-5 rounded-full bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 flex items-center justify-center font-bold text-xs">3</span>
+                      <span class="w-5 h-5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">3</span>
                       <span class="text-sm font-bold text-white">Terceira Fase: Oitavas de Final (32 Clubes)</span>
                     </div>
                     <span class="text-xs text-slate-400 font-mono block">16 confrontos de ida e volta • 32 jogos</span>
@@ -1364,42 +1406,39 @@
                   </div>
                 </div>
 
-                <!-- Fase 4: O PONTO CRÍTICO DE INFLEXÃO -->
-                <div class="p-5 rounded-xl bg-rose-950/30 border-2 border-rose-500/40 space-y-3">
+                <!-- Fase 4 -->
+                <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-3">
                   <div class="flex flex-wrap items-center justify-between gap-2">
-                    <div class="flex items-center gap-2.5">
-                      <span class="w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center font-bold text-xs">4</span>
-                      <span class="text-sm font-bold text-rose-200 uppercase tracking-wide flex items-center gap-1.5">
-                        <AlertCircle class="w-4 h-4 text-rose-400" />
-                        Quartas de Final (Mata-mata de 16): O Ponto Crítico de Inflexão Logística
-                      </span>
+                    <div class="flex items-center gap-2">
+                      <span class="w-5 h-5 rounded-full bg-slate-800 text-slate-300 border border-slate-700 flex items-center justify-center font-bold text-xs">4</span>
+                      <span class="text-sm font-bold text-white">Quartas de Final (Mata-mata de 16): Chaveamento Nacional</span>
                     </div>
-                    <span class="text-xs font-mono text-rose-300 bg-rose-500/20 px-2.5 py-0.5 rounded border border-rose-500/30">
-                      8 confrontos • 16 partidas
+                    <span class="text-xs text-slate-400 font-mono">
+                      8 confrontos de ida e volta • 16 partidas
                     </span>
                   </div>
 
-                  <p class="text-xs text-slate-200 leading-relaxed">
-                    <strong>Regra Regulamentar CBF:</strong> O CHAVEAMENTO REGIONAL É ABANDONADO. Os confrontos passam a ser determinados estritamente pela <strong>Campanha Geral acumulada</strong> de todas as fases anteriores (1º x 16º, 2º x 15º, etc.).
+                  <p class="text-xs text-slate-300 leading-relaxed">
+                    <strong>Regra Regulamentar CBF:</strong> A regionalização é encerrada nesta fase. Os confrontos passam a ser determinados pela <strong>Campanha Geral acumulada</strong> de todas as fases anteriores (1º x 16º, 2º x 15º, etc.).
                   </p>
 
                   <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1 text-xs">
-                    <div class="p-3 rounded-lg bg-slate-950/70 border border-rose-500/30 space-y-1">
-                      <span class="font-bold text-rose-300 block text-[11px]">Cruzamentos Continentais Imprevisíveis</span>
-                      <p class="text-slate-300 text-[11px] leading-relaxed">
-                        Provoca viagens transcontinentais extremas (ex: interior do RS vs Amapá ou Roraima) para agremiações de menor porte sem malha aérea direta.
+                    <div class="p-3 rounded-lg bg-slate-950/60 border border-slate-800/60 space-y-1">
+                      <span class="font-semibold text-slate-200 block text-[11px]">Cruzamentos Continentais</span>
+                      <p class="text-slate-400 text-[11px] leading-relaxed">
+                        Gera confrontos de longa distância entre regiões sem malha aérea direta, demandando conexões múltiplas para delegações de 32 integrantes.
                       </p>
                     </div>
-                    <div class="p-3 rounded-lg bg-slate-950/70 border border-rose-500/30 space-y-1">
-                      <span class="font-bold text-rose-300 block text-[11px]">Explosão de Custos em Passagens Aéreas de Véspera</span>
-                      <p class="text-slate-300 text-[11px] leading-relaxed">
-                        Passagens comerciais emitidas com prazos exíguos de 4 a 6 dias para delegações inteiras de 32 passageiros. Apenas os mata-matas da Série D consomem <strong>R$ 8,10 milhões</strong> dos cofres da CBF.
+                    <div class="p-3 rounded-lg bg-slate-950/60 border border-slate-800/60 space-y-1">
+                      <span class="font-semibold text-slate-200 block text-[11px]">Passagens em Janela Curta</span>
+                      <p class="text-slate-400 text-[11px] leading-relaxed">
+                        A definição dos confrontos com apenas 4 a 6 dias de antecedência eleva os custos de passagens aéreas comerciais para R$ 8,10 milhões nos mata-matas da Série D.
                       </p>
                     </div>
                   </div>
 
-                  <div class="text-[11px] text-slate-300 border-t border-rose-500/20 pt-2 flex items-center justify-between">
-                    <span><strong>Desfecho Esportivo:</strong> Os 4 vencedores sobem direto à Série C de 2027. Os 4 eliminados disputam os Playoffs de Acesso.</span>
+                  <div class="text-[11px] text-slate-400 border-t border-slate-800/60 pt-2 flex items-center justify-between">
+                    <span><strong>Desfecho Esportivo:</strong> Os 4 vencedores sobem à Série C de 2027. Os 4 eliminados disputam repescagem regionalizada.</span>
                   </div>
                 </div>
 
@@ -1407,7 +1446,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
                   <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
                     <div class="flex items-center gap-1.5">
-                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">5</span>
+                      <span class="w-4 h-4 rounded-full bg-slate-800 text-slate-300 text-[10px] font-bold flex items-center justify-center">5</span>
                       <strong class="text-white">Playoffs de Acesso à Série C</strong>
                     </div>
                     <p class="text-slate-400 text-[11px] leading-relaxed">
@@ -1417,7 +1456,7 @@
 
                   <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
                     <div class="flex items-center gap-1.5">
-                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">6</span>
+                      <span class="w-4 h-4 rounded-full bg-slate-800 text-slate-300 text-[10px] font-bold flex items-center justify-center">6</span>
                       <strong class="text-white">Semifinais (4 Clubes)</strong>
                     </div>
                     <p class="text-slate-400 text-[11px] leading-relaxed">
@@ -1427,7 +1466,7 @@
 
                   <div class="p-3.5 rounded-xl bg-slate-900/50 border border-slate-800/80 space-y-1.5">
                     <div class="flex items-center gap-1.5">
-                      <span class="w-4 h-4 rounded-full bg-cyan-500/20 text-cyan-400 text-[10px] font-bold flex items-center justify-center">7</span>
+                      <span class="w-4 h-4 rounded-full bg-slate-800 text-slate-300 text-[10px] font-bold flex items-center justify-center">7</span>
                       <strong class="text-white">Grande Final Nacional</strong>
                     </div>
                     <p class="text-slate-400 text-[11px] leading-relaxed">
@@ -1443,7 +1482,7 @@
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800/80 pb-4">
                 <div>
                   <h4 class="text-base font-bold text-white flex items-center gap-2">
-                    <Table2 class="w-4 h-4 text-cyan-400" />
+                    <Table2 class="w-4 h-4 text-emerald-400" />
                     Explorador de Grupos e Tabelas da 1ª Fase (Série D)
                   </h4>
                   <p class="text-xs text-slate-400 mt-0.5">
@@ -1454,13 +1493,13 @@
                 <!-- Toggle CBF Oficial vs Modelo Proposto -->
                 <div class="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800 text-xs shrink-0">
                   <button
-                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'cbf' ? 'bg-cyan-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'cbf' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
                     on:click={() => serieDTableViewMode = 'cbf'}
                   >
                     Oficial CBF (Grupos A1 a A16)
                   </button>
                   <button
-                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'proposto' ? 'bg-cyan-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
+                    class="px-3 py-1.5 rounded-lg font-semibold transition {serieDTableViewMode === 'proposto' ? 'bg-emerald-500 text-slate-950 shadow' : 'text-slate-400 hover:text-white'}"
                     on:click={() => serieDTableViewMode = 'proposto'}
                   >
                     Modelo Proposto (18 Ligas)
@@ -1504,14 +1543,14 @@
                       min="0"
                       max={gruposSerieDCbf.length - 1}
                       bind:value={selectedGroupDIdx}
-                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
                     />
 
                     <!-- Pills A1 a A16 -->
                     <div class="flex flex-wrap gap-1.5 pt-1">
                       {#each gruposSerieDCbf as g, idx}
                         <button
-                          class="px-2 py-1 rounded text-[11px] font-mono font-bold transition {selectedGroupDIdx === idx ? 'bg-cyan-400 text-slate-950 ring-2 ring-cyan-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
+                          class="px-2 py-1 rounded text-[11px] font-mono font-bold transition {selectedGroupDIdx === idx ? 'bg-emerald-400 text-slate-950 ring-2 ring-emerald-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
                           on:click={() => selectedGroupDIdx = idx}
                         >
                           {g.id}
@@ -1526,8 +1565,8 @@
                       <table class="w-full text-left text-xs border-collapse">
                         <thead>
                           <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
-                            <th class="py-2.5 px-4 w-12 text-center">#</th>
-                            <th class="py-2.5 px-4">Clube</th>
+                            <th class="py-2.5 px-3 w-12 text-center sticky left-0 z-20 bg-slate-900">#</th>
+                            <th class="py-2.5 px-3 sticky left-12 z-20 bg-slate-900 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px]">Clube</th>
                             <th class="py-2.5 px-4">UF / Cidade</th>
                             <th class="py-2.5 px-4">Km Total Fora</th>
                             <th class="py-2.5 px-4">Modal CBF</th>
@@ -1537,10 +1576,10 @@
                         <tbody class="divide-y divide-slate-800/60 text-slate-300">
                           {#each currentGroupD.clubes as clube, cIdx}
                             <tr class="hover:bg-slate-900/40 transition">
-                              <td class="py-2.5 px-4 text-center font-mono font-bold {cIdx < 4 ? 'text-emerald-400' : 'text-rose-400'}">
+                              <td class="py-2.5 px-3 text-center font-mono font-bold {cIdx < 4 ? 'text-emerald-400' : 'text-rose-400'} sticky left-0 z-10 bg-slate-950/95">
                                 {cIdx + 1}º
                               </td>
-                              <td class="py-2.5 px-4 font-bold text-white">
+                              <td class="py-2.5 px-3 font-bold text-white sticky left-12 z-10 bg-slate-950/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px] truncate">
                                 {clube.nome}
                               </td>
                               <td class="py-2.5 px-4 text-slate-300">
@@ -1551,7 +1590,7 @@
                                 {formatKm(clube.km_total)}
                               </td>
                               <td class="py-2.5 px-4">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-medium {clube.modal.includes('100%') ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'}">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-800 text-slate-300 border border-slate-700">
                                   {clube.modal}
                                 </span>
                               </td>
@@ -1603,13 +1642,13 @@
                       min="0"
                       max={ligasSerieDProp.length - 1}
                       bind:value={selectedLigaDIdx}
-                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                      class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-emerald-400"
                     />
 
                     <div class="flex flex-wrap gap-1.5 pt-1">
                       {#each ligasSerieDProp as l, idx}
                         <button
-                          class="px-2 py-1 rounded text-[10px] font-mono font-bold transition {selectedLigaDIdx === idx ? 'bg-cyan-400 text-slate-950 ring-2 ring-cyan-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
+                          class="px-2 py-1 rounded text-[10px] font-mono font-bold transition {selectedLigaDIdx === idx ? 'bg-emerald-400 text-slate-950 ring-2 ring-emerald-400/50' : 'bg-slate-950 text-slate-400 hover:text-white border border-slate-800'}"
                           on:click={() => selectedLigaDIdx = idx}
                         >
                           L{idx + 1}
@@ -1623,8 +1662,8 @@
                       <table class="w-full text-left text-xs border-collapse">
                         <thead>
                           <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
-                            <th class="py-2.5 px-4 w-12 text-center">#</th>
-                            <th class="py-2.5 px-4">Clube</th>
+                            <th class="py-2.5 px-3 w-12 text-center sticky left-0 z-20 bg-slate-900">#</th>
+                            <th class="py-2.5 px-3 sticky left-12 z-20 bg-slate-900 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px]">Clube</th>
                             <th class="py-2.5 px-4">UF / Cidade</th>
                             <th class="py-2.5 px-4 text-right">Formato Desportivo</th>
                           </tr>
@@ -1632,8 +1671,8 @@
                         <tbody class="divide-y divide-slate-800/60 text-slate-300">
                           {#each currentLigaD.clubes as clube, cIdx}
                             <tr class="hover:bg-slate-900/40 transition">
-                              <td class="py-2.5 px-4 text-center font-mono text-slate-400">{cIdx + 1}</td>
-                              <td class="py-2.5 px-4 font-bold text-white">{clube.nome}</td>
+                              <td class="py-2.5 px-3 text-center font-mono text-slate-400 sticky left-0 z-10 bg-slate-950/95">{cIdx + 1}</td>
+                              <td class="py-2.5 px-3 font-bold text-white sticky left-12 z-10 bg-slate-950/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[140px] truncate">{clube.nome}</td>
                               <td class="py-2.5 px-4 text-slate-300">
                                 <span class="px-1.5 py-0.5 rounded bg-slate-800 font-mono text-[10px] text-slate-300 mr-1.5">{clube.uf}</span>
                                 {clube.cidade}
@@ -1652,9 +1691,9 @@
             </div>
 
             <!-- 3. A Solução pelo Modelo Proposto: 18 Ligas Regionais Bounded-Radius -->
-            <div class="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/40 via-slate-950 to-slate-950 border border-cyan-500/30 space-y-4">
+            <div class="p-6 rounded-2xl bg-gradient-to-r from-emerald-950/30 via-slate-950 to-slate-950 border border-emerald-500/20 space-y-4">
               <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
                   <Layers class="w-3.5 h-3.5" /> Solução pelo Modelo Proposto (Pesquisa Operacional)
                 </span>
                 <span class="text-xs px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">
@@ -1674,7 +1713,7 @@
               <div class="flex items-center justify-between border-b border-slate-800/80 pb-3">
                 <div>
                   <h4 class="text-base font-bold text-white flex items-center gap-2">
-                    <Scale class="w-4 h-4 text-cyan-400" />
+                    <Scale class="w-4 h-4 text-emerald-400" />
                     Comparativo Estrutural Sintético: Série D
                   </h4>
                   <p class="text-xs text-slate-400 mt-0.5">
@@ -1691,8 +1730,8 @@
                       <tr class="border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold bg-slate-900/90">
                         <th class="py-3 px-4 w-1/5">Dimensão</th>
                         <th class="py-3 px-4 w-1/4 text-rose-300">CBF Oficial 2026 (96 Clubes)</th>
-                        <th class="py-3 px-4 w-1/4 text-cyan-300">Modelo Proposto (144 Clubes)</th>
-                        <th class="py-3 px-4 w-[30%] text-emerald-400">Impacto Estrutural & Orçamentário</th>
+                        <th class="py-3 px-4 w-1/4 text-emerald-400">Modelo Proposto (144 Clubes)</th>
+                        <th class="py-3 px-4 w-[30%] text-slate-400">Impacto Estrutural & Orçamentário</th>
                       </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-800/60 text-slate-300">
@@ -1700,7 +1739,7 @@
                         <tr class="hover:bg-slate-900/40 transition">
                           <td class="py-3 px-4 font-semibold text-white">{item.dimensao}</td>
                           <td class="py-3 px-4 text-slate-300">{item.cbf_oficial_2026}</td>
-                          <td class="py-3 px-4 font-semibold text-cyan-300">{item.modelo_proposto_fgv}</td>
+                          <td class="py-3 px-4 font-semibold text-emerald-300">{item.modelo_proposto_fgv}</td>
                           <td class="py-3 px-4 text-xs text-slate-300 leading-relaxed">
                             <span class="inline-block px-2 py-0.5 rounded bg-slate-900 border border-slate-800 text-slate-200">
                               {item.impacto}
@@ -1774,7 +1813,7 @@
                     <div>• Redução de <strong>63,8% na distância média por viagem</strong> (1.267 km para 458 km).</div>
                     <div>• Mitigação substancial da pegada de carbono com a redução de voos comerciais isolados.</div>
                   </td>
-                  <td class="py-4 px-5 align-top leading-relaxed space-y-1.5 text-amber-300/90">
+                  <td class="py-4 px-5 align-top leading-relaxed space-y-1.5 text-slate-300">
                     <div>• <strong>Janelas Estendidas de Turnê (TTP até 6) no Norte-Centro:</strong> Para viabilizar a redução de custos em regiões com malha logística rarefeita e distâncias continentais (notadamente Norte e Centro-Oeste), o modelo adota turnês de até 6 jogos consecutivos como visitante. Isso impõe um desafio operacional e fisiológico evidente: atletas e comissões técnicas passam semanas em regime itinerante longe de suas cidades para evitar múltiplos voos de retorno à sede, que seriam financeiramente proibitivos.</div>
                   </td>
                 </tr>
@@ -1843,10 +1882,10 @@
             <table class="w-full text-left text-xs border-collapse">
               <thead class="sticky top-0 bg-slate-950/95 backdrop-blur border-b border-slate-800 z-10">
                 <tr class="text-slate-400 uppercase tracking-wider font-semibold">
-                  <th class="py-3 px-4 cursor-pointer hover:text-white" on:click={() => handleFederativeSort('uf_sigla')}>
+                  <th class="py-3 px-3 cursor-pointer hover:text-white sticky left-0 z-20 bg-slate-950 w-14" on:click={() => handleFederativeSort('uf_sigla')}>
                     UF <ArrowUpDown class="w-3 h-3 inline ml-1 opacity-60" />
                   </th>
-                  <th class="py-3 px-4 cursor-pointer hover:text-white" on:click={() => handleFederativeSort('uf_nome')}>
+                  <th class="py-3 px-3 cursor-pointer hover:text-white sticky left-14 z-20 bg-slate-950 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[130px]" on:click={() => handleFederativeSort('uf_nome')}>
                     Estado <ArrowUpDown class="w-3 h-3 inline ml-1 opacity-60" />
                   </th>
                   <th class="py-3 px-4 cursor-pointer hover:text-white" on:click={() => handleFederativeSort('regiao_macro')}>
@@ -1860,7 +1899,7 @@
                   <th class="py-3 px-3 text-center font-bold text-emerald-400 cursor-pointer hover:text-emerald-300" on:click={() => handleFederativeSort('clubes_serie_c_proposta')}>
                     Série C <ArrowUpDown class="w-3 h-3 inline ml-1 opacity-60" />
                   </th>
-                  <th class="py-3 px-3 text-center font-bold text-cyan-400 cursor-pointer hover:text-cyan-300" on:click={() => handleFederativeSort('clubes_serie_d_proposta')}>
+                  <th class="py-3 px-3 text-center font-bold text-slate-300 cursor-pointer hover:text-white" on:click={() => handleFederativeSort('clubes_serie_d_proposta')}>
                     Série D <ArrowUpDown class="w-3 h-3 inline ml-1 opacity-60" />
                   </th>
                   <th class="py-3 px-4 text-center font-bold text-white cursor-pointer hover:text-emerald-400" on:click={() => handleFederativeSort('total_piramide_nacional')}>
@@ -1872,14 +1911,14 @@
               <tbody class="divide-y divide-slate-800/60 text-slate-300">
                 {#each filteredFederativeMatrix as uf}
                   <tr class="hover:bg-slate-800/40 transition font-mono">
-                    <td class="py-3 px-4 font-bold text-emerald-400">{uf.uf_sigla}</td>
-                    <td class="py-3 px-4 font-sans font-medium text-white">{uf.uf_nome}</td>
+                    <td class="py-3 px-3 font-bold text-emerald-400 sticky left-0 z-10 bg-slate-950/95">{uf.uf_sigla}</td>
+                    <td class="py-3 px-3 font-sans font-medium text-white sticky left-14 z-10 bg-slate-950/95 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] border-r border-slate-800 min-w-[130px] truncate">{uf.uf_nome}</td>
                     <td class="py-3 px-4 font-sans text-slate-400">{uf.regiao_macro}</td>
                     <td class="py-3 px-4 text-right text-slate-400">{uf.populacao_ibge_2022.toLocaleString('pt-BR')} ({uf.pct_pop_brasil}%)</td>
                     <td class="py-3 px-3 text-center text-slate-500">{uf.clubes_serie_a}</td>
                     <td class="py-3 px-3 text-center text-slate-500">{uf.clubes_serie_b}</td>
                     <td class="py-3 px-3 text-center font-bold text-emerald-400">{uf.clubes_serie_c_proposta}</td>
-                    <td class="py-3 px-3 text-center font-bold text-cyan-400">{uf.clubes_serie_d_proposta}</td>
+                    <td class="py-3 px-3 text-center font-bold text-slate-200">{uf.clubes_serie_d_proposta}</td>
                     <td class="py-3 px-4 text-center font-bold text-white bg-slate-950/40">{uf.total_piramide_nacional}</td>
                     <td class="py-3 px-4 text-center">
                       <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
@@ -1916,7 +1955,7 @@
         <!-- Alertas Metodológicos: Fase de Grupos & Engenharia de Dados Multimodal -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 text-xs text-slate-300 flex items-start gap-3 shadow-md">
-            <Info class="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+            <Info class="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
             <div class="leading-relaxed">
               <strong class="text-white">Fase de Grupos Regular:</strong>
               Esta análise quantifica estritamente a <strong>fase inicial em grupos (jogos mínimos garantidos no calendário anual)</strong>. O cálculo <strong>não inclui</strong> eventuais partidas de mata-matas, play-ins ou fases eliminatórias subsequentes.
@@ -1973,61 +2012,75 @@
                 <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-center">
                   <span class="text-slate-500 block text-[10px] uppercase font-sans">Expedições / Turnês</span>
                   <span class="text-slate-400 line-through text-[11px]">{selectedCase.baseline.jogos_fora} bate-voltas</span>
-                  <span class="text-cyan-400 font-bold block text-sm">{(selectedCase.proposto.total_turnes || selectedCase.proposto.turnes?.length || selectedCase.proposto.partidas?.length || 0)} {selectedCase.proposto.turnes ? 'turnês' : 'jogos'}</span>
+                  <span class="text-emerald-400 font-bold block text-sm">{(selectedCase.proposto.total_turnes || selectedCase.proposto.turnes?.length || selectedCase.proposto.partidas?.length || 0)} {selectedCase.proposto.turnes ? 'turnês' : 'jogos'}</span>
                 </div>
               </div>
             </div>
           </div>
         {/if}
 
+        <!-- Mobile Dual Map Scroll Trap Control Pill -->
+        <div class="md:hidden flex justify-center pb-1">
+          <button
+            on:click={toggleCaseMapsTouch}
+            class="px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg backdrop-blur-md transition-all flex items-center gap-1.5 {isCaseMapsInteractive ? 'bg-emerald-600 text-white ring-2 ring-emerald-400' : 'bg-slate-900 text-slate-300 border border-slate-700'}"
+          >
+            {#if isCaseMapsInteractive}
+              <span>🔒 Travar Rolagem da Página</span>
+            {:else}
+              <span>👆 Toque para Explorar os Mapas</span>
+            {/if}
+          </button>
+        </div>
+
         <!-- DUAL LEAFLET MAPS -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <!-- Mapa Esquerdo: CBF Baseline -->
-          <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl flex flex-col h-[480px]">
-            <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl flex flex-col h-[320px] sm:h-[400px] lg:h-[480px]">
+            <div class="px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-rose-500 animate-pulse"></span>
-                <span class="font-bold text-sm text-white">Status Quo CBF 2026 (Sem Turnês)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+                <span class="font-bold text-xs sm:text-sm text-white">CBF (Sem Turnês)</span>
               </div>
-              <span class="text-xs text-slate-400 font-mono">
+              <span class="text-[11px] sm:text-xs text-slate-400 font-mono">
                 {selectedCase?.baseline?.jogos_fora} bate-voltas • {formatKm(selectedCase?.baseline?.km_total)}
               </span>
             </div>
             <div class="relative flex-1 bg-slate-950">
               <div bind:this={mapCbfElement} class="w-full h-full"></div>
-              <div class="absolute bottom-3 left-3 z-[400] px-3 py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 text-[11px] text-slate-300 backdrop-blur shadow">
-                <span class="inline-block w-2.5 h-2.5 rounded-full bg-rose-500 mr-1.5"></span>
-                Linhas radiais: viagens isoladas de ida e volta à sede
+              <div class="absolute bottom-3 left-3 z-[400] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 text-[10px] sm:text-[11px] text-slate-300 backdrop-blur shadow">
+                <span class="inline-block w-2 h-2 rounded-full bg-rose-500 mr-1.5"></span>
+                Linhas radiais à sede
               </div>
             </div>
           </div>
 
           <!-- Mapa Direito: Modelo Proposto Otimizado (Turnês TTP) -->
-          <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl flex flex-col h-[480px]">
-            <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+          <div class="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl flex flex-col h-[320px] sm:h-[400px] lg:h-[480px]">
+            <div class="px-4 sm:px-5 py-3 sm:py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
-                <span class="font-bold text-sm text-white">Modelo Proposto (Circuitos de Turnê TTP)</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span class="font-bold text-xs sm:text-sm text-white">Modelo Proposto (TTP)</span>
               </div>
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 sm:gap-3">
                 {#if selectedTourId}
                   <button
-                    class="text-[11px] text-cyan-400 hover:underline flex items-center gap-1 font-mono"
+                    class="text-[10px] sm:text-[11px] text-emerald-400 hover:underline flex items-center gap-1 font-mono"
                     on:click={() => toggleTourHighlight(selectedTourId)}
                   >
-                    <RefreshCw class="w-3 h-3" /> Ver todas as turnês
+                    <RefreshCw class="w-3 h-3" /> Ver todas
                   </button>
                 {/if}
-                <span class="text-xs text-emerald-400 font-mono font-bold">
-                  {(selectedCase?.proposto?.total_turnes || selectedCase?.proposto?.turnes?.length || selectedCase?.proposto?.partidas?.length || 0)} {selectedCase?.proposto?.turnes ? 'turnês' : 'jogos'} • {formatKm(selectedCase?.proposto?.km_total)}
+                <span class="text-[11px] sm:text-xs text-emerald-400 font-mono font-bold">
+                  {(selectedCase?.proposto?.total_turnes || selectedCase?.proposto?.turnes?.length || selectedCase?.proposto?.partidas?.length || 0)} turnês • {formatKm(selectedCase?.proposto?.km_total)}
                 </span>
               </div>
             </div>
             <div class="relative flex-1 bg-slate-950">
               <div bind:this={mapPropostoElement} class="w-full h-full"></div>
-              <div class="absolute bottom-3 left-3 z-[400] px-3 py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 text-[11px] text-slate-300 backdrop-blur shadow flex items-center gap-2">
-                <Route class="w-3.5 h-3.5 text-emerald-400" />
-                <span>Circuitos fechados com turnês itinerantes consecutivas</span>
+              <div class="absolute bottom-3 left-3 z-[400] px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg bg-slate-950/90 border border-slate-800 text-[10px] sm:text-[11px] text-slate-300 backdrop-blur shadow flex items-center gap-1.5">
+                <Route class="w-3 h-3 text-emerald-400" />
+                <span>Circuitos de turnês itinerantes</span>
               </div>
             </div>
           </div>
@@ -2119,6 +2172,7 @@
                       </thead>
                       <tbody class="divide-y divide-slate-800/60 font-mono text-slate-300">
                         {#each tour.partidas as p}
+                          {@const actualModal = getTourMatchModal(p, tour)}
                           <tr class="hover:bg-slate-900/50">
                             <td class="py-2 px-3">
                               <span class="px-2 py-0.5 rounded bg-slate-800 text-white font-bold text-[11px]">
@@ -2130,21 +2184,21 @@
                             <td class="py-2 px-3 text-right text-emerald-400 font-bold">{formatKm(p.km_trecho)}</td>
                             <td class="py-2 px-3 text-right text-slate-400">{formatKm(p.km_direto_sede)}</td>
                             <td class="py-2 px-3 text-center font-sans">
-                              {#if p.modal === 'local'}
-                                <span class="px-2 py-0.5 rounded text-[10px] bg-purple-500/10 text-purple-400 border border-purple-500/20 inline-flex items-center gap-1 font-bold">
-                                  <MapPin class="w-3 h-3" /> Urbano / Local
+                              {#if actualModal === 'local'}
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 border border-slate-700 inline-flex items-center gap-1 font-medium">
+                                  <MapPin class="w-3 h-3 text-slate-400" /> Urbano / Local
                                 </span>
-                              {:else if p.modal === 'aereo'}
-                                <span class="px-2 py-0.5 rounded text-[10px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 inline-flex items-center gap-1">
-                                  <Plane class="w-3 h-3" /> Aéreo
+                              {:else if actualModal === 'aereo'}
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-slate-800 text-slate-300 border border-slate-700 inline-flex items-center gap-1 font-medium">
+                                  <Plane class="w-3 h-3 text-slate-400" /> Aéreo
                                 </span>
-                              {:else if p.modal === 'bate_volta'}
-                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 inline-flex items-center gap-1">
-                                  <Bus class="w-3 h-3" /> Bate-Volta
+                              {:else if actualModal === 'bate_volta'}
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/20 inline-flex items-center gap-1 font-medium">
+                                  <Bus class="w-3 h-3 text-amber-400" /> Bate-Volta
                                 </span>
                               {:else}
-                                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-flex items-center gap-1">
-                                  <Bus class="w-3 h-3" /> Ônibus
+                                <span class="px-2 py-0.5 rounded text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 inline-flex items-center gap-1 font-medium">
+                                  <Bus class="w-3 h-3 text-emerald-400" /> Ônibus
                                 </span>
                               {/if}
                             </td>

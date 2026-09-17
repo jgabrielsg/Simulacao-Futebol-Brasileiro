@@ -1,5 +1,6 @@
 <script>
   import { onMount } from 'svelte';
+  import { base } from '$app/paths';
   import {
     loadInitialData,
     loading,
@@ -7,8 +8,17 @@
     error,
     seasonStage,
     activeDashboardTab,
-    currentSeasonNum
+    currentSeasonNum,
+    activeDivision,
+    activeGroup,
+    focusedTeamId,
+    teamsDb,
+    seasonDataStore,
+    loadSeason,
+    setDivision,
+    showSocialShareModal
   } from '$lib/stores/gameStore.js';
+  import { CONFERENCES_C, LEAGUES_BY_MACRO_D } from '$lib/utils/leagueNames.js';
   import Navbar from '$lib/components/Navbar.svelte';
   import SeasonHeader from '$lib/components/SeasonHeader.svelte';
   import StickySimulatorHeader from '$lib/components/StickySimulatorHeader.svelte';
@@ -24,6 +34,7 @@
   import ReclusteringWizard from '$lib/components/ReclusteringWizard.svelte';
   import QuinquenniumSummaryModal from '$lib/components/QuinquenniumSummaryModal.svelte';
   import OnboardingModal from '$lib/components/OnboardingModal.svelte';
+  import SocialShareCardModal from '$lib/components/SocialShareCardModal.svelte';
   import {
     Loader2,
     AlertTriangle,
@@ -36,14 +47,175 @@
     Lock
   } from 'lucide-svelte';
 
+  const basePath = base ? base.replace(/\/$/, '') : '';
+
   let showOnboarding = false;
+  let initializedFromUrl = false;
+  let clubImpactDetails = {};
+  let estadosMap = {};
 
   $: isPlayoffsUnlocked = $seasonStage !== 'grupos';
   $: isMercadoUnlocked = $seasonStage === 'concluida';
 
-  onMount(() => {
-    loadInitialData();
+  function normalize(str) {
+    return (str || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
+  }
+
+  function cleanClubQuery(str) {
+    return normalize(str)
+      .replace(/\b(futebol clube|f\.c\.|fc|esporte clube|e\.c\.|ec|clube|atletico|associacao|desportiva|sociedade)\b/gi, '')
+      .trim();
+  }
+
+  function findClubInSeason(query, sData, tDb) {
+    if (!query || !sData || !tDb) return null;
+    const rawQ = normalize(query);
+    const cleanQ = cleanClubQuery(query);
+
+    const teamList = Object.values(tDb);
+    let match = teamList.find(t => normalize(t.nome) === rawQ || normalize(t.clube) === rawQ || t.id.toLowerCase() === rawQ);
+    if (!match && cleanQ.length >= 3) {
+      match = teamList.find(t => normalize(t.nome) === cleanQ || normalize(t.clube) === cleanQ);
+    }
+    if (!match) {
+      match = teamList.find(t => normalize(t.nome).startsWith(rawQ) || normalize(t.clube).startsWith(rawQ));
+    }
+    if (!match && cleanQ.length >= 3) {
+      match = teamList.find(t => normalize(t.nome).startsWith(cleanQ) || normalize(t.clube).startsWith(cleanQ));
+    }
+    if (!match) {
+      match = teamList.find(t => normalize(t.nome).includes(rawQ) || normalize(t.clube).includes(rawQ));
+    }
+
+    if (!match) return null;
+    const teamId = match.id;
+
+    // Search in Serie C
+    if (sData.serie_c?.conferencias) {
+      for (const [conf, list] of Object.entries(sData.serie_c.conferencias)) {
+        if (list.includes(teamId)) {
+          return { teamId, team: match, division: 'serie_c', group: conf };
+        }
+      }
+    }
+
+    // Search in Serie D
+    if (sData.serie_d?.ligas) {
+      for (const [liga, list] of Object.entries(sData.serie_d.ligas)) {
+        if (list.includes(teamId)) {
+          return { teamId, team: match, division: 'serie_d', group: liga };
+        }
+      }
+    }
+
+    return { teamId, team: match, division: null, group: null };
+  }
+
+  onMount(async () => {
+    await loadInitialData();
+
+    // Load impact details & analytics asynchronously for Social Share Cards
+    try {
+      const [detailsRes, analyticsRes] = await Promise.all([
+        fetch(`${basePath}/json/club_impact_details.json`),
+        fetch(`${basePath}/json/pagerank_analytics.json`)
+      ]);
+      if (detailsRes.ok) clubImpactDetails = await detailsRes.json();
+      if (analyticsRes.ok) {
+        const aData = await analyticsRes.json();
+        if (aData.estados) {
+          aData.estados.forEach(st => { estadosMap[st.uf] = st; });
+        }
+      }
+    } catch (e) {
+      console.warn('Could not load club impact details for dashboard cards:', e);
+    }
+
+    // Read and apply URL query parameters (Task B: Deep Linking)
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const temporadaParam = params.get('temporada');
+      const divisaoParam = params.get('divisao');
+      const grupoParam = params.get('grupo') || params.get('conferencia');
+      const clubeParam = params.get('clube');
+
+      const targetSeason = temporadaParam ? parseInt(temporadaParam) : 1;
+      if (targetSeason >= 1 && targetSeason <= 5 && targetSeason !== $currentSeasonNum) {
+        await loadSeason(targetSeason, false);
+      }
+
+      const sData = $seasonDataStore;
+      const tDb = $teamsDb;
+
+      if (clubeParam && sData && tDb) {
+        const found = findClubInSeason(clubeParam, sData, tDb);
+        if (found && found.division && found.group) {
+          activeDivision.set(found.division);
+          activeGroup.set(found.group);
+          focusedTeamId.set(found.teamId);
+        } else if (found) {
+          focusedTeamId.set(found.teamId);
+        }
+      } else {
+        if (divisaoParam) {
+          const d = (divisaoParam === 'c' || divisaoParam === 'serie_c') ? 'serie_c' : 'serie_d';
+          setDivision(d);
+        }
+        if (grupoParam) {
+          const upperGroup = grupoParam.toUpperCase();
+          if ($activeDivision === 'serie_c') {
+            if (CONFERENCES_C.includes(upperGroup)) activeGroup.set(upperGroup);
+          } else {
+            const allDLeagues = Object.values(LEAGUES_BY_MACRO_D).flat();
+            if (allDLeagues.includes(upperGroup)) activeGroup.set(upperGroup);
+          }
+        }
+      }
+
+      initializedFromUrl = true;
+    }
   });
+
+  // Reactive URL synchronizer to maintain shareable state
+  $: if (typeof window !== 'undefined' && initializedFromUrl && !$loading) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('temporada', String($currentSeasonNum));
+    url.searchParams.set('divisao', $activeDivision);
+    url.searchParams.set('grupo', $activeGroup);
+    if ($focusedTeamId) {
+      const teamObj = $teamsDb?.[$focusedTeamId];
+      url.searchParams.set('clube', teamObj?.nome || $focusedTeamId.split('/')[0]);
+    } else {
+      url.searchParams.delete('clube');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }
+
+  // Reactive club object for focused team card generation
+  $: currentFocusedClubObj = (() => {
+    if (!$focusedTeamId || !$teamsDb) return null;
+    const t = $teamsDb[$focusedTeamId];
+    if (!t) return null;
+    return {
+      name: t.nome || t.clube,
+      uf: t.uf,
+      divisao: $activeDivision === 'serie_c' ? 'Série C' : 'Série D',
+      liga: $activeGroup,
+      cidade: t.cidade,
+      estadio: t.estadio,
+      rank: t.rank || null,
+      score: t.pagerank || null,
+      teamId: $focusedTeamId,
+      estadoSlug: t.estado_slug,
+      estadoNome: t.estado || t.uf
+    };
+  })();
+
+  $: currentFocusedClubDetails = ($focusedTeamId && clubImpactDetails) ? clubImpactDetails[$focusedTeamId] : null;
 
   function openHelp() {
     showOnboarding = true;
@@ -209,4 +381,14 @@
 
   <!-- Onboarding Guide Modal -->
   <OnboardingModal bind:isOpen={showOnboarding} />
+
+  <!-- Focused Club Social Share Card Modal -->
+  {#if currentFocusedClubObj}
+    <SocialShareCardModal
+      bind:isOpen={$showSocialShareModal}
+      club={currentFocusedClubObj}
+      details={currentFocusedClubDetails}
+      {estadosMap}
+    />
+  {/if}
 </div>

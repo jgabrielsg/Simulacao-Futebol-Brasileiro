@@ -77,7 +77,7 @@
       <button
         on:click={prevRound}
         disabled={effectiveRound <= 1}
-        class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-30 transition-all flex items-center gap-1 text-xs cursor-pointer"
+        class="px-3.5 py-2 sm:px-2.5 sm:py-1 min-h-[38px] sm:min-h-0 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-30 transition-all flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
       >
         <SkipBack class="w-3.5 h-3.5" /> Anterior
       </button>
@@ -85,7 +85,7 @@
       <button
         on:click={nextRound}
         disabled={effectiveRound >= $totalRounds}
-        class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-30 transition-all flex items-center gap-1 text-xs cursor-pointer"
+        class="px-3.5 py-2 sm:px-2.5 sm:py-1 min-h-[38px] sm:min-h-0 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 hover:text-white hover:bg-slate-800 disabled:opacity-30 transition-all flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
       >
         Próxima <SkipForward class="w-3.5 h-3.5" />
       </button>

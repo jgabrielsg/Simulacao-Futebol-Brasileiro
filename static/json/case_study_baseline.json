@@ -1072,7 +1072,7 @@
                 "adversario_nome": "Inter de Limeira",
                 "cidade": "Limeira",
                 "uf": "SP",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 52,
                 "km_direto_sede": 52,
                 "coords": [
@@ -1086,7 +1086,7 @@
                 "adversario_nome": "Oeste",
                 "cidade": "Barueri",
                 "uf": "SP",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 118.7,
                 "km_direto_sede": 69.9,
                 "coords": [
@@ -1153,7 +1153,7 @@
                 "adversario_nome": "Ituano",
                 "cidade": "Itu",
                 "uf": "SP",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 46.4,
                 "km_direto_sede": 46.4,
                 "coords": [
@@ -1167,7 +1167,7 @@
                 "adversario_nome": "Ferroviária",
                 "cidade": "Araraquara",
                 "uf": "SP",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 186.5,
                 "km_direto_sede": 168.6,
                 "coords": [
@@ -1181,7 +1181,7 @@
                 "adversario_nome": "Portuguesa",
                 "cidade": "São Paulo",
                 "uf": "SP",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 251.3,
                 "km_direto_sede": 84,
                 "coords": [
@@ -1310,7 +1310,7 @@
                 "adversario_nome": "Villa Nova",
                 "cidade": "Nova Lima",
                 "uf": "MG",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 343.5,
                 "km_direto_sede": 464.6,
                 "coords": [
@@ -1322,9 +1322,9 @@
                 "rodada": 23,
                 "adversario_id": "REAL NOROESTE/ESPIRITO_SANTO",
                 "adversario_nome": "Real Noroeste",
-                "cidade": "AGUIA DE MARABA Branca",
+                "cidade": "Águia Branca",
                 "uf": "ES",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 345.1,
                 "km_direto_sede": 788.6,
                 "coords": [
@@ -1410,7 +1410,7 @@
                 "adversario_nome": "Tombense",
                 "cidade": "Tombos",
                 "uf": "MG",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 265.9,
                 "km_direto_sede": 571.5,
                 "coords": [
@@ -1424,7 +1424,7 @@
                 "adversario_nome": "Democrata",
                 "cidade": "Governador Valadares",
                 "uf": "MG",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 212.9,
                 "km_direto_sede": 696.5,
                 "coords": [
@@ -1966,7 +1966,7 @@
                 "adversario_nome": "Maringá",
                 "cidade": "Maringá",
                 "uf": "PR",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 643.4,
                 "km_direto_sede": 643.4,
                 "coords": [
@@ -2081,7 +2081,7 @@
                 "adversario_nome": "Grêmio Prudente",
                 "cidade": "Presidente Prudente",
                 "uf": "SP",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 384.6,
                 "km_direto_sede": 783.3,
                 "coords": [
@@ -2095,7 +2095,7 @@
                 "adversario_nome": "Costa Rica",
                 "cidade": "Costa Rica",
                 "uf": "MS",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 435.8,
                 "km_direto_sede": 1196.1,
                 "coords": [
@@ -2109,7 +2109,7 @@
                 "adversario_nome": "Brasil",
                 "cidade": "Pelotas",
                 "uf": "RS",
-                "modal": "onibus",
+                "modal": "aereo",
                 "km_trecho": 1470.8,
                 "km_direto_sede": 309.4,
                 "coords": [
@@ -2157,7 +2157,7 @@
                 "adversario_nome": "São José",
                 "cidade": "Porto Alegre",
                 "uf": "RS",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 96.5,
                 "km_direto_sede": 96.5,
                 "coords": [
@@ -2248,7 +2248,7 @@
                 "adversario_nome": "Paraná",
                 "cidade": "Curitiba",
                 "uf": "PR",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 174.8,
                 "km_direto_sede": 456.4,
                 "coords": [
@@ -2262,7 +2262,7 @@
                 "adversario_nome": "Cascavel",
                 "cidade": "Cascavel",
                 "uf": "PR",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 424.6,
                 "km_direto_sede": 519.7,
                 "coords": [
@@ -2961,7 +2961,7 @@
                 "adversario_nome": "América",
                 "cidade": "Natal",
                 "uf": "RN",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 435.5,
                 "km_direto_sede": 151.8,
                 "coords": [
@@ -3038,7 +3038,7 @@
                 "adversario_nome": "Altos",
                 "cidade": "Altos",
                 "uf": "PI",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 458,
                 "km_direto_sede": 871.3,
                 "coords": [
@@ -3080,7 +3080,7 @@
                 "adversario_nome": "Santa Cruz",
                 "cidade": "Recife",
                 "uf": "PE",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 636.1,
                 "km_direto_sede": 104.5,
                 "coords": [
@@ -3142,7 +3142,7 @@
                 "adversario_nome": "Abc",
                 "cidade": "Natal",
                 "uf": "RN",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 350.7,
                 "km_direto_sede": 151.8,
                 "coords": [
@@ -3233,7 +3233,7 @@
                 "adversario_nome": "Jacuipense",
                 "cidade": "Riachão do Jacuípe",
                 "uf": "BA",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 272.4,
                 "km_direto_sede": 719,
                 "coords": [
@@ -3848,7 +3848,7 @@
                 "adversario_nome": "União Rondonópolis",
                 "cidade": "Rondonópolis",
                 "uf": "MT",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 183.9,
                 "km_direto_sede": 1799.8,
                 "coords": [
@@ -3976,7 +3976,7 @@
                 "adversario_nome": "Anápolis",
                 "cidade": "Anápolis",
                 "uf": "GO",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 106.6,
                 "km_direto_sede": 1654.6,
                 "coords": [
@@ -4043,7 +4043,7 @@
                 "adversario_nome": "Tocantinópolis",
                 "cidade": "Tocantinópolis",
                 "uf": "TO",
-                "modal": "onibus",
+                "modal": "aereo",
                 "km_trecho": 1182.6,
                 "km_direto_sede": 553.5,
                 "coords": [
@@ -4784,7 +4784,7 @@
                 "adversario_nome": "Aparecidense",
                 "cidade": "Aparecida de Goiânia",
                 "uf": "GO",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 63.1,
                 "km_direto_sede": 63.1,
                 "coords": [
@@ -4812,7 +4812,7 @@
                 "adversario_nome": "União Rondonópolis",
                 "cidade": "Rondonópolis",
                 "uf": "MT",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 183.9,
                 "km_direto_sede": 606.3,
                 "coords": [
@@ -4974,7 +4974,7 @@
                 "adversario_nome": "Tuna Luso",
                 "cidade": "Belém",
                 "uf": "PA",
-                "modal": "aereo",
+                "modal": "onibus",
                 "km_trecho": 553.5,
                 "km_direto_sede": 1654.6,
                 "coords": [
@@ -5002,7 +5002,7 @@
                 "adversario_nome": "Capital Cf",
                 "cidade": "Brasília",
                 "uf": "DF",
-                "modal": "bate_volta",
+                "modal": "aereo",
                 "km_trecho": 1595.7,
                 "km_direto_sede": 128.9,
                 "coords": [
@@ -5305,7 +5305,7 @@
                 "adversario_nome": "Potyguar Seridoense",
                 "cidade": "Currais Novos",
                 "uf": "RN",
-                "modal": "bate_volta",
+                "modal": "onibus",
                 "km_trecho": 153,
                 "km_direto_sede": 128.8,
                 "coords": [
@@ -5711,7 +5711,7 @@
         },
         {
           "fase_ordem": 4,
-          "fase_nome": "Quartas de Final (Mata-mata de 16 - Ponto Crítico de Inflexão Logística)",
+          "fase_nome": "Quartas de Final (Mata-mata de 16 - Chaveamento Nacional)",
           "formato": "8 confrontos eliminatórios em partidas de ida e volta (16 partidas)",
           "clubes_participantes": 16,
           "jogos_por_clube": 2,
@@ -5830,7 +5830,7 @@
           {
             "dimensao": "Mínimo de Jogos por Clube",
             "cbf_oficial_2026": "10 jogos (32 clubes eliminados em junho/julho)",
-            "modelo_proposto_fgv": "10 a 14 jogos na 1ª fase (todos com calendário estendido)",
+            "modelo_proposto_fgv": "+ 80% dos times com 14-18 jogos na 1ª fase",
             "impacto": "Redução de rescisões precoces de contratos de atletas"
           },
           {
@@ -6584,7 +6584,7 @@
             "id": "REAL NOROESTE/espirito_santo",
             "nome": "Real Noroeste",
             "uf": "ES",
-            "cidade": "AGUIA DE MARABA Branca",
+            "cidade": "Águia Branca",
             "km_total": 1310,
             "modal": "100% Rodoviário"
           }
@@ -6968,7 +6968,7 @@
             "id": "REAL NOROESTE/espirito_santo",
             "nome": "Real Noroeste",
             "uf": "ES",
-            "cidade": "AGUIA DE MARABA Branca"
+            "cidade": "Águia Branca"
           },
           {
             "id": "VOLTA REDONDA/rio_de_janeiro",

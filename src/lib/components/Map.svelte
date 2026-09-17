@@ -11,7 +11,8 @@
     activeGroup,
     focusedTeamId,
     focusedTeamStats,
-    clearFocusedTeam
+    clearFocusedTeam,
+    openSocialShareModal
   } from '$lib/stores/gameStore.js';
   import {
     CONFERENCE_COLORS,
@@ -28,6 +29,7 @@
     Plane,
     Layers,
     X,
+    Camera,
     DollarSign,
     Milestone,
     Shield
@@ -65,12 +67,38 @@
     routesLayer = L.layerGroup().addTo(map);
     markersLayer = L.layerGroup().addTo(map);
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    if (isMobile) {
+      map.dragging.disable();
+      if (map.touchZoom) map.touchZoom.disable();
+      isTouchInteractive = false;
+    } else {
+      map.dragging.enable();
+      if (map.touchZoom) map.touchZoom.enable();
+      isTouchInteractive = true;
+    }
+
     setTimeout(() => {
       if (map) map.invalidateSize();
     }, 200);
 
     renderMap();
   });
+
+  let isTouchInteractive = false;
+
+  function toggleTouchInteraction() {
+    isTouchInteractive = !isTouchInteractive;
+    if (map) {
+      if (isTouchInteractive) {
+        map.dragging.enable();
+        if (map.touchZoom) map.touchZoom.enable();
+      } else {
+        map.dragging.disable();
+        if (map.touchZoom) map.touchZoom.disable();
+      }
+    }
+  }
 
   onDestroy(() => {
     if (map) {
@@ -673,30 +701,40 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-4 font-mono">
-        <div class="text-right">
-          <span class="text-[10px] text-slate-500 block uppercase font-bold">Mando de Campo</span>
-          <span class="text-indigo-300 font-bold">{s.homeMatches?.length || 0} casa • {(s.awayTrips?.length || 0) + (s.localAwayMatches?.length || 0)} fora</span>
+      <div class="grid grid-cols-2 sm:flex sm:items-center gap-2.5 sm:gap-4 font-mono w-full sm:w-auto">
+        <div class="text-left sm:text-right bg-slate-900/40 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none">
+          <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase font-bold">Mando</span>
+          <span class="text-indigo-300 font-bold text-xs">{s.homeMatches?.length || 0} casa • {(s.awayTrips?.length || 0) + (s.localAwayMatches?.length || 0)} fora</span>
         </div>
 
-        <div class="text-right">
-          <span class="text-[10px] text-slate-500 block uppercase font-bold">Distância Total</span>
-          <span class="text-white font-bold">{s.totalKm.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} km</span>
+        <div class="text-left sm:text-right bg-slate-900/40 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none">
+          <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase font-bold">Distância</span>
+          <span class="text-white font-bold text-xs">{s.totalKm.toLocaleString('pt-BR', { maximumFractionDigits: 1 })} km</span>
         </div>
 
-        <div class="text-right">
-          <span class="text-[10px] text-slate-500 block uppercase font-bold">Custo Logístico</span>
-          <span class="text-emerald-400 font-bold">R$ {s.totalCostBrl.toLocaleString('pt-BR')}</span>
+        <div class="text-left sm:text-right bg-slate-900/40 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none">
+          <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase font-bold">Custo Logístico</span>
+          <span class="text-emerald-400 font-bold text-xs">R$ {s.totalCostBrl.toLocaleString('pt-BR')}</span>
         </div>
 
-        <div class="text-right">
-          <span class="text-[10px] text-slate-500 block uppercase font-bold">Viagens Intermunicipais</span>
-          <span class="text-purple-300 font-bold">{s.awayTrips?.length || 0}j ({s.ttpTourTrips} turnês)</span>
+        <div class="text-left sm:text-right bg-slate-900/40 sm:bg-transparent p-2 sm:p-0 rounded-lg sm:rounded-none">
+          <span class="text-[9px] sm:text-[10px] text-slate-500 block uppercase font-bold">Viagens</span>
+          <span class="text-purple-300 font-bold text-xs">{s.awayTrips?.length || 0}j ({s.ttpTourTrips} turnês)</span>
         </div>
 
         <button
+          type="button"
+          on:click={openSocialShareModal}
+          class="col-span-1 px-3 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-all text-[10px] shadow-sm shadow-indigo-950/60"
+          title="Gerar card visual em alta definição para redes sociais"
+        >
+          <Camera class="w-3.5 h-3.5" />
+          <span>📸 Card</span>
+        </button>
+
+        <button
           on:click={clearFocusedTeam}
-          class="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer transition-all ml-2"
+          class="col-span-1 px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 hover:border-slate-500 text-slate-300 hover:text-white flex items-center justify-center gap-1.5 cursor-pointer transition-all min-h-[36px] sm:min-h-0"
           title="Fechar foco e voltar para visão da liga"
         >
           <X class="w-3.5 h-3.5" />
@@ -707,8 +745,22 @@
   {/if}
 
   <!-- Leaflet Map Container -->
-  <div class="w-full h-[520px] relative bg-slate-950">
+  <div class="w-full h-[340px] sm:h-[420px] lg:h-[520px] relative bg-slate-950">
     <div bind:this={mapElement} class="w-full h-full"></div>
+
+    <!-- Mobile Scroll Trap Lock/Unlock Pill (Leaflet touch pan control) -->
+    <div class="md:hidden absolute bottom-3 left-1/2 -translate-x-1/2 z-[500] pointer-events-auto">
+      <button
+        on:click={toggleTouchInteraction}
+        class="px-3 py-1.5 rounded-full text-[11px] font-bold shadow-xl backdrop-blur-md transition-all flex items-center gap-1.5 {isTouchInteractive ? 'bg-indigo-600 text-white ring-2 ring-indigo-400 shadow-indigo-900/60' : 'bg-slate-900/90 text-slate-200 border border-slate-700 hover:bg-slate-800'}"
+      >
+        {#if isTouchInteractive}
+          <span>🔒 Travar Rolagem da Página</span>
+        {:else}
+          <span>👆 Toque para Explorar Mapa</span>
+        {/if}
+      </button>
+    </div>
   </div>
 
 </div>

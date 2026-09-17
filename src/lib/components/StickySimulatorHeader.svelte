@@ -57,7 +57,7 @@
 </script>
 
 <div class="sticky top-16 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-xl transition-all">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex flex-wrap items-center justify-between gap-3">
+  <div class="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 py-1.5 sm:py-2.5 flex flex-wrap sm:flex-nowrap items-center justify-between gap-2 sm:gap-3">
       
       <!-- Left: Season & Division / Group Controls -->
       <div class="flex items-center gap-2 sm:gap-3 shrink-0">

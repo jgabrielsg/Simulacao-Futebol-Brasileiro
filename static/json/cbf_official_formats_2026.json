@@ -160,7 +160,7 @@
       },
       {
         "fase_ordem": 4,
-        "fase_nome": "Quartas de Final (Mata-mata de 16 - Ponto Crítico de Inflexão Logística)",
+        "fase_nome": "Quartas de Final (Mata-mata de 16 - Chaveamento Nacional)",
         "formato": "8 confrontos eliminatórios em partidas de ida e volta (16 partidas)",
         "clubes_participantes": 16,
         "jogos_por_clube": 2,
@@ -279,7 +279,7 @@
         {
           "dimensao": "Mínimo de Jogos por Clube",
           "cbf_oficial_2026": "10 jogos (32 clubes eliminados em junho/julho)",
-          "modelo_proposto_fgv": "10 a 14 jogos na 1ª fase (todos com calendário estendido)",
+          "modelo_proposto_fgv": "+ 80% dos times com 14-18 jogos na 1ª fase",
           "impacto": "Redução de rescisões precoces de contratos de atletas"
         },
         {

@@ -109,10 +109,10 @@
   <!-- Table Body -->
   <div class="overflow-x-auto max-h-[560px] overflow-y-auto scrollbar-thin">
     <table class="w-full text-left text-xs text-slate-300">
-      <thead class="bg-slate-950 text-slate-400 font-semibold uppercase text-[10px] tracking-wider sticky top-0 z-10 border-b border-slate-800">
+      <thead class="bg-slate-950 text-slate-400 font-semibold uppercase text-[10px] tracking-wider sticky top-0 z-20 border-b border-slate-800">
         <tr>
-          <th class="py-2.5 px-3 text-center w-8">#</th>
-          <th class="py-2.5 px-3">Clube</th>
+          <th class="py-2.5 px-2.5 text-center w-9 min-w-[36px] sticky top-0 left-0 z-30 bg-slate-950">#</th>
+          <th class="py-2.5 px-3 sticky top-0 left-9 z-30 bg-slate-950 min-w-[150px] sm:min-w-[190px] border-r border-slate-800 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)]">Clube</th>
           <th class="py-2.5 px-2 text-center font-black text-amber-300">PTS</th>
           <th class="py-2.5 px-2 text-center">J</th>
           <th class="py-2.5 px-2 text-center">V</th>
@@ -129,30 +129,33 @@
           {@const zone = getZone(idx, $progressiveStandings.length, $activeDivision)}
           {@const teamObj = $teamsDb ? $teamsDb[row.clube] : null}
           {@const isFocused = $focusedTeamId === row.clube}
+          {@const cellStickyBg = isFocused ? 'bg-slate-900' : (idx % 2 === 1 ? 'bg-slate-950' : 'bg-slate-900')}
 
           <tr
             on:click={() => handleRowClick(row.clube)}
-            class={`cursor-pointer transition-all hover:bg-slate-800/80 even:bg-slate-950/30 ${
+            class={`cursor-pointer transition-all hover:bg-slate-800/80 group ${
               isFocused
                 ? 'bg-indigo-950/50 border-l-4 border-l-indigo-400 ring-1 ring-indigo-400/50 shadow-inner'
-                : zone ? zone.rowClass : ''
+                : zone ? zone.rowClass : 'even:bg-slate-950/30'
             }`}
           >
-            <!-- Rank # -->
-            <td class="py-2.5 px-3 text-center font-mono font-black text-slate-400">
+            <!-- Rank # (Sticky Column 1) -->
+            <td class={`py-2.5 px-2.5 text-center font-mono font-black text-slate-400 w-9 min-w-[36px] sticky left-0 z-10 ${cellStickyBg} group-hover:bg-slate-800 transition-colors`}>
               {row.pos || idx + 1}
             </td>
 
-            <!-- Club Info -->
-            <td class="py-2.5 px-3 flex items-center gap-2.5">
-              <TeamBadge teamId={row.clube} name={row.nome} size="w-6 h-6" />
-              <div>
-                <span class="font-extrabold text-white text-xs block">
-                  {row.nome || row.clube.split('/')[0]}
-                </span>
-                <span class="text-[9px] text-slate-500 uppercase font-semibold">
-                  {teamObj?.cidade ? `${teamObj.cidade} - ${teamObj.uf}` : row.clube.split('/')[1]?.replace('_', ' ')}
-                </span>
+            <!-- Club Info (Sticky Column 2) -->
+            <td class={`py-2.5 px-3 sticky left-9 z-10 min-w-[150px] sm:min-w-[190px] border-r border-slate-800 shadow-[4px_0_10px_-2px_rgba(0,0,0,0.5)] ${cellStickyBg} group-hover:bg-slate-800 transition-colors`}>
+              <div class="flex items-center gap-2.5">
+                <TeamBadge teamId={row.clube} name={row.nome} size="w-6 h-6" />
+                <div class="truncate max-w-[110px] sm:max-w-none">
+                  <span class="font-extrabold text-white text-xs block truncate">
+                    {row.nome || row.clube.split('/')[0]}
+                  </span>
+                  <span class="text-[9px] text-slate-500 uppercase font-semibold block truncate">
+                    {teamObj?.cidade ? `${teamObj.cidade} - ${teamObj.uf}` : row.clube.split('/')[1]?.replace('_', ' ')}
+                  </span>
+                </div>
               </div>
             </td>
 
