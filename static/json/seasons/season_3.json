@@ -146,7 +146,15 @@
       }
     ],
     "trocas_de_liga_c": [],
-    "ingressantes_d_estaduais": []
+    "ingressantes_d_estaduais": [],
+    "tamanhos_conferencias_c_proxima": {
+      "SUDESTE": 18,
+      "SUL": 14,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "serie_d_reclustered_count": 49,
+    "paridade_explicacao": "Simetria geográfica perfeita: 1 promoção à B por conferência, 2 rebaixamentos à D por conferência e 2 acessos da D por conferência. As 4 conferências mantiveram 18, 14, 14, 14 clubes sem necessidade de migrações na C."
   },
   "serie_c": {
     "conferencias": {

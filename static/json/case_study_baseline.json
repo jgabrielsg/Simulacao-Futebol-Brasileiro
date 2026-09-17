@@ -5548,5 +5548,2797 @@
         "total_turnes": 5
       }
     }
-  ]
+  ],
+  "formatos_oficiais_cbf_2026": {
+    "meta": {
+      "titulo": "Formatos e Regulamentos Oficiais CBF 2026: Séries C e D",
+      "ano_base": 2026,
+      "fonte": "Confederação Brasileira de Futebol (CBF) - Regulamento Específico das Competições (REC 2026)",
+      "autor_analise": "João Gabriel Machado (FGV/EMAp - GeoFootballGraph-BR)",
+      "data_atualizacao": "2026-09-16"
+    },
+    "serie_c_cbf_2026": {
+      "nome": "Campeonato Brasileiro Série C 2026 (Status Quo CBF)",
+      "resumo_executivo": "Competição nacional com 20 clubes em grupo único continental na 1ª fase (19 rodadas em turno único desbalanceado), seguida de 2 quadrangulares do acesso (6 rodadas) e final nacional em ida e volta.",
+      "estrutura_geral": {
+        "total_clubes": 20,
+        "total_partidas": 216,
+        "total_datas": 27,
+        "periodo_competicao": "Abril a Outubro de 2026",
+        "min_jogos_por_clube": 19,
+        "max_jogos_por_clube": 27,
+        "vagas_acesso_serie_b": 4,
+        "vagas_rebaixamento_serie_d": 4,
+        "vagas_copa_do_brasil": 1,
+        "subsidio_logistico_cbf": "Subsídio integral centralizado: passagens aéreas e terrestres, 2 diárias de hotel corporativo e alimentação para delegação de 32 passageiros em todos os jogos fora."
+      },
+      "criterios_classificacao_entrada": [
+        "4 clubes rebaixados da Série B de 2025",
+        "12 clubes remanescentes da Série C de 2025 (5º ao 16º lugares)",
+        "4 clubes semifinalistas promovidos da Série D de 2025"
+      ],
+      "fases_detalhadas": [
+        {
+          "fase_ordem": 1,
+          "fase_nome": "Primeira Fase (Grupo Único Continental)",
+          "formato": "Turno único de pontos corridos entre todos os 20 clubes (19 rodadas, 190 partidas)",
+          "clubes_participantes": 20,
+          "jogos_por_clube": 19,
+          "total_partidas_fase": 190,
+          "distribuicao_mando": "Assimétrica: 10 clubes jogam 10 em casa e 9 fora; 10 clubes jogam 9 em casa e 10 fora (sorteio técnico CBF)",
+          "desfecho_esportivo": {
+            "classificados_fase_2": "Top 8 (1º ao 8º colocados)",
+            "permanecem_sem_jogar": "Do 9º ao 16º colocados mantêm-se na Série C, mas encerram a temporada em agosto",
+            "rebaixados_serie_d": "Os 4 últimos (17º ao 20º colocados)"
+          },
+          "gargalos_e_criticas": [
+            "Assimetria de mando de campo fere o equilíbrio desportivo (um clube pode jogar 10 jogos no seu estádio e outro apenas 9)",
+            "Deslocamentos continentais sem turnês: viagens bate-volta isoladas de até 3.500 km (ex: Manaus a Caxias do Sul)",
+            "Custo médio por partida de R$ 160.766,43 devido à prevalência do modal aéreo (71,5%) com conexões múltiplas",
+            "Inatividade precoce: 12 dos 20 clubes (60%) encerram as atividades em agosto com apenas 19 jogos disputados"
+          ]
+        },
+        {
+          "fase_ordem": 2,
+          "fase_nome": "Segunda Fase (Quadrangulares do Acesso)",
+          "formato": "Dois grupos de 4 clubes disputados em turno e returno (6 rodadas, 24 partidas)",
+          "clubes_participantes": 8,
+          "jogos_por_clube": 6,
+          "total_partidas_fase": 24,
+          "composicao_chaves": {
+            "grupo_b": "1º, 4º, 5º e 8º colocados da 1ª Fase",
+            "grupo_c": "2º, 3º, 6º e 7º colocados da 1ª Fase"
+          },
+          "desfecho_esportivo": {
+            "promovidos_serie_b": "Os 2 primeiros colocados de cada grupo (total de 4 clubes)",
+            "finalistas_nacionais": "O líder de cada quadrangular avança para a Grande Final"
+          },
+          "gargalos_e_criticas": [
+            "Apenas 8 clubes têm acesso a esta fase, deixando os demais 12 sem receita ou bilheteria por 8 meses"
+          ]
+        },
+        {
+          "fase_ordem": 3,
+          "fase_nome": "Terceira Fase (Grande Final Nacional)",
+          "formato": "Confronto eliminatório em partidas de ida e volta (180 minutos)",
+          "clubes_participantes": 2,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 2,
+          "mando_de_campo": "O 2º jogo ocorre no estádio do clube com maior pontuação somada nas duas fases",
+          "desfecho_esportivo": "O vencedor é proclamado Campeão Brasileiro da Série C e garante vaga na 3ª Fase da Copa do Brasil"
+        }
+      ],
+      "metricas_consolidadas": {
+        "custo_total_estimado_brl": 34725549.89,
+        "custo_fase_regular_brl": 30604124.06,
+        "custo_playoffs_medio_brl": 4151149.94,
+        "distancia_media_por_jogo_km": 1580,
+        "participacao_modal_aereo_pct": 71.5,
+        "participacao_modal_rodoviario_pct": 28.5,
+        "estados_atendidos_media": 14
+      }
+    },
+    "serie_d_cbf_2026": {
+      "nome": "Campeonato Brasileiro Série D 2026 (Novo Formato de 96 Clubes)",
+      "resumo_executivo": "Expansão histórica da CBF de 64 para 96 clubes. 1ª fase com 16 grupos de 6 clubes em turno e returno (10 rodadas), seguida de 6 etapas de mata-mata em ida e volta com 6 acessos à Série C.",
+      "estrutura_geral": {
+        "total_clubes": 96,
+        "total_partidas": 610,
+        "total_datas": 24,
+        "periodo_competicao": "5 de Abril a 13 de Setembro de 2026",
+        "min_jogos_por_clube": 10,
+        "max_jogos_por_clube": 22,
+        "vagas_acesso_serie_c": 6,
+        "vagas_copa_do_brasil": 1,
+        "garantia_serie_d_ano_seguinte": "Os 32 clubes que avançam à 3ª Fase (Oitavas) garantem vaga direta na Série D de 2027 (caso não subam à Série C)",
+        "subsidio_logistico_cbf": "Subsídio integral centralizado: passagens aéreas e terrestres, diárias de hotel e refeições para 32 passageiros."
+      },
+      "criterios_classificacao_entrada": [
+        {
+          "criterio": "Critério 1 - Rebaixamento da Série C (4 vagas)",
+          "detalhes": "Os 4 clubes despromovidos da Série C de 2025."
+        },
+        {
+          "criterio": "Critério 2 - Campeonatos e Seletivas Estaduais (64 vagas)",
+          "detalhes": "Definidas pelos Campeonatos Estaduais de 2025: 4 vagas para SP (1º no RNF); 3 vagas para RJ, MG, RS, PR, CE, GO, SC, BA (2º ao 9º no RNF); 2 vagas para os demais 18 estados (10º ao 27º no RNF)."
+        },
+        {
+          "criterio": "Critério 3 - Remanescência por Desempenho Anterior (28 vagas)",
+          "detalhes": "Os clubes que avançaram à Segunda Fase (mata-mata de 64) da Série D de 2025."
+        },
+        {
+          "criterio": "Critério 4 - Ranking Nacional de Clubes (RNC)",
+          "detalhes": "Vagas remanescentes destinadas aos clubes mais bem ranqueados sem divisão nacional caso clubes do Critério 3 já tenham vaga pelo Critério 2."
+        }
+      ],
+      "fases_detalhadas": [
+        {
+          "fase_ordem": 1,
+          "fase_nome": "Primeira Fase (16 Grupos Regionalizados)",
+          "formato": "16 grupos de 6 clubes com disputa em turno e returno intra-grupo (10 rodadas, 480 partidas)",
+          "clubes_participantes": 96,
+          "jogos_por_clube": 10,
+          "total_partidas_fase": 480,
+          "regra_distribuicao_geografica": "Critério geográfico regional com no máximo 3 clubes de uma mesma federação estadual por chave",
+          "desfecho_esportivo": {
+            "classificados_fase_2": "Top 4 de cada grupo (16 grupos x 4 = 64 clubes avançam ao mata-mata)",
+            "eliminados_prematuramente": "Os 2 últimos de cada grupo (32 clubes) encerram sua participação em junho/julho após apenas 10 partidas"
+          },
+          "gargalos_e_criticas": [
+            "32 agremiações (33,3% do torneio) disputam apenas 10 partidas no ano todo e ficam sem atividade profissional já no meio do ano",
+            "Calendário ativo inferior a 3 meses para um terço dos participantes"
+          ]
+        },
+        {
+          "fase_ordem": 2,
+          "fase_nome": "Segunda Fase (1ª Rodada Eliminatória / 64 Clubes)",
+          "formato": "32 confrontos eliminatórios em partidas de ida e volta (180 min, 64 partidas)",
+          "clubes_participantes": 64,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 64,
+          "criterio_chaveamento": "Regional direcionado entre chaves adjacentes (ex: 1º Grupo 1 x 4º Grupo 2; 2º Grupo 1 x 3º Grupo 2)",
+          "desfecho_esportivo": "32 vencedores avançam à 3ª Fase e conquistam vaga assegurada na Série D de 2027"
+        },
+        {
+          "fase_ordem": 3,
+          "fase_nome": "Terceira Fase (Oitavas de Final / 32 Clubes)",
+          "formato": "16 confrontos eliminatórios em partidas de ida e volta (32 partidas)",
+          "clubes_participantes": 32,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 32,
+          "criterio_chaveamento": "Manutenção das ramificações do chaveamento regional pré-estabelecido",
+          "desfecho_esportivo": "16 vencedores avançam para as Quartas de Final"
+        },
+        {
+          "fase_ordem": 4,
+          "fase_nome": "Quartas de Final (Mata-mata de 16 - Ponto Crítico de Inflexão Logística)",
+          "formato": "8 confrontos eliminatórios em partidas de ida e volta (16 partidas)",
+          "clubes_participantes": 16,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 16,
+          "regra_chaveamento_geral": "O CHAVEAMENTO REGIONAL É ABANDONADO. Os confrontos passam a ser determinados estritamente pela Campanha Geral (soma de pontos acumulados em todas as fases anteriores: 1º x 16º, 2º x 15º, etc.)",
+          "gargalos_e_criticas": [
+            "Gera cruzamentos continentais prematuros e caríssimos (ex: time do interior gaúcho enfrentando clube do Amapá ou Roraima)",
+            "Exige emissão de passagens aéreas comerciais com prazos de véspera para delegações inteiras",
+            "Eleva drasticamente o custo médio de logística das fases finais (mais de R$ 8,10 milhões gastos nos mata-matas da D)"
+          ],
+          "desfecho_esportivo": {
+            "semifinalistas_promovidos": "Os 4 vencedores garantem acesso direto à Série C de 2027",
+            "repescagem_playoffs": "Os 4 clubes eliminados disputam os Playoffs de Acesso"
+          }
+        },
+        {
+          "fase_ordem": 5,
+          "fase_nome": "Playoffs de Acesso à Série C (Repescagem de 4 Clubes)",
+          "formato": "2 confrontos eliminatórios em partidas de ida e volta (4 partidas)",
+          "clubes_participantes": 4,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 4,
+          "criterio_chaveamento": "Campanha acumulada entre os 4 eliminados das quartas (1º x 4º, 2º x 3º)",
+          "desfecho_esportivo": "Os 2 vencedores garantem a 5ª e 6ª vagas de acesso à Série C de 2027"
+        },
+        {
+          "fase_ordem": 6,
+          "fase_nome": "Semifinais",
+          "formato": "2 confrontos eliminatórios em partidas de ida e volta entre os 4 semifinalistas (4 partidas)",
+          "clubes_participantes": 4,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 4,
+          "desfecho_esportivo": "2 vencedores avançam para a Grande Final"
+        },
+        {
+          "fase_ordem": 7,
+          "fase_nome": "Grande Final Nacional",
+          "formato": "Confronto em ida e volta entre os 2 finalistas (2 partidas)",
+          "clubes_participantes": 2,
+          "jogos_por_clube": 2,
+          "total_partidas_fase": 2,
+          "desfecho_esportivo": "O campeão garante vaga direta na 3ª Fase da Copa do Brasil de 2027"
+        }
+      ],
+      "metricas_consolidadas": {
+        "custo_total_estimado_brl": 44892163.14,
+        "custo_fase_regular_brl": 36784742.25,
+        "custo_playoffs_medio_brl": 8103934.51,
+        "distancia_media_por_jogo_km": 1142.3,
+        "participacao_modal_aereo_pct": 53.8,
+        "participacao_modal_rodoviario_pct": 46.2,
+        "estados_atendidos": 27
+      }
+    },
+    "comparativo_estrutural_sintetico": {
+      "serie_c": {
+        "dimensoes": [
+          {
+            "dimensao": "Número de Clubes",
+            "cbf_oficial_2026": "20 clubes",
+            "modelo_proposto_fgv": "60 clubes (+200%)",
+            "impacto": "Triplicação de equipes com calendário nacional garantido"
+          },
+          {
+            "dimensao": "Jogos Garantidos / Clube",
+            "cbf_oficial_2026": "19 jogos (12 clubes eliminados em agosto)",
+            "modelo_proposto_fgv": "26 a 34 jogos garantidos",
+            "impacto": "Fim do vazio de calendário semestral"
+          },
+          {
+            "dimensao": "Total de Partidas no Torneio",
+            "cbf_oficial_2026": "216 partidas",
+            "modelo_proposto_fgv": "863 partidas (+300%)",
+            "impacto": "Maior atratividade comercial e de patrocínios"
+          },
+          {
+            "dimensao": "Formato da 1ª Fase",
+            "cbf_oficial_2026": "Grupo único continental de 20 times",
+            "modelo_proposto_fgv": "4 Conferências Regionais (14 a 18 clubes)",
+            "impacto": "Preservação de rivalidades locais e redução drástica de deslocamentos"
+          },
+          {
+            "dimensao": "Isolamento de Mandos",
+            "cbf_oficial_2026": "Assimetria (10 mandos vs 9 mandos)",
+            "modelo_proposto_fgv": "Turno e returno perfeito intra-conferência",
+            "impacto": "Equidade esportiva matemática"
+          },
+          {
+            "dimensao": "Custo Médio por Partida",
+            "cbf_oficial_2026": "R$ 160.766,43",
+            "modelo_proposto_fgv": "R$ 58.791,36 (-63,4%)",
+            "impacto": "Eficiência máxima através de turnês TTP-k encadeadas"
+          },
+          {
+            "dimensao": "Uso do Modal Rodoviário",
+            "cbf_oficial_2026": "28,5% rodoviário (71,5% aéreo)",
+            "modelo_proposto_fgv": "38,6% rodoviário (e 61,4% aéreo regional)",
+            "impacto": "Deslocamentos viários prioritários nos eixos Sul e Sudeste"
+          },
+          {
+            "dimensao": "Fórmula de Acesso à Série B",
+            "cbf_oficial_2026": "Dois quadrangulares de 4 clubes",
+            "modelo_proposto_fgv": "Play-ins G-5 regionais + Quartas de final nacionais",
+            "impacto": "Fase final emocionante sem partidas inúteis"
+          }
+        ]
+      },
+      "serie_d": {
+        "dimensoes": [
+          {
+            "dimensao": "Número de Clubes",
+            "cbf_oficial_2026": "96 clubes",
+            "modelo_proposto_fgv": "144 clubes (+50%)",
+            "impacto": "Inclusão de mais 48 polos futebolísticos em todos os estados"
+          },
+          {
+            "dimensao": "Mínimo de Jogos por Clube",
+            "cbf_oficial_2026": "10 jogos (32 clubes eliminados em junho/julho)",
+            "modelo_proposto_fgv": "10 a 14 jogos na 1ª fase (todos com calendário estendido)",
+            "impacto": "Redução de rescisões precoces de contratos de atletas"
+          },
+          {
+            "dimensao": "Total de Partidas no Torneio",
+            "cbf_oficial_2026": "610 partidas",
+            "modelo_proposto_fgv": "1.096 partidas (+79,7%)",
+            "impacto": "Volume dobrado com menor custo total"
+          },
+          {
+            "dimensao": "Formato da 1ª Fase",
+            "cbf_oficial_2026": "16 grupos de 6 times (regionalização frágil)",
+            "modelo_proposto_fgv": "18 Ligas Regionais compactas de raio limitado",
+            "impacto": "Ligas 100% rodoviárias na grande maioria das chaves"
+          },
+          {
+            "dimensao": "Chaveamento no Mata-mata",
+            "cbf_oficial_2026": "Regional até oitavas; Campanha Geral unificada nas quartas",
+            "modelo_proposto_fgv": "Playoffs Concêntricos 100% Regionais até as semifinais",
+            "impacto": "Elimina cruzamentos continentais prematuros de altíssimo custo"
+          },
+          {
+            "dimensao": "Uso do Modal Rodoviário",
+            "cbf_oficial_2026": "46,2% rodoviário (53,8% aéreo)",
+            "modelo_proposto_fgv": "75,9% rodoviário (24,1% aéreo)",
+            "impacto": "Migração expressiva para malha viária sustentável"
+          },
+          {
+            "dimensao": "Custo Total de Logística",
+            "cbf_oficial_2026": "R$ 44.892.163,14",
+            "modelo_proposto_fgv": "R$ 33.229.357,40 (-26,0%)",
+            "impacto": "Economia líquida direta de R$ 11,66 milhões para a CBF"
+          },
+          {
+            "dimensao": "Custo Médio por Partida",
+            "cbf_oficial_2026": "R$ 82.826,87",
+            "modelo_proposto_fgv": "R$ 30.318,76 (-63,4%)",
+            "impacto": "Mais que o dobro de jogos por um quarto do custo unitário"
+          }
+        ]
+      }
+    }
+  },
+  "tabelas_fase1": {
+    "serie_d_cbf_grupos": [
+      {
+        "id": "A1",
+        "nome": "Grupo A1",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ABC/rio_grande_do_norte",
+            "nome": "Abc",
+            "uf": "RN",
+            "cidade": "Natal",
+            "km_total": 1223,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "MAGUARY/pernambuco",
+            "nome": "Maguary",
+            "uf": "PE",
+            "cidade": "Bonito",
+            "km_total": 1661,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "AMÉRICA/rio_grande_do_norte",
+            "nome": "América",
+            "uf": "RN",
+            "cidade": "Natal",
+            "km_total": 1223,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "SOUSA/paraiba",
+            "nome": "Sousa",
+            "uf": "PB",
+            "cidade": "Sousa",
+            "km_total": 2195,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "CENTRAL/pernambuco",
+            "nome": "Central",
+            "uf": "PE",
+            "cidade": "Caruaru",
+            "km_total": 1559,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "LAGUNA/rio_grande_do_norte",
+            "nome": "Laguna",
+            "uf": "RN",
+            "cidade": "Natal",
+            "km_total": 1223,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A2",
+        "nome": "Grupo A2",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ABECAT OUVIDORENSE/goias",
+            "nome": "Abecat Ouvidorense",
+            "uf": "GO",
+            "cidade": "Ouvidor",
+            "km_total": 2947,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "BETIM FUTEBOL/minas_gerais",
+            "nome": "Betim Futebol",
+            "uf": "MG",
+            "cidade": "Betim",
+            "km_total": 4555,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "OPERÁRIO/mato_grosso_do_sul",
+            "nome": "Operário",
+            "uf": "MS",
+            "cidade": "Campo Grande",
+            "km_total": 4404,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "IVINHEMA/mato_grosso_do_sul",
+            "nome": "Ivinhema",
+            "uf": "MS",
+            "cidade": "Ivinhema",
+            "km_total": 5325,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "CRAC/goias",
+            "nome": "Crac",
+            "uf": "GO",
+            "cidade": "Catalão",
+            "km_total": 2915,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "UBERLÂNDIA/minas_gerais",
+            "nome": "Uberlândia",
+            "uf": "MG",
+            "cidade": "Uberlândia",
+            "km_total": 2673,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A3",
+        "nome": "Grupo A3",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ÁGUIA DE MARABÁ/para",
+            "nome": "Águia de Marabá",
+            "uf": "PA",
+            "cidade": "Marabá",
+            "km_total": 2551,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "TOCANTINÓPOLIS/tocantins",
+            "nome": "Tocantinópolis",
+            "uf": "TO",
+            "cidade": "Tocantinópolis",
+            "km_total": 3228,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "ORATÓRIO/amapa",
+            "nome": "Oratório",
+            "uf": "AP",
+            "cidade": "Macapá",
+            "km_total": 3059,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "TUNA LUSO/para",
+            "nome": "Tuna Luso",
+            "uf": "PA",
+            "cidade": "Belém",
+            "km_total": 2786,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "IMPERATRIZ/maranhao",
+            "nome": "Imperatriz",
+            "uf": "MA",
+            "cidade": "Imperatriz",
+            "km_total": 2653,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "TREM/amapa",
+            "nome": "Trem",
+            "uf": "AP",
+            "cidade": "Macapá",
+            "km_total": 3059,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A4",
+        "nome": "Grupo A4",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ALTOS/piaui",
+            "nome": "Altos",
+            "uf": "PI",
+            "cidade": "Altos",
+            "km_total": 1889,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "ATLÉTICO CEARENSE/ceara",
+            "nome": "Atlético Cearense",
+            "uf": "CE",
+            "cidade": "Fortaleza",
+            "km_total": 1898,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "PIAUÍ/piaui",
+            "nome": "Piauí",
+            "uf": "PI",
+            "cidade": "Teresina",
+            "km_total": 1988,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "TIROL/ceara",
+            "nome": "Tirol",
+            "uf": "CE",
+            "cidade": "Fortaleza",
+            "km_total": 1889,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "FERROVIÁRIO/ceara",
+            "nome": "Ferroviário",
+            "uf": "CE",
+            "cidade": "Fortaleza",
+            "km_total": 1889,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "FLUMINENSE/piaui",
+            "nome": "Fluminense",
+            "uf": "PI",
+            "cidade": "Teresina",
+            "km_total": 1988,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A5",
+        "nome": "Grupo A5",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "AMERICA/rio_de_janeiro",
+            "nome": "America",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro",
+            "km_total": 1324,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "ÁGUA SANTA/sao_paulo",
+            "nome": "Água Santa",
+            "uf": "SP",
+            "cidade": "Diadema",
+            "km_total": 1665,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "MADUREIRA/rio_de_janeiro",
+            "nome": "Madureira",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro",
+            "km_total": 1324,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "POUSO ALEGRE/minas_gerais",
+            "nome": "Pouso Alegre",
+            "uf": "MG",
+            "cidade": "Pouso Alegre",
+            "km_total": 1586,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "PORTUGUESA/sao_paulo",
+            "nome": "Portuguesa",
+            "uf": "SP",
+            "cidade": "São Paulo",
+            "km_total": 1640,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "PORTUGUESA/rio_de_janeiro",
+            "nome": "Portuguesa",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro",
+            "km_total": 1324,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A6",
+        "nome": "Grupo A6",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "APARECIDENSE/goias",
+            "nome": "Aparecidense",
+            "uf": "GO",
+            "cidade": "Aparecida de Goiânia",
+            "km_total": 2763,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "PRIMAVERA/mato_grosso",
+            "nome": "Primavera",
+            "uf": "MT",
+            "cidade": "Primavera do Leste",
+            "km_total": 3860,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "BRASILIENSE/distrito_federal",
+            "nome": "Brasiliense",
+            "uf": "DF",
+            "cidade": "Taguatinga",
+            "km_total": 2920,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "INHUMAS/goias",
+            "nome": "Inhumas",
+            "uf": "GO",
+            "cidade": "Inhumas",
+            "km_total": 2592,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "LUVERDENSE/mato_grosso",
+            "nome": "Luverdense",
+            "uf": "MT",
+            "cidade": "Lucas do Rio Verde",
+            "km_total": 6400,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GAMA/distrito_federal",
+            "nome": "Gama",
+            "uf": "DF",
+            "cidade": "Gama",
+            "km_total": 2908,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A7",
+        "nome": "Grupo A7",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ARAGUAÍNA/tocantins",
+            "nome": "Araguaína",
+            "uf": "TO",
+            "cidade": "Araguaína",
+            "km_total": 11713,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GALVEZ/acre",
+            "nome": "Galvez",
+            "uf": "AC",
+            "cidade": "Rio Branco",
+            "km_total": 4251,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GAZIN PORTO VELHO/rondonia",
+            "nome": "Gazin Porto Velho",
+            "uf": "RO",
+            "cidade": "Porto Velho",
+            "km_total": 4258,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "HUMAITÁ/acre",
+            "nome": "Humaitá",
+            "uf": "AC",
+            "cidade": "Porto Acre",
+            "km_total": 4335,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "INDEPENDÊNCIA/acre",
+            "nome": "Independência",
+            "uf": "AC",
+            "cidade": "Rio Branco",
+            "km_total": 4251,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GUAPORÉ/rondonia",
+            "nome": "Guaporé",
+            "uf": "RO",
+            "cidade": "Rolim de Moura",
+            "km_total": 5840,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A8",
+        "nome": "Grupo A8",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "ASA/alagoas",
+            "nome": "Asa",
+            "uf": "AL",
+            "cidade": "Arapiraca",
+            "km_total": 1645,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "CSE/alagoas",
+            "nome": "Cse",
+            "uf": "AL",
+            "cidade": "Palmeira dos Índios",
+            "km_total": 1727,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "JUAZEIRENSE/bahia",
+            "nome": "Juazeirense",
+            "uf": "BA",
+            "cidade": "Juazeiro",
+            "km_total": 2656,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "ATLÉTICO/bahia",
+            "nome": "Atlético",
+            "uf": "BA",
+            "cidade": "Alagoinhas",
+            "km_total": 2050,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "CSA/alagoas",
+            "nome": "Csa",
+            "uf": "AL",
+            "cidade": "Maceió",
+            "km_total": 2071,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "JACUIPENSE/bahia",
+            "nome": "Jacuipense",
+            "uf": "BA",
+            "cidade": "Riachão do Jacuípe",
+            "km_total": 2134,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A9",
+        "nome": "Grupo A9",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "AZURIZ FUTEBOL/parana",
+            "nome": "Azuriz Futebol",
+            "uf": "PR",
+            "cidade": "Pato Branco",
+            "km_total": 2907,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "BRASIL/rio_grande_do_sul",
+            "nome": "Brasil",
+            "uf": "RS",
+            "cidade": "Pelotas",
+            "km_total": 3561,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "BLUMENAU/santa_catarina",
+            "nome": "Blumenau",
+            "uf": "SC",
+            "cidade": "Blumenau",
+            "km_total": 2034,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SÃO JOSÉ/rio_grande_do_sul",
+            "nome": "São José",
+            "uf": "RS",
+            "cidade": "Porto Alegre",
+            "km_total": 2644,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "SÃO JOSEENSE/parana",
+            "nome": "São Joseense",
+            "uf": "PR",
+            "cidade": "São José dos Pinhais",
+            "km_total": 2450,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MARCÍLIO DIAS/santa_catarina",
+            "nome": "Marcílio Dias",
+            "uf": "SC",
+            "cidade": "Itajaí",
+            "km_total": 2100,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A10",
+        "nome": "Grupo A10",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "CAPITAL CF/distrito_federal",
+            "nome": "Capital Cf",
+            "uf": "DF",
+            "cidade": "Brasília",
+            "km_total": 3343,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "UNIÃO RONDONÓPOLIS/mato_grosso",
+            "nome": "União Rondonópolis",
+            "uf": "MT",
+            "cidade": "Rondonópolis",
+            "km_total": 3103,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "CEILÂNDIA/distrito_federal",
+            "nome": "Ceilândia",
+            "uf": "DF",
+            "cidade": "Ceilândia",
+            "km_total": 3290,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MIXTO/mato_grosso",
+            "nome": "Mixto",
+            "uf": "MT",
+            "cidade": "Cuiabá",
+            "km_total": 3400,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GOIATUBA/goias",
+            "nome": "Goiatuba",
+            "uf": "GO",
+            "cidade": "Goiatuba",
+            "km_total": 3829,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "CEOV OPERÁRIO/mato_grosso",
+            "nome": "Ceov Operário",
+            "uf": "MT",
+            "cidade": "Várzea Grande",
+            "km_total": 3394,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A11",
+        "nome": "Grupo A11",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "CASCAVEL/parana",
+            "nome": "Cascavel",
+            "uf": "PR",
+            "cidade": "Cascavel",
+            "km_total": 2956,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SÃO LUIZ/rio_grande_do_sul",
+            "nome": "São Luiz",
+            "uf": "RS",
+            "cidade": "Ijuí",
+            "km_total": 2932,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "JOINVILLE/santa_catarina",
+            "nome": "Joinville",
+            "uf": "SC",
+            "cidade": "Joinville",
+            "km_total": 3192,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "CIANORTE/parana",
+            "nome": "Cianorte",
+            "uf": "PR",
+            "cidade": "Cianorte",
+            "km_total": 3488,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "GUARANY DE BAGÉ/rio_grande_do_sul",
+            "nome": "Guarany de Bagé",
+            "uf": "RS",
+            "cidade": "Bagé",
+            "km_total": 4814,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SANTA CATARINA/santa_catarina",
+            "nome": "Santa Catarina",
+            "uf": "SC",
+            "cidade": "Rio do Sul",
+            "km_total": 3011,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A12",
+        "nome": "Grupo A12",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "DECISÃO/pernambuco",
+            "nome": "Decisão",
+            "uf": "PE",
+            "cidade": "Bonito",
+            "km_total": 1335,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "SERGIPE/sergipe",
+            "nome": "Sergipe",
+            "uf": "SE",
+            "cidade": "Aracaju",
+            "km_total": 2029,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "SERRA BRANCA/paraiba",
+            "nome": "Serra Branca",
+            "uf": "PB",
+            "cidade": "Serra Branca",
+            "km_total": 1574,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "TREZE/paraiba",
+            "nome": "Treze",
+            "uf": "PB",
+            "cidade": "Campina Grande",
+            "km_total": 1603,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "RETRÔ/pernambuco",
+            "nome": "Retrô",
+            "uf": "PE",
+            "cidade": "Camaragibe",
+            "km_total": 1610,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "LAGARTO/sergipe",
+            "nome": "Lagarto",
+            "uf": "SE",
+            "cidade": "Lagarto",
+            "km_total": 2141,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A13",
+        "nome": "Grupo A13",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "DEMOCRATA/minas_gerais",
+            "nome": "Democrata",
+            "uf": "MG",
+            "cidade": "Governador Valadares",
+            "km_total": 1583,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "RIO BRANCO/espirito_santo",
+            "nome": "Rio Branco",
+            "uf": "ES",
+            "cidade": "Vitória",
+            "km_total": 1330,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "PORTO/bahia",
+            "nome": "Porto",
+            "uf": "BA",
+            "cidade": "Porto Seguro",
+            "km_total": 2959,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "VITÓRIA/espirito_santo",
+            "nome": "Vitória",
+            "uf": "ES",
+            "cidade": "Vitória",
+            "km_total": 1330,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "TOMBENSE/minas_gerais",
+            "nome": "Tombense",
+            "uf": "MG",
+            "cidade": "Tombos",
+            "km_total": 1906,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "REAL NOROESTE/espirito_santo",
+            "nome": "Real Noroeste",
+            "uf": "ES",
+            "cidade": "AGUIA DE MARABA Branca",
+            "km_total": 1310,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      },
+      {
+        "id": "A14",
+        "nome": "Grupo A14",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "GAS/roraima",
+            "nome": "Gas",
+            "uf": "RR",
+            "cidade": "Boa Vista",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MANAUS/amazonas",
+            "nome": "Manaus",
+            "uf": "AM",
+            "cidade": "Manaus",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "NACIONAL/amazonas",
+            "nome": "Nacional",
+            "uf": "AM",
+            "cidade": "Manaus",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MONTE RORAIMA/roraima",
+            "nome": "Monte Roraima",
+            "uf": "RR",
+            "cidade": "Boa Vista",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MANAUARA/amazonas",
+            "nome": "Manauara",
+            "uf": "AM",
+            "cidade": "Manaus",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SÃO RAIMUNDO/roraima",
+            "nome": "São Raimundo",
+            "uf": "RR",
+            "cidade": "Boa Vista",
+            "km_total": 2331,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A15",
+        "nome": "Grupo A15",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "IAPE/maranhao",
+            "nome": "Iape",
+            "uf": "MA",
+            "cidade": "São Luís",
+            "km_total": 2291,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SAMPAIO CORRÊA/maranhao",
+            "nome": "Sampaio Corrêa",
+            "uf": "MA",
+            "cidade": "São Luís",
+            "km_total": 2291,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "IGUATU/ceara",
+            "nome": "Iguatu",
+            "uf": "CE",
+            "cidade": "Iguatu",
+            "km_total": 4411,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "PARNAHYBA/piaui",
+            "nome": "Parnahyba",
+            "uf": "PI",
+            "cidade": "Parnaíba",
+            "km_total": 2198,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "MOTO CLUB/maranhao",
+            "nome": "Moto Club",
+            "uf": "MA",
+            "cidade": "São Luís",
+            "km_total": 2291,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "MARACANÃ/ceara",
+            "nome": "Maracanã",
+            "uf": "CE",
+            "cidade": "Maracanaú",
+            "km_total": 3187,
+            "modal": "Aéreo / Ônibus"
+          }
+        ]
+      },
+      {
+        "id": "A16",
+        "nome": "Grupo A16",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "MARICÁ/rio_de_janeiro",
+            "nome": "Maricá",
+            "uf": "RJ",
+            "cidade": "Maricá",
+            "km_total": 2240,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "NOVA IGUAÇU/rio_de_janeiro",
+            "nome": "Nova Iguaçu",
+            "uf": "RJ",
+            "cidade": "Nova Iguaçu",
+            "km_total": 2050,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "XV DE PIRACICABA/sao_paulo",
+            "nome": "Xv de Piracicaba",
+            "uf": "SP",
+            "cidade": "Piracicaba",
+            "km_total": 2136,
+            "modal": "100% Rodoviário"
+          },
+          {
+            "id": "NOROESTE/sao_paulo",
+            "nome": "Noroeste",
+            "uf": "SP",
+            "cidade": "Bauru",
+            "km_total": 2870,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "SAMPAIO CORRÊA/rio_de_janeiro",
+            "nome": "Sampaio Corrêa",
+            "uf": "RJ",
+            "cidade": "Saquarema",
+            "km_total": 2458,
+            "modal": "Aéreo / Ônibus"
+          },
+          {
+            "id": "VELO CLUBE/sao_paulo",
+            "nome": "Velo Clube",
+            "uf": "SP",
+            "cidade": "Rio Claro",
+            "km_total": 2116,
+            "modal": "100% Rodoviário"
+          }
+        ]
+      }
+    ],
+    "serie_c_cbf_clubes": [
+      {
+        "id": "AMAZONAS/amazonas",
+        "nome": "Amazonas",
+        "uf": "AM",
+        "cidade": "Manaus",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 28063,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "BRUSQUE/santa_catarina",
+        "nome": "Brusque",
+        "uf": "SC",
+        "cidade": "Brusque",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 15340,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "CAXIAS/rio_grande_do_sul",
+        "nome": "Caxias",
+        "uf": "RS",
+        "cidade": "Caxias do Sul",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 17446,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "CONFIANÇA/sergipe",
+        "nome": "Confiança",
+        "uf": "SE",
+        "cidade": "Aracaju",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 17743,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "FERROVIÁRIA/sao_paulo",
+        "nome": "Ferroviária",
+        "uf": "SP",
+        "cidade": "Araraquara",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 12948,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "FLORESTA/ceara",
+        "nome": "Floresta",
+        "uf": "CE",
+        "cidade": "Fortaleza",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 21520,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "GUARANI/sao_paulo",
+        "nome": "Guarani",
+        "uf": "SP",
+        "cidade": "Campinas",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 13076,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "PAYSANDU/para",
+        "nome": "Paysandu",
+        "uf": "PA",
+        "cidade": "Belém",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 22760,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "VOLTA REDONDA/rio_de_janeiro",
+        "nome": "Volta Redonda",
+        "uf": "RJ",
+        "cidade": "Volta Redonda",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 13142,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "YPIRANGA/rio_grande_do_sul",
+        "nome": "Ypiranga",
+        "uf": "RS",
+        "cidade": "Erechim",
+        "mandos_fora": 9,
+        "mandos_casa": 10,
+        "km_total": 17243,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "ANÁPOLIS/goias",
+        "nome": "Anápolis",
+        "uf": "GO",
+        "cidade": "Anápolis",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 15794,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "BARRA/santa_catarina",
+        "nome": "Barra",
+        "uf": "SC",
+        "cidade": "Balneário Camboriú",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 15989,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "BOTAFOGO/paraiba",
+        "nome": "Botafogo",
+        "uf": "PB",
+        "cidade": "João Pessoa",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 24553,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "FIGUEIRENSE/santa_catarina",
+        "nome": "Figueirense",
+        "uf": "SC",
+        "cidade": "Florianópolis",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 16184,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "INTER DE LIMEIRA/sao_paulo",
+        "nome": "Inter de Limeira",
+        "uf": "SP",
+        "cidade": "Limeira",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 13557,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "ITABAIANA/sergipe",
+        "nome": "Itabaiana",
+        "uf": "SE",
+        "cidade": "Itabaiana",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 18607,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "ITUANO/sao_paulo",
+        "nome": "Ituano",
+        "uf": "SP",
+        "cidade": "Itu",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 13524,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "MARANHÃO/maranhao",
+        "nome": "Maranhão",
+        "uf": "MA",
+        "cidade": "São Luís",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 22111,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "MARINGÁ/parana",
+        "nome": "Maringá",
+        "uf": "PR",
+        "cidade": "Maringá",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 15699,
+        "modal": "Aéreo Prioritário"
+      },
+      {
+        "id": "SANTA CRUZ/pernambuco",
+        "nome": "Santa Cruz",
+        "uf": "PE",
+        "cidade": "Recife",
+        "mandos_fora": 10,
+        "mandos_casa": 9,
+        "km_total": 19242,
+        "modal": "Aéreo Prioritário"
+      }
+    ],
+    "serie_c_proposto_conferencias": [
+      {
+        "id": "SUDESTE",
+        "nome": "Conferência SUDESTE",
+        "total_clubes": 16,
+        "clubes": [
+          {
+            "id": "REAL NOROESTE/espirito_santo",
+            "nome": "Real Noroeste",
+            "uf": "ES",
+            "cidade": "AGUIA DE MARABA Branca"
+          },
+          {
+            "id": "VOLTA REDONDA/rio_de_janeiro",
+            "nome": "Volta Redonda",
+            "uf": "RJ",
+            "cidade": "Volta Redonda"
+          },
+          {
+            "id": "TOMBENSE/minas_gerais",
+            "nome": "Tombense",
+            "uf": "MG",
+            "cidade": "Tombos"
+          },
+          {
+            "id": "FERROVIÁRIA/sao_paulo",
+            "nome": "Ferroviária",
+            "uf": "SP",
+            "cidade": "Araraquara"
+          },
+          {
+            "id": "ITUANO/sao_paulo",
+            "nome": "Ituano",
+            "uf": "SP",
+            "cidade": "Itu"
+          },
+          {
+            "id": "DEMOCRATA/minas_gerais",
+            "nome": "Democrata",
+            "uf": "MG",
+            "cidade": "Governador Valadares"
+          },
+          {
+            "id": "NOVA IGUAÇU/rio_de_janeiro",
+            "nome": "Nova Iguaçu",
+            "uf": "RJ",
+            "cidade": "Nova Iguaçu"
+          },
+          {
+            "id": "INTER DE LIMEIRA/sao_paulo",
+            "nome": "Inter de Limeira",
+            "uf": "SP",
+            "cidade": "Limeira"
+          },
+          {
+            "id": "MARICÁ/rio_de_janeiro",
+            "nome": "Maricá",
+            "uf": "RJ",
+            "cidade": "Maricá"
+          },
+          {
+            "id": "GRÊMIO PRUDENTE/sao_paulo",
+            "nome": "Grêmio Prudente",
+            "uf": "SP",
+            "cidade": "Presidente Prudente"
+          },
+          {
+            "id": "OLARIA/rio_de_janeiro",
+            "nome": "Olaria",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro"
+          },
+          {
+            "id": "OESTE/sao_paulo",
+            "nome": "Oeste",
+            "uf": "SP",
+            "cidade": "Barueri"
+          },
+          {
+            "id": "POUSO ALEGRE/minas_gerais",
+            "nome": "Pouso Alegre",
+            "uf": "MG",
+            "cidade": "Pouso Alegre"
+          },
+          {
+            "id": "RIO BRANCO/sao_paulo",
+            "nome": "Rio Branco",
+            "uf": "SP",
+            "cidade": "Americana"
+          },
+          {
+            "id": "GUARANI/sao_paulo",
+            "nome": "Guarani",
+            "uf": "SP",
+            "cidade": "Campinas"
+          },
+          {
+            "id": "PORTUGUESA/rio_de_janeiro",
+            "nome": "Portuguesa",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro"
+          }
+        ]
+      },
+      {
+        "id": "SUL",
+        "nome": "Conferência SUL",
+        "total_clubes": 14,
+        "clubes": [
+          {
+            "id": "CAXIAS/rio_grande_do_sul",
+            "nome": "Caxias",
+            "uf": "RS",
+            "cidade": "Caxias do Sul"
+          },
+          {
+            "id": "BRUSQUE/santa_catarina",
+            "nome": "Brusque",
+            "uf": "SC",
+            "cidade": "Brusque"
+          },
+          {
+            "id": "CASCAVEL/parana",
+            "nome": "Cascavel",
+            "uf": "PR",
+            "cidade": "Cascavel"
+          },
+          {
+            "id": "MARCÍLIO DIAS/santa_catarina",
+            "nome": "Marcílio Dias",
+            "uf": "SC",
+            "cidade": "Itajaí"
+          },
+          {
+            "id": "SÃO LUIZ/rio_grande_do_sul",
+            "nome": "São Luiz",
+            "uf": "RS",
+            "cidade": "Ijuí"
+          },
+          {
+            "id": "BRASIL/rio_grande_do_sul",
+            "nome": "Brasil",
+            "uf": "RS",
+            "cidade": "Pelotas"
+          },
+          {
+            "id": "PARANÁ/parana",
+            "nome": "Paraná",
+            "uf": "PR",
+            "cidade": "Curitiba"
+          },
+          {
+            "id": "COSTA RICA/mato_grosso_do_sul",
+            "nome": "Costa Rica",
+            "uf": "MS",
+            "cidade": "Costa Rica"
+          },
+          {
+            "id": "JOINVILLE/santa_catarina",
+            "nome": "Joinville",
+            "uf": "SC",
+            "cidade": "Joinville"
+          },
+          {
+            "id": "MARINGÁ/parana",
+            "nome": "Maringá",
+            "uf": "PR",
+            "cidade": "Maringá"
+          },
+          {
+            "id": "YPIRANGA/rio_grande_do_sul",
+            "nome": "Ypiranga",
+            "uf": "RS",
+            "cidade": "Erechim"
+          },
+          {
+            "id": "FIGUEIRENSE/santa_catarina",
+            "nome": "Figueirense",
+            "uf": "SC",
+            "cidade": "Florianópolis"
+          },
+          {
+            "id": "OPERÁRIO/mato_grosso_do_sul",
+            "nome": "Operário",
+            "uf": "MS",
+            "cidade": "Campo Grande"
+          },
+          {
+            "id": "SÃO JOSÉ/rio_grande_do_sul",
+            "nome": "São José",
+            "uf": "RS",
+            "cidade": "Porto Alegre"
+          }
+        ]
+      },
+      {
+        "id": "NORDESTE",
+        "nome": "Conferência NORDESTE",
+        "total_clubes": 16,
+        "clubes": [
+          {
+            "id": "ALTOS/piaui",
+            "nome": "Altos",
+            "uf": "PI",
+            "cidade": "Altos"
+          },
+          {
+            "id": "CSA/alagoas",
+            "nome": "Csa",
+            "uf": "AL",
+            "cidade": "Maceió"
+          },
+          {
+            "id": "ABC/rio_grande_do_norte",
+            "nome": "Abc",
+            "uf": "RN",
+            "cidade": "Natal"
+          },
+          {
+            "id": "SERGIPE/sergipe",
+            "nome": "Sergipe",
+            "uf": "SE",
+            "cidade": "Aracaju"
+          },
+          {
+            "id": "RETRÔ/pernambuco",
+            "nome": "Retrô",
+            "uf": "PE",
+            "cidade": "Camaragibe"
+          },
+          {
+            "id": "MOTO CLUB/maranhao",
+            "nome": "Moto Club",
+            "uf": "MA",
+            "cidade": "São Luís"
+          },
+          {
+            "id": "SAMPAIO CORRÊA/maranhao",
+            "nome": "Sampaio Corrêa",
+            "uf": "MA",
+            "cidade": "São Luís"
+          },
+          {
+            "id": "JACUIPENSE/bahia",
+            "nome": "Jacuipense",
+            "uf": "BA",
+            "cidade": "Riachão do Jacuípe"
+          },
+          {
+            "id": "SOUSA/paraiba",
+            "nome": "Sousa",
+            "uf": "PB",
+            "cidade": "Sousa"
+          },
+          {
+            "id": "FLORESTA/ceara",
+            "nome": "Floresta",
+            "uf": "CE",
+            "cidade": "Fortaleza"
+          },
+          {
+            "id": "JUAZEIRENSE/bahia",
+            "nome": "Juazeirense",
+            "uf": "BA",
+            "cidade": "Juazeiro"
+          },
+          {
+            "id": "AMÉRICA/rio_grande_do_norte",
+            "nome": "América",
+            "uf": "RN",
+            "cidade": "Natal"
+          },
+          {
+            "id": "FERROVIÁRIO/ceara",
+            "nome": "Ferroviário",
+            "uf": "CE",
+            "cidade": "Fortaleza"
+          },
+          {
+            "id": "BOTAFOGO/paraiba",
+            "nome": "Botafogo",
+            "uf": "PB",
+            "cidade": "João Pessoa"
+          },
+          {
+            "id": "SANTA CRUZ/pernambuco",
+            "nome": "Santa Cruz",
+            "uf": "PE",
+            "cidade": "Recife"
+          },
+          {
+            "id": "CONFIANÇA/sergipe",
+            "nome": "Confiança",
+            "uf": "SE",
+            "cidade": "Aracaju"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO",
+        "nome": "Conferência NORTE-CENTRO",
+        "total_clubes": 14,
+        "clubes": [
+          {
+            "id": "AMAZONAS/amazonas",
+            "nome": "Amazonas",
+            "uf": "AM",
+            "cidade": "Manaus"
+          },
+          {
+            "id": "ANÁPOLIS/goias",
+            "nome": "Anápolis",
+            "uf": "GO",
+            "cidade": "Anápolis"
+          },
+          {
+            "id": "PAYSANDU/para",
+            "nome": "Paysandu",
+            "uf": "PA",
+            "cidade": "Belém"
+          },
+          {
+            "id": "APARECIDENSE/goias",
+            "nome": "Aparecidense",
+            "uf": "GO",
+            "cidade": "Aparecida de Goiânia"
+          },
+          {
+            "id": "CAPITAL CF/distrito_federal",
+            "nome": "Capital Cf",
+            "uf": "DF",
+            "cidade": "Brasília"
+          },
+          {
+            "id": "BRASILIENSE/distrito_federal",
+            "nome": "Brasiliense",
+            "uf": "DF",
+            "cidade": "Taguatinga"
+          },
+          {
+            "id": "TOCANTINÓPOLIS/tocantins",
+            "nome": "Tocantinópolis",
+            "uf": "TO",
+            "cidade": "Tocantinópolis"
+          },
+          {
+            "id": "CEILÂNDIA/distrito_federal",
+            "nome": "Ceilândia",
+            "uf": "DF",
+            "cidade": "Ceilândia"
+          },
+          {
+            "id": "CEOV OPERÁRIO/mato_grosso",
+            "nome": "Ceov Operário",
+            "uf": "MT",
+            "cidade": "Várzea Grande"
+          },
+          {
+            "id": "UNIÃO RONDONÓPOLIS/mato_grosso",
+            "nome": "União Rondonópolis",
+            "uf": "MT",
+            "cidade": "Rondonópolis"
+          },
+          {
+            "id": "MANAUS/amazonas",
+            "nome": "Manaus",
+            "uf": "AM",
+            "cidade": "Manaus"
+          },
+          {
+            "id": "MANAUARA/amazonas",
+            "nome": "Manauara",
+            "uf": "AM",
+            "cidade": "Manaus"
+          },
+          {
+            "id": "ÁGUIA DE MARABÁ/para",
+            "nome": "Águia de Marabá",
+            "uf": "PA",
+            "cidade": "Marabá"
+          },
+          {
+            "id": "TUNA LUSO/para",
+            "nome": "Tuna Luso",
+            "uf": "PA",
+            "cidade": "Belém"
+          }
+        ]
+      }
+    ],
+    "serie_d_proposto_ligas": [
+      {
+        "id": "NORDESTE_LIGA_1",
+        "nome": "NORDESTE LIGA 1",
+        "total_clubes": 10,
+        "clubes": [
+          {
+            "id": "ASA/alagoas",
+            "nome": "Asa",
+            "uf": "AL",
+            "cidade": "Arapiraca"
+          },
+          {
+            "id": "BAHIA DE FEIRA/bahia",
+            "nome": "Bahia de Feira",
+            "uf": "BA",
+            "cidade": "Feira de Santana"
+          },
+          {
+            "id": "ITABAIANA/sergipe",
+            "nome": "Itabaiana",
+            "uf": "SE",
+            "cidade": "Itabaiana"
+          },
+          {
+            "id": "FALCON/sergipe",
+            "nome": "Falcon",
+            "uf": "SE",
+            "cidade": "Barra dos Coqueiros"
+          },
+          {
+            "id": "BARRA/sergipe",
+            "nome": "Barra",
+            "uf": "SE",
+            "cidade": "Barra dos Coqueiros"
+          },
+          {
+            "id": "LAGARTO/sergipe",
+            "nome": "Lagarto",
+            "uf": "SE",
+            "cidade": "Lagarto"
+          },
+          {
+            "id": "ITABUNA/bahia",
+            "nome": "Itabuna",
+            "uf": "BA",
+            "cidade": "Itabuna"
+          },
+          {
+            "id": "OLÍMPICO/sergipe",
+            "nome": "Olímpico",
+            "uf": "SE",
+            "cidade": "Itabaianinha"
+          },
+          {
+            "id": "CRUZEIRO/alagoas",
+            "nome": "Cruzeiro",
+            "uf": "AL",
+            "cidade": "Arapiraca"
+          },
+          {
+            "id": "ATLÉTICO/bahia",
+            "nome": "Atlético",
+            "uf": "BA",
+            "cidade": "Alagoinhas"
+          }
+        ]
+      },
+      {
+        "id": "NORDESTE_LIGA_2",
+        "nome": "NORDESTE LIGA 2",
+        "total_clubes": 10,
+        "clubes": [
+          {
+            "id": "MARANHÃO/maranhao",
+            "nome": "Maranhão",
+            "uf": "MA",
+            "cidade": "São Luís"
+          },
+          {
+            "id": "IMPERATRIZ/maranhao",
+            "nome": "Imperatriz",
+            "uf": "MA",
+            "cidade": "Imperatriz"
+          },
+          {
+            "id": "FLUMINENSE/piaui",
+            "nome": "Fluminense",
+            "uf": "PI",
+            "cidade": "Teresina"
+          },
+          {
+            "id": "MARACANÃ/ceara",
+            "nome": "Maracanã",
+            "uf": "CE",
+            "cidade": "Maracanaú"
+          },
+          {
+            "id": "IAPE/maranhao",
+            "nome": "Iape",
+            "uf": "MA",
+            "cidade": "São Luís"
+          },
+          {
+            "id": "ATLÉTICO CEARENSE/ceara",
+            "nome": "Atlético Cearense",
+            "uf": "CE",
+            "cidade": "Fortaleza"
+          },
+          {
+            "id": "4 DE JULHO/piaui",
+            "nome": "4 de Julho",
+            "uf": "PI",
+            "cidade": "Piripiri"
+          },
+          {
+            "id": "JUVENTUDE/maranhao",
+            "nome": "Juventude",
+            "uf": "MA",
+            "cidade": "São Mateus do Maranhão"
+          },
+          {
+            "id": "CAUCAIA/ceara",
+            "nome": "Caucaia",
+            "uf": "CE",
+            "cidade": "Caucaia"
+          },
+          {
+            "id": "RÍVER/piaui",
+            "nome": "Ríver",
+            "uf": "PI",
+            "cidade": "Teresina"
+          }
+        ]
+      },
+      {
+        "id": "NORDESTE_LIGA_3",
+        "nome": "NORDESTE LIGA 3",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "SALGUEIRO/pernambuco",
+            "nome": "Salgueiro",
+            "uf": "PE",
+            "cidade": "Salgueiro"
+          },
+          {
+            "id": "ICASA/ceara",
+            "nome": "Icasa",
+            "uf": "CE",
+            "cidade": "Juazeiro do Norte"
+          },
+          {
+            "id": "JEQUIÉ/bahia",
+            "nome": "Jequié",
+            "uf": "BA",
+            "cidade": "Jequié"
+          },
+          {
+            "id": "IGUATU/ceara",
+            "nome": "Iguatu",
+            "uf": "CE",
+            "cidade": "Iguatu"
+          },
+          {
+            "id": "AFOGADOS DA INGAZEIRA/pernambuco",
+            "nome": "Afogados da Ingazeira",
+            "uf": "PE",
+            "cidade": "Afogados da Ingazeira"
+          },
+          {
+            "id": "POTIGUAR/rio_grande_do_norte",
+            "nome": "Potiguar",
+            "uf": "RN",
+            "cidade": "Mossoró"
+          },
+          {
+            "id": "PETROLINA/pernambuco",
+            "nome": "Petrolina",
+            "uf": "PE",
+            "cidade": "Petrolina"
+          },
+          {
+            "id": "ATLÉTICO/paraiba",
+            "nome": "Atlético",
+            "uf": "PB",
+            "cidade": "Cajazeiras"
+          }
+        ]
+      },
+      {
+        "id": "NORDESTE_LIGA_4",
+        "nome": "NORDESTE LIGA 4",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "ALECRIM/rio_grande_do_norte",
+            "nome": "Alecrim",
+            "uf": "RN",
+            "cidade": "Natal"
+          },
+          {
+            "id": "CAMPINENSE/paraiba",
+            "nome": "Campinense",
+            "uf": "PB",
+            "cidade": "Campina Grande"
+          },
+          {
+            "id": "TREZE/paraiba",
+            "nome": "Treze",
+            "uf": "PB",
+            "cidade": "Campina Grande"
+          },
+          {
+            "id": "CSE/alagoas",
+            "nome": "Cse",
+            "uf": "AL",
+            "cidade": "Palmeira dos Índios"
+          },
+          {
+            "id": "GLOBO/rio_grande_do_norte",
+            "nome": "Globo",
+            "uf": "RN",
+            "cidade": "Ceará-Mirim"
+          },
+          {
+            "id": "CENTRAL/pernambuco",
+            "nome": "Central",
+            "uf": "PE",
+            "cidade": "Caruaru"
+          },
+          {
+            "id": "NACIONAL/paraiba",
+            "nome": "Nacional",
+            "uf": "PB",
+            "cidade": "Patos"
+          },
+          {
+            "id": "VITÓRIA DAS TABOCAS/pernambuco",
+            "nome": "Vitória das Tabocas",
+            "uf": "PE",
+            "cidade": "Vitória de Santo Antão"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_1",
+        "nome": "NORTE-CENTRO LIGA 1",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "TREM/amapa",
+            "nome": "Trem",
+            "uf": "AP",
+            "cidade": "Macapá"
+          },
+          {
+            "id": "BRAGANTINO/para",
+            "nome": "Bragantino",
+            "uf": "PA",
+            "cidade": "Bragança"
+          },
+          {
+            "id": "CAMETÁ/para",
+            "nome": "Cametá",
+            "uf": "PA",
+            "cidade": "Cametá"
+          },
+          {
+            "id": "SANTOS/amapa",
+            "nome": "Santos",
+            "uf": "AP",
+            "cidade": "Macapá"
+          },
+          {
+            "id": "CASTANHAL/para",
+            "nome": "Castanhal",
+            "uf": "PA",
+            "cidade": "Castanhal"
+          },
+          {
+            "id": "MACAPÁ/amapa",
+            "nome": "Macapá",
+            "uf": "AP",
+            "cidade": "Macapá"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_2",
+        "nome": "NORTE-CENTRO LIGA 2",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "GAZIN PORTO VELHO/rondonia",
+            "nome": "Gazin Porto Velho",
+            "uf": "RO",
+            "cidade": "Porto Velho"
+          },
+          {
+            "id": "RIO BRANCO/acre",
+            "nome": "Rio Branco",
+            "uf": "AC",
+            "cidade": "Rio Branco"
+          },
+          {
+            "id": "JI-PARANÁ/rondonia",
+            "nome": "Ji-paraná",
+            "uf": "RO",
+            "cidade": "Ji-Paraná"
+          },
+          {
+            "id": "GALVEZ/acre",
+            "nome": "Galvez",
+            "uf": "AC",
+            "cidade": "Rio Branco"
+          },
+          {
+            "id": "HUMAITÁ/acre",
+            "nome": "Humaitá",
+            "uf": "AC",
+            "cidade": "Porto Acre"
+          },
+          {
+            "id": "REAL ARIQUEMES/rondonia",
+            "nome": "Real Ariquemes",
+            "uf": "RO",
+            "cidade": "Ariquemes"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_3",
+        "nome": "NORTE-CENTRO LIGA 3",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "PRINCESA/amazonas",
+            "nome": "Princesa",
+            "uf": "AM",
+            "cidade": "Manacapuru"
+          },
+          {
+            "id": "SÃO RAIMUNDO/para",
+            "nome": "São Raimundo",
+            "uf": "PA",
+            "cidade": "Santarém"
+          },
+          {
+            "id": "FAST CLUBE/amazonas",
+            "nome": "Fast Clube",
+            "uf": "AM",
+            "cidade": "Manaus"
+          },
+          {
+            "id": "GAS/roraima",
+            "nome": "Gas",
+            "uf": "RR",
+            "cidade": "Boa Vista"
+          },
+          {
+            "id": "NACIONAL/amazonas",
+            "nome": "Nacional",
+            "uf": "AM",
+            "cidade": "Manaus"
+          },
+          {
+            "id": "SÃO FRANCISCO/para",
+            "nome": "São Francisco",
+            "uf": "PA",
+            "cidade": "Santarém"
+          },
+          {
+            "id": "SÃO RAIMUNDO/roraima",
+            "nome": "São Raimundo",
+            "uf": "RR",
+            "cidade": "Boa Vista"
+          },
+          {
+            "id": "SÃO RAIMUNDO/amazonas",
+            "nome": "São Raimundo",
+            "uf": "AM",
+            "cidade": "Manaus"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_4",
+        "nome": "NORTE-CENTRO LIGA 4",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "CENTRO OESTE/goias",
+            "nome": "Centro Oeste",
+            "uf": "GO",
+            "cidade": "Senador Canedo"
+          },
+          {
+            "id": "GAMA/distrito_federal",
+            "nome": "Gama",
+            "uf": "DF",
+            "cidade": "Gama"
+          },
+          {
+            "id": "GRÊMIO ANÁPOLIS/goias",
+            "nome": "Grêmio Anápolis",
+            "uf": "GO",
+            "cidade": "Anápolis"
+          },
+          {
+            "id": "GOIANÉSIA/goias",
+            "nome": "Goianésia",
+            "uf": "GO",
+            "cidade": "Goianésia"
+          },
+          {
+            "id": "IPORÁ/goias",
+            "nome": "Iporá",
+            "uf": "GO",
+            "cidade": "Iporá"
+          },
+          {
+            "id": "REAL BRASÍLIA/distrito_federal",
+            "nome": "Real Brasília",
+            "uf": "DF",
+            "cidade": "Brasília"
+          },
+          {
+            "id": "ANAPOLINA/goias",
+            "nome": "Anapolina",
+            "uf": "GO",
+            "cidade": "Anápolis"
+          },
+          {
+            "id": "CRAC/goias",
+            "nome": "Crac",
+            "uf": "GO",
+            "cidade": "Catalão"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_5",
+        "nome": "NORTE-CENTRO LIGA 5",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "MIXTO/mato_grosso",
+            "nome": "Mixto",
+            "uf": "MT",
+            "cidade": "Cuiabá"
+          },
+          {
+            "id": "NOVA MUTUM/mato_grosso",
+            "nome": "Nova Mutum",
+            "uf": "MT",
+            "cidade": "Nova Mutum"
+          },
+          {
+            "id": "SINOP/mato_grosso",
+            "nome": "Sinop",
+            "uf": "MT",
+            "cidade": "Sinop"
+          },
+          {
+            "id": "DOM BOSCO/mato_grosso",
+            "nome": "Dom Bosco",
+            "uf": "MT",
+            "cidade": "Cuiabá"
+          },
+          {
+            "id": "LUVERDENSE/mato_grosso",
+            "nome": "Luverdense",
+            "uf": "MT",
+            "cidade": "Lucas do Rio Verde"
+          },
+          {
+            "id": "SORRISO/mato_grosso",
+            "nome": "Sorriso",
+            "uf": "MT",
+            "cidade": "Sorriso"
+          }
+        ]
+      },
+      {
+        "id": "NORTE-CENTRO_LIGA_6",
+        "nome": "NORTE-CENTRO LIGA 6",
+        "total_clubes": 6,
+        "clubes": [
+          {
+            "id": "AMAZÔNIA INDEPENDENTE/para",
+            "nome": "Amazônia Independente",
+            "uf": "PA",
+            "cidade": "Santarém"
+          },
+          {
+            "id": "INTERPORTO/tocantins",
+            "nome": "Interporto",
+            "uf": "TO",
+            "cidade": "Porto Nacional"
+          },
+          {
+            "id": "UNIÃO ATLÉTICO/tocantins",
+            "nome": "União Atlético",
+            "uf": "TO",
+            "cidade": "Araguaína"
+          },
+          {
+            "id": "CAPITAL/tocantins",
+            "nome": "Capital",
+            "uf": "TO",
+            "cidade": "Palmas"
+          },
+          {
+            "id": "PARAGOMINAS/para",
+            "nome": "Paragominas",
+            "uf": "PA",
+            "cidade": "Paragominas"
+          },
+          {
+            "id": "CANAÃ/para",
+            "nome": "Canaã",
+            "uf": "PA",
+            "cidade": "Canaã dos Carajás"
+          }
+        ]
+      },
+      {
+        "id": "SUDESTE_LIGA_1",
+        "nome": "SUDESTE LIGA 1",
+        "total_clubes": 10,
+        "clubes": [
+          {
+            "id": "ÁGUA SANTA/sao_paulo",
+            "nome": "Água Santa",
+            "uf": "SP",
+            "cidade": "Diadema"
+          },
+          {
+            "id": "GRÊMIO SÃO-CARLENSE/sao_paulo",
+            "nome": "Grêmio São-carlense",
+            "uf": "SP",
+            "cidade": "São Carlos"
+          },
+          {
+            "id": "SANTO ANDRÉ/sao_paulo",
+            "nome": "Santo André",
+            "uf": "SP",
+            "cidade": "Santo André"
+          },
+          {
+            "id": "BOA ESPORTE/minas_gerais",
+            "nome": "Boa Esporte",
+            "uf": "MG",
+            "cidade": "Varginha"
+          },
+          {
+            "id": "SÃO BENTO/sao_paulo",
+            "nome": "São Bento",
+            "uf": "SP",
+            "cidade": "Sorocaba"
+          },
+          {
+            "id": "CALDENSE/minas_gerais",
+            "nome": "Caldense",
+            "uf": "MG",
+            "cidade": "Poços de Caldas"
+          },
+          {
+            "id": "RESENDE/rio_de_janeiro",
+            "nome": "Resende",
+            "uf": "RJ",
+            "cidade": "Resende"
+          },
+          {
+            "id": "XV DE PIRACICABA/sao_paulo",
+            "nome": "Xv de Piracicaba",
+            "uf": "SP",
+            "cidade": "Piracicaba"
+          },
+          {
+            "id": "SÃO JOSÉ/sao_paulo",
+            "nome": "São José",
+            "uf": "SP",
+            "cidade": "São José dos Campos"
+          },
+          {
+            "id": "PORTUGUESA/sao_paulo",
+            "nome": "Portuguesa",
+            "uf": "SP",
+            "cidade": "São Paulo"
+          }
+        ]
+      },
+      {
+        "id": "SUDESTE_LIGA_2",
+        "nome": "SUDESTE LIGA 2",
+        "total_clubes": 10,
+        "clubes": [
+          {
+            "id": "CA PATROCINENSE/minas_gerais",
+            "nome": "Ca Patrocinense",
+            "uf": "MG",
+            "cidade": "Patrocínio"
+          },
+          {
+            "id": "XV DE JAÚ/sao_paulo",
+            "nome": "Xv de Jaú",
+            "uf": "SP",
+            "cidade": "Jaú"
+          },
+          {
+            "id": "CATANDUVA/sao_paulo",
+            "nome": "Catanduva",
+            "uf": "SP",
+            "cidade": "Catanduva"
+          },
+          {
+            "id": "NOROESTE/sao_paulo",
+            "nome": "Noroeste",
+            "uf": "SP",
+            "cidade": "Bauru"
+          },
+          {
+            "id": "URT/minas_gerais",
+            "nome": "Urt",
+            "uf": "MG",
+            "cidade": "Patos de Minas"
+          },
+          {
+            "id": "FRANCANA/sao_paulo",
+            "nome": "Francana",
+            "uf": "SP",
+            "cidade": "Franca"
+          },
+          {
+            "id": "TAQUARITINGA/sao_paulo",
+            "nome": "Taquaritinga",
+            "uf": "SP",
+            "cidade": "Taquaritinga"
+          },
+          {
+            "id": "CA VOTUPORANGUENSE/sao_paulo",
+            "nome": "Ca Votuporanguense",
+            "uf": "SP",
+            "cidade": "Votuporanga"
+          },
+          {
+            "id": "VOCEM/sao_paulo",
+            "nome": "Vocem",
+            "uf": "SP",
+            "cidade": "Assis"
+          },
+          {
+            "id": "UBERLÂNDIA/minas_gerais",
+            "nome": "Uberlândia",
+            "uf": "MG",
+            "cidade": "Uberlândia"
+          }
+        ]
+      },
+      {
+        "id": "SUDESTE_LIGA_3",
+        "nome": "SUDESTE LIGA 3",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "PÉROLAS NEGRAS/rio_de_janeiro",
+            "nome": "Pérolas Negras",
+            "uf": "RJ",
+            "cidade": "Piraí"
+          },
+          {
+            "id": "GONÇALENSE/rio_de_janeiro",
+            "nome": "Gonçalense",
+            "uf": "RJ",
+            "cidade": "São Gonçalo"
+          },
+          {
+            "id": "DUQUE DE CAXIAS/rio_de_janeiro",
+            "nome": "Duque de Caxias",
+            "uf": "RJ",
+            "cidade": "Duque de Caxias"
+          },
+          {
+            "id": "BELFORD ROXO/rio_de_janeiro",
+            "nome": "Belford Roxo",
+            "uf": "RJ",
+            "cidade": "Belford Roxo"
+          },
+          {
+            "id": "SAMPAIO CORRÊA/rio_de_janeiro",
+            "nome": "Sampaio Corrêa",
+            "uf": "RJ",
+            "cidade": "Saquarema"
+          },
+          {
+            "id": "AUDAX RIO/rio_de_janeiro",
+            "nome": "Audax Rio",
+            "uf": "RJ",
+            "cidade": "Saquarema"
+          },
+          {
+            "id": "AMERICA/rio_de_janeiro",
+            "nome": "America",
+            "uf": "RJ",
+            "cidade": "Rio de Janeiro"
+          },
+          {
+            "id": "SERRANO/rio_de_janeiro",
+            "nome": "Serrano",
+            "uf": "RJ",
+            "cidade": "Petrópolis"
+          }
+        ]
+      },
+      {
+        "id": "SUDESTE_LIGA_4",
+        "nome": "SUDESTE LIGA 4",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "BETIM FUTEBOL/minas_gerais",
+            "nome": "Betim Futebol",
+            "uf": "MG",
+            "cidade": "Betim"
+          },
+          {
+            "id": "NOVA VENÉCIA/espirito_santo",
+            "nome": "Nova Venécia",
+            "uf": "ES",
+            "cidade": "Nova Venécia"
+          },
+          {
+            "id": "VITÓRIA/espirito_santo",
+            "nome": "Vitória",
+            "uf": "ES",
+            "cidade": "Vitória"
+          },
+          {
+            "id": "RIO BRANCO DE VENDA NOVA/espirito_santo",
+            "nome": "Rio Branco de Venda Nova",
+            "uf": "ES",
+            "cidade": "Venda Nova do Imigrante"
+          },
+          {
+            "id": "IPATINGA/minas_gerais",
+            "nome": "Ipatinga",
+            "uf": "MG",
+            "cidade": "Ipatinga"
+          },
+          {
+            "id": "PADUANO/rio_de_janeiro",
+            "nome": "Paduano",
+            "uf": "RJ",
+            "cidade": "Santo Antônio de Pádua"
+          },
+          {
+            "id": "RIO BRANCO/espirito_santo",
+            "nome": "Rio Branco",
+            "uf": "ES",
+            "cidade": "Vitória"
+          },
+          {
+            "id": "AMERICANO/rio_de_janeiro",
+            "nome": "Americano",
+            "uf": "RJ",
+            "cidade": "Campos dos Goytacazes"
+          }
+        ]
+      },
+      {
+        "id": "SUL-MS_LIGA_1",
+        "nome": "SUL-MS LIGA 1",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "NOVO HAMBURGO/rio_grande_do_sul",
+            "nome": "Novo Hamburgo",
+            "uf": "RS",
+            "cidade": "Novo Hamburgo"
+          },
+          {
+            "id": "MONSOON/rio_grande_do_sul",
+            "nome": "Monsoon",
+            "uf": "RS",
+            "cidade": "Capão da Canoa"
+          },
+          {
+            "id": "REAL SPORT CLUB/rio_grande_do_sul",
+            "nome": "Real Sport Club",
+            "uf": "RS",
+            "cidade": "Capão da Canoa"
+          },
+          {
+            "id": "AIMORÉ/rio_grande_do_sul",
+            "nome": "Aimoré",
+            "uf": "RS",
+            "cidade": "São Leopoldo"
+          },
+          {
+            "id": "SÃO PAULO/rio_grande_do_sul",
+            "nome": "São Paulo",
+            "uf": "RS",
+            "cidade": "Rio Grande"
+          },
+          {
+            "id": "GRAMADENSE/rio_grande_do_sul",
+            "nome": "Gramadense",
+            "uf": "RS",
+            "cidade": "Gramado"
+          },
+          {
+            "id": "RIO GRANDE/rio_grande_do_sul",
+            "nome": "Rio Grande",
+            "uf": "RS",
+            "cidade": "Rio Grande"
+          },
+          {
+            "id": "CRUZEIRO/rio_grande_do_sul",
+            "nome": "Cruzeiro",
+            "uf": "RS",
+            "cidade": "Cachoeirinha"
+          }
+        ]
+      },
+      {
+        "id": "SUL-MS_LIGA_2",
+        "nome": "SUL-MS LIGA 2",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "FOZ DO IGUAÇU/parana",
+            "nome": "Foz do Iguaçu",
+            "uf": "PR",
+            "cidade": "Foz do Iguaçu"
+          },
+          {
+            "id": "AZURIZ FUTEBOL/parana",
+            "nome": "Azuriz Futebol",
+            "uf": "PR",
+            "cidade": "Pato Branco"
+          },
+          {
+            "id": "SÃO BORJA/rio_grande_do_sul",
+            "nome": "São Borja",
+            "uf": "RS",
+            "cidade": "São Borja"
+          },
+          {
+            "id": "CONCÓRDIA/santa_catarina",
+            "nome": "Concórdia",
+            "uf": "SC",
+            "cidade": "Concórdia"
+          },
+          {
+            "id": "GUARANI V. AIRES/rio_grande_do_sul",
+            "nome": "Guarani V. Aires",
+            "uf": "RS",
+            "cidade": "Venâncio Aires"
+          },
+          {
+            "id": "ARUKO/parana",
+            "nome": "Aruko",
+            "uf": "PR",
+            "cidade": "Maringá"
+          },
+          {
+            "id": "GAÚCHO/rio_grande_do_sul",
+            "nome": "Gaúcho",
+            "uf": "RS",
+            "cidade": "Passo Fundo"
+          },
+          {
+            "id": "NACIONAL/parana",
+            "nome": "Nacional",
+            "uf": "PR",
+            "cidade": "Rolândia"
+          }
+        ]
+      },
+      {
+        "id": "SUL-MS_LIGA_3",
+        "nome": "SUL-MS LIGA 3",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "BARRA/santa_catarina",
+            "nome": "Barra",
+            "uf": "SC",
+            "cidade": "Balneário Camboriú"
+          },
+          {
+            "id": "CARLOS RENAUX/santa_catarina",
+            "nome": "Carlos Renaux",
+            "uf": "SC",
+            "cidade": "Brusque"
+          },
+          {
+            "id": "SÃO JOSEENSE/parana",
+            "nome": "São Joseense",
+            "uf": "PR",
+            "cidade": "São José dos Pinhais"
+          },
+          {
+            "id": "JUVENTUS JARAGUÁ/santa_catarina",
+            "nome": "Juventus Jaraguá",
+            "uf": "SC",
+            "cidade": "Jaraguá do Sul"
+          },
+          {
+            "id": "HERCÍLIO LUZ/santa_catarina",
+            "nome": "Hercílio Luz",
+            "uf": "SC",
+            "cidade": "Tubarão"
+          },
+          {
+            "id": "ANDRAUS/parana",
+            "nome": "Andraus",
+            "uf": "PR",
+            "cidade": "Campo Largo"
+          },
+          {
+            "id": "CAMBORIÚ/santa_catarina",
+            "nome": "Camboriú",
+            "uf": "SC",
+            "cidade": "Camboriú"
+          },
+          {
+            "id": "NAÇÃO/santa_catarina",
+            "nome": "Nação",
+            "uf": "SC",
+            "cidade": "Joinville"
+          }
+        ]
+      },
+      {
+        "id": "SUL-MS_LIGA_4",
+        "nome": "SUL-MS LIGA 4",
+        "total_clubes": 8,
+        "clubes": [
+          {
+            "id": "AQUIDAUANENSE/mato_grosso_do_sul",
+            "nome": "Aquidauanense",
+            "uf": "MS",
+            "cidade": "Aquidauana"
+          },
+          {
+            "id": "SERC/mato_grosso_do_sul",
+            "nome": "Serc",
+            "uf": "MS",
+            "cidade": "Chapadão do Sul"
+          },
+          {
+            "id": "DOURADOS/mato_grosso_do_sul",
+            "nome": "Dourados",
+            "uf": "MS",
+            "cidade": "Dourados"
+          },
+          {
+            "id": "ÁGUIA NEGRA/mato_grosso_do_sul",
+            "nome": "Águia Negra",
+            "uf": "MS",
+            "cidade": "Rio Brilhante"
+          },
+          {
+            "id": "CIANORTE/parana",
+            "nome": "Cianorte",
+            "uf": "PR",
+            "cidade": "Cianorte"
+          },
+          {
+            "id": "NAVIRAIENSE/mato_grosso_do_sul",
+            "nome": "Naviraiense",
+            "uf": "MS",
+            "cidade": "Naviraí"
+          },
+          {
+            "id": "PARANAVAÍ/parana",
+            "nome": "Paranavaí",
+            "uf": "PR",
+            "cidade": "Paranavaí"
+          },
+          {
+            "id": "COMERCIAL/mato_grosso_do_sul",
+            "nome": "Comercial",
+            "uf": "MS",
+            "cidade": "Campo Grande"
+          }
+        ]
+      }
+    ]
+  }
 }

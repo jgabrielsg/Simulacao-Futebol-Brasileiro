@@ -146,8 +146,26 @@
           "destino_macro": "SUL-MS"
         }
       ],
-      "trocas_de_liga_c": [],
-      "ingressantes_d_estaduais": []
+      "trocas_de_liga_c": [
+        {
+          "clube": "GRÊMIO PRUDENTE/sao_paulo",
+          "nome": "Grêmio Prudente",
+          "cidade": "Presidente Prudente",
+          "uf": "SP",
+          "de": "SUDESTE",
+          "para": "SUL",
+          "motivo": "Rebalanceamento de Paridade Par: a dinâmica esportiva deixou o Sudeste com 17 clubes (ímpar) e o Sul com 15 clubes (ímpar). O solver CP-SAT acionou o pivô de fronteira do Grêmio Prudente (extremo oeste paulista na divisa com PR/MS) para o cluster Sul-MS, nivelando ambas as conferências em 16 clubes e eliminando qualquer rodada de folga (zero bye weeks)."
+        }
+      ],
+      "ingressantes_d_estaduais": [],
+      "tamanhos_conferencias_c_proxima": {
+        "SUDESTE": 16,
+        "SUL": 16,
+        "NORDESTE": 14,
+        "NORTE-CENTRO": 14
+      },
+      "serie_d_reclustered_count": 37,
+      "paridade_explicacao": "O Sudeste acumulou 17 clubes e o Sul 15 (ambos ímpares). Grêmio Prudente (SP) foi alocado ao Sul-MS, restabelecendo cardinalidade par de 16 clubes em ambas."
     },
     "custo_total_d_brl": 33330761.02,
     "custo_total_piramide_brl": 84067707.06,
@@ -301,8 +319,44 @@
           "destino_macro": "SUL-MS"
         }
       ],
-      "trocas_de_liga_c": [],
-      "ingressantes_d_estaduais": []
+      "trocas_de_liga_c": [
+        {
+          "clube": "GRÊMIO PRUDENTE/sao_paulo",
+          "nome": "Grêmio Prudente",
+          "cidade": "Presidente Prudente",
+          "uf": "SP",
+          "de": "SUL",
+          "para": "SUDESTE",
+          "motivo": "Retorno ao Sudeste decorrente da expansão da conferência para 18 clubes (teto regulamentar) provocada pelo rebaixamento do São Bernardo à Série C, sem nenhum time do sudeste subindo de divisão."
+        },
+        {
+          "clube": "COSTA RICA/mato_grosso_do_sul",
+          "nome": "Costa Rica",
+          "cidade": "Costa Rica",
+          "uf": "MS",
+          "de": "SUL",
+          "para": "NORTE-CENTRO",
+          "motivo": "Pivô de fronteira Centro-Sul (MS/GO/MT) para recompor a conferência Norte-Centro em 14 clubes após o acesso de Paysandu e Brasiliense à Série B."
+        },
+        {
+          "clube": "ALTOS/piaui",
+          "nome": "Altos",
+          "cidade": "Altos",
+          "uf": "PI",
+          "de": "NORDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Pivô de fronteira Nordeste/Norte (PI/MA/PA) para equalizar a conferência Norte-Centro em 14 clubes e garantir paridade par."
+        }
+      ],
+      "ingressantes_d_estaduais": [],
+      "tamanhos_conferencias_c_proxima": {
+        "SUDESTE": 18,
+        "SUL": 14,
+        "NORDESTE": 14,
+        "NORTE-CENTRO": 14
+      },
+      "serie_d_reclustered_count": 45,
+      "paridade_explicacao": "O Sudeste expandiu para 18 clubes (teto máximo) devido a descensos concentrados da Série B. Costa Rica (MS) e Altos (PI) migraram para recompor o Norte-Centro em 14 clubes."
     },
     "custo_total_d_brl": 29259029.7,
     "custo_total_piramide_brl": 80937980,
@@ -457,7 +511,15 @@
         }
       ],
       "trocas_de_liga_c": [],
-      "ingressantes_d_estaduais": []
+      "ingressantes_d_estaduais": [],
+      "tamanhos_conferencias_c_proxima": {
+        "SUDESTE": 18,
+        "SUL": 14,
+        "NORDESTE": 14,
+        "NORTE-CENTRO": 14
+      },
+      "serie_d_reclustered_count": 49,
+      "paridade_explicacao": "Simetria geográfica perfeita: 1 promoção à B por conferência, 2 rebaixamentos à D por conferência e 2 acessos da D por conferência. As 4 conferências mantiveram 18, 14, 14, 14 clubes sem necessidade de migrações na C."
     },
     "custo_total_d_brl": 29405119.65,
     "custo_total_piramide_brl": 77870503.73,
@@ -611,8 +673,53 @@
           "destino_macro": "SUL-MS"
         }
       ],
-      "trocas_de_liga_c": [],
-      "ingressantes_d_estaduais": []
+      "trocas_de_liga_c": [
+        {
+          "clube": "TOMBENSE/minas_gerais",
+          "nome": "Tombense",
+          "cidade": "Tombos",
+          "uf": "MG",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Alívio de sobrecarga de clubes paulistas no Sudeste (que atingiu teto de 18); clube da Zona da Mata mineira alocado à conferência Norte-Centro."
+        },
+        {
+          "clube": "ATHLETIC/minas_gerais",
+          "nome": "Athletic",
+          "cidade": "São João del-Rei",
+          "uf": "MG",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Alívio de sobrecarga de clubes paulistas no Sudeste; clube do Campo das Vertentes mineiro alocado à conferência Norte-Centro."
+        },
+        {
+          "clube": "ALTOS/piaui",
+          "nome": "Altos",
+          "cidade": "Altos",
+          "uf": "PI",
+          "de": "NORTE-CENTRO",
+          "para": "NORDESTE",
+          "motivo": "Contra-compensação de fronteira: retorno ao Nordeste para manter a conferência Norte-Centro estritamente em 14 clubes."
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "nome": "Moto Club",
+          "cidade": "São Luís",
+          "uf": "MA",
+          "de": "NORTE-CENTRO",
+          "para": "NORDESTE",
+          "motivo": "Contra-compensação de fronteira: migração para o Nordeste para manter a conferência Norte-Centro estritamente em 14 clubes."
+        }
+      ],
+      "ingressantes_d_estaduais": [],
+      "tamanhos_conferencias_c_proxima": {
+        "SUDESTE": 18,
+        "SUL": 14,
+        "NORDESTE": 14,
+        "NORTE-CENTRO": 14
+      },
+      "serie_d_reclustered_count": 31,
+      "paridade_explicacao": "Sobrecarga de descensos em SP forçou a migração de 2 clubes mineiros (Tombense e Athletic) para o Norte-Centro. Em contra-partida, Altos (PI) e Moto Club (MA) retornaram ao Nordeste."
     },
     "custo_total_d_brl": 29439808.84,
     "custo_total_piramide_brl": 79790397.24,
@@ -767,7 +874,15 @@
         }
       ],
       "trocas_de_liga_c": [],
-      "ingressantes_d_estaduais": []
+      "ingressantes_d_estaduais": [],
+      "tamanhos_conferencias_c_proxima": {
+        "SUDESTE": 18,
+        "SUL": 14,
+        "NORDESTE": 14,
+        "NORTE-CENTRO": 14
+      },
+      "serie_d_reclustered_count": 28,
+      "paridade_explicacao": "Conclusão oficial do Quinquênio de simulações. 100% de paridade par mantida nos 5 anos (zero bye weeks) e 8 migrações de Iso-Liga realizadas com sucesso."
     },
     "custo_total_d_brl": 29368242.78,
     "custo_total_piramide_brl": 85229501.62,

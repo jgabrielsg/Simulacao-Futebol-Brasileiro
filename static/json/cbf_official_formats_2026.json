@@ -1,0 +1,324 @@
+{
+  "meta": {
+    "titulo": "Formatos e Regulamentos Oficiais CBF 2026: Séries C e D",
+    "ano_base": 2026,
+    "fonte": "Confederação Brasileira de Futebol (CBF) - Regulamento Específico das Competições (REC 2026)",
+    "autor_analise": "João Gabriel Machado (FGV/EMAp - GeoFootballGraph-BR)",
+    "data_atualizacao": "2026-09-16"
+  },
+  "serie_c_cbf_2026": {
+    "nome": "Campeonato Brasileiro Série C 2026 (Status Quo CBF)",
+    "resumo_executivo": "Competição nacional com 20 clubes em grupo único continental na 1ª fase (19 rodadas em turno único desbalanceado), seguida de 2 quadrangulares do acesso (6 rodadas) e final nacional em ida e volta.",
+    "estrutura_geral": {
+      "total_clubes": 20,
+      "total_partidas": 216,
+      "total_datas": 27,
+      "periodo_competicao": "Abril a Outubro de 2026",
+      "min_jogos_por_clube": 19,
+      "max_jogos_por_clube": 27,
+      "vagas_acesso_serie_b": 4,
+      "vagas_rebaixamento_serie_d": 4,
+      "vagas_copa_do_brasil": 1,
+      "subsidio_logistico_cbf": "Subsídio integral centralizado: passagens aéreas e terrestres, 2 diárias de hotel corporativo e alimentação para delegação de 32 passageiros em todos os jogos fora."
+    },
+    "criterios_classificacao_entrada": [
+      "4 clubes rebaixados da Série B de 2025",
+      "12 clubes remanescentes da Série C de 2025 (5º ao 16º lugares)",
+      "4 clubes semifinalistas promovidos da Série D de 2025"
+    ],
+    "fases_detalhadas": [
+      {
+        "fase_ordem": 1,
+        "fase_nome": "Primeira Fase (Grupo Único Continental)",
+        "formato": "Turno único de pontos corridos entre todos os 20 clubes (19 rodadas, 190 partidas)",
+        "clubes_participantes": 20,
+        "jogos_por_clube": 19,
+        "total_partidas_fase": 190,
+        "distribuicao_mando": "Assimétrica: 10 clubes jogam 10 em casa e 9 fora; 10 clubes jogam 9 em casa e 10 fora (sorteio técnico CBF)",
+        "desfecho_esportivo": {
+          "classificados_fase_2": "Top 8 (1º ao 8º colocados)",
+          "permanecem_sem_jogar": "Do 9º ao 16º colocados mantêm-se na Série C, mas encerram a temporada em agosto",
+          "rebaixados_serie_d": "Os 4 últimos (17º ao 20º colocados)"
+        },
+        "gargalos_e_criticas": [
+          "Assimetria de mando de campo fere o equilíbrio desportivo (um clube pode jogar 10 jogos no seu estádio e outro apenas 9)",
+          "Deslocamentos continentais sem turnês: viagens bate-volta isoladas de até 3.500 km (ex: Manaus a Caxias do Sul)",
+          "Custo médio por partida de R$ 160.766,43 devido à prevalência do modal aéreo (71,5%) com conexões múltiplas",
+          "Inatividade precoce: 12 dos 20 clubes (60%) encerram as atividades em agosto com apenas 19 jogos disputados"
+        ]
+      },
+      {
+        "fase_ordem": 2,
+        "fase_nome": "Segunda Fase (Quadrangulares do Acesso)",
+        "formato": "Dois grupos de 4 clubes disputados em turno e returno (6 rodadas, 24 partidas)",
+        "clubes_participantes": 8,
+        "jogos_por_clube": 6,
+        "total_partidas_fase": 24,
+        "composicao_chaves": {
+          "grupo_b": "1º, 4º, 5º e 8º colocados da 1ª Fase",
+          "grupo_c": "2º, 3º, 6º e 7º colocados da 1ª Fase"
+        },
+        "desfecho_esportivo": {
+          "promovidos_serie_b": "Os 2 primeiros colocados de cada grupo (total de 4 clubes)",
+          "finalistas_nacionais": "O líder de cada quadrangular avança para a Grande Final"
+        },
+        "gargalos_e_criticas": [
+          "Apenas 8 clubes têm acesso a esta fase, deixando os demais 12 sem receita ou bilheteria por 8 meses"
+        ]
+      },
+      {
+        "fase_ordem": 3,
+        "fase_nome": "Terceira Fase (Grande Final Nacional)",
+        "formato": "Confronto eliminatório em partidas de ida e volta (180 minutos)",
+        "clubes_participantes": 2,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 2,
+        "mando_de_campo": "O 2º jogo ocorre no estádio do clube com maior pontuação somada nas duas fases",
+        "desfecho_esportivo": "O vencedor é proclamado Campeão Brasileiro da Série C e garante vaga na 3ª Fase da Copa do Brasil"
+      }
+    ],
+    "metricas_consolidadas": {
+      "custo_total_estimado_brl": 34725549.89,
+      "custo_fase_regular_brl": 30604124.06,
+      "custo_playoffs_medio_brl": 4151149.94,
+      "distancia_media_por_jogo_km": 1580.0,
+      "participacao_modal_aereo_pct": 71.5,
+      "participacao_modal_rodoviario_pct": 28.5,
+      "estados_atendidos_media": 14
+    }
+  },
+  "serie_d_cbf_2026": {
+    "nome": "Campeonato Brasileiro Série D 2026 (Novo Formato de 96 Clubes)",
+    "resumo_executivo": "Expansão histórica da CBF de 64 para 96 clubes. 1ª fase com 16 grupos de 6 clubes em turno e returno (10 rodadas), seguida de 6 etapas de mata-mata em ida e volta com 6 acessos à Série C.",
+    "estrutura_geral": {
+      "total_clubes": 96,
+      "total_partidas": 610,
+      "total_datas": 24,
+      "periodo_competicao": "5 de Abril a 13 de Setembro de 2026",
+      "min_jogos_por_clube": 10,
+      "max_jogos_por_clube": 22,
+      "vagas_acesso_serie_c": 6,
+      "vagas_copa_do_brasil": 1,
+      "garantia_serie_d_ano_seguinte": "Os 32 clubes que avançam à 3ª Fase (Oitavas) garantem vaga direta na Série D de 2027 (caso não subam à Série C)",
+      "subsidio_logistico_cbf": "Subsídio integral centralizado: passagens aéreas e terrestres, diárias de hotel e refeições para 32 passageiros."
+    },
+    "criterios_classificacao_entrada": [
+      {
+        "criterio": "Critério 1 - Rebaixamento da Série C (4 vagas)",
+        "detalhes": "Os 4 clubes despromovidos da Série C de 2025."
+      },
+      {
+        "criterio": "Critério 2 - Campeonatos e Seletivas Estaduais (64 vagas)",
+        "detalhes": "Definidas pelos Campeonatos Estaduais de 2025: 4 vagas para SP (1º no RNF); 3 vagas para RJ, MG, RS, PR, CE, GO, SC, BA (2º ao 9º no RNF); 2 vagas para os demais 18 estados (10º ao 27º no RNF)."
+      },
+      {
+        "criterio": "Critério 3 - Remanescência por Desempenho Anterior (28 vagas)",
+        "detalhes": "Os clubes que avançaram à Segunda Fase (mata-mata de 64) da Série D de 2025."
+      },
+      {
+        "criterio": "Critério 4 - Ranking Nacional de Clubes (RNC)",
+        "detalhes": "Vagas remanescentes destinadas aos clubes mais bem ranqueados sem divisão nacional caso clubes do Critério 3 já tenham vaga pelo Critério 2."
+      }
+    ],
+    "fases_detalhadas": [
+      {
+        "fase_ordem": 1,
+        "fase_nome": "Primeira Fase (16 Grupos Regionalizados)",
+        "formato": "16 grupos de 6 clubes com disputa em turno e returno intra-grupo (10 rodadas, 480 partidas)",
+        "clubes_participantes": 96,
+        "jogos_por_clube": 10,
+        "total_partidas_fase": 480,
+        "regra_distribuicao_geografica": "Critério geográfico regional com no máximo 3 clubes de uma mesma federação estadual por chave",
+        "desfecho_esportivo": {
+          "classificados_fase_2": "Top 4 de cada grupo (16 grupos x 4 = 64 clubes avançam ao mata-mata)",
+          "eliminados_prematuramente": "Os 2 últimos de cada grupo (32 clubes) encerram sua participação em junho/julho após apenas 10 partidas"
+        },
+        "gargalos_e_criticas": [
+          "32 agremiações (33,3% do torneio) disputam apenas 10 partidas no ano todo e ficam sem atividade profissional já no meio do ano",
+          "Calendário ativo inferior a 3 meses para um terço dos participantes"
+        ]
+      },
+      {
+        "fase_ordem": 2,
+        "fase_nome": "Segunda Fase (1ª Rodada Eliminatória / 64 Clubes)",
+        "formato": "32 confrontos eliminatórios em partidas de ida e volta (180 min, 64 partidas)",
+        "clubes_participantes": 64,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 64,
+        "criterio_chaveamento": "Regional direcionado entre chaves adjacentes (ex: 1º Grupo 1 x 4º Grupo 2; 2º Grupo 1 x 3º Grupo 2)",
+        "desfecho_esportivo": "32 vencedores avançam à 3ª Fase e conquistam vaga assegurada na Série D de 2027"
+      },
+      {
+        "fase_ordem": 3,
+        "fase_nome": "Terceira Fase (Oitavas de Final / 32 Clubes)",
+        "formato": "16 confrontos eliminatórios em partidas de ida e volta (32 partidas)",
+        "clubes_participantes": 32,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 32,
+        "criterio_chaveamento": "Manutenção das ramificações do chaveamento regional pré-estabelecido",
+        "desfecho_esportivo": "16 vencedores avançam para as Quartas de Final"
+      },
+      {
+        "fase_ordem": 4,
+        "fase_nome": "Quartas de Final (Mata-mata de 16 - Ponto Crítico de Inflexão Logística)",
+        "formato": "8 confrontos eliminatórios em partidas de ida e volta (16 partidas)",
+        "clubes_participantes": 16,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 16,
+        "regra_chaveamento_geral": "O CHAVEAMENTO REGIONAL É ABANDONADO. Os confrontos passam a ser determinados estritamente pela Campanha Geral (soma de pontos acumulados em todas as fases anteriores: 1º x 16º, 2º x 15º, etc.)",
+        "gargalos_e_criticas": [
+          "Gera cruzamentos continentais prematuros e caríssimos (ex: time do interior gaúcho enfrentando clube do Amapá ou Roraima)",
+          "Exige emissão de passagens aéreas comerciais com prazos de véspera para delegações inteiras",
+          "Eleva drasticamente o custo médio de logística das fases finais (mais de R$ 8,10 milhões gastos nos mata-matas da D)"
+        ],
+        "desfecho_esportivo": {
+          "semifinalistas_promovidos": "Os 4 vencedores garantem acesso direto à Série C de 2027",
+          "repescagem_playoffs": "Os 4 clubes eliminados disputam os Playoffs de Acesso"
+        }
+      },
+      {
+        "fase_ordem": 5,
+        "fase_nome": "Playoffs de Acesso à Série C (Repescagem de 4 Clubes)",
+        "formato": "2 confrontos eliminatórios em partidas de ida e volta (4 partidas)",
+        "clubes_participantes": 4,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 4,
+        "criterio_chaveamento": "Campanha acumulada entre os 4 eliminados das quartas (1º x 4º, 2º x 3º)",
+        "desfecho_esportivo": "Os 2 vencedores garantem a 5ª e 6ª vagas de acesso à Série C de 2027"
+      },
+      {
+        "fase_ordem": 6,
+        "fase_nome": "Semifinais",
+        "formato": "2 confrontos eliminatórios em partidas de ida e volta entre os 4 semifinalistas (4 partidas)",
+        "clubes_participantes": 4,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 4,
+        "desfecho_esportivo": "2 vencedores avançam para a Grande Final"
+      },
+      {
+        "fase_ordem": 7,
+        "fase_nome": "Grande Final Nacional",
+        "formato": "Confronto em ida e volta entre os 2 finalistas (2 partidas)",
+        "clubes_participantes": 2,
+        "jogos_por_clube": 2,
+        "total_partidas_fase": 2,
+        "desfecho_esportivo": "O campeão garante vaga direta na 3ª Fase da Copa do Brasil de 2027"
+      }
+    ],
+    "metricas_consolidadas": {
+      "custo_total_estimado_brl": 44892163.14,
+      "custo_fase_regular_brl": 36784742.25,
+      "custo_playoffs_medio_brl": 8103934.51,
+      "distancia_media_por_jogo_km": 1142.3,
+      "participacao_modal_aereo_pct": 53.8,
+      "participacao_modal_rodoviario_pct": 46.2,
+      "estados_atendidos": 27
+    }
+  },
+  "comparativo_estrutural_sintetico": {
+    "serie_c": {
+      "dimensoes": [
+        {
+          "dimensao": "Número de Clubes",
+          "cbf_oficial_2026": "20 clubes",
+          "modelo_proposto_fgv": "60 clubes (+200%)",
+          "impacto": "Triplicação de equipes com calendário nacional garantido"
+        },
+        {
+          "dimensao": "Jogos Garantidos / Clube",
+          "cbf_oficial_2026": "19 jogos (12 clubes eliminados em agosto)",
+          "modelo_proposto_fgv": "26 a 34 jogos garantidos",
+          "impacto": "Fim do vazio de calendário semestral"
+        },
+        {
+          "dimensao": "Total de Partidas no Torneio",
+          "cbf_oficial_2026": "216 partidas",
+          "modelo_proposto_fgv": "863 partidas (+300%)",
+          "impacto": "Maior atratividade comercial e de patrocínios"
+        },
+        {
+          "dimensao": "Formato da 1ª Fase",
+          "cbf_oficial_2026": "Grupo único continental de 20 times",
+          "modelo_proposto_fgv": "4 Conferências Regionais (14 a 18 clubes)",
+          "impacto": "Preservação de rivalidades locais e redução drástica de deslocamentos"
+        },
+        {
+          "dimensao": "Isolamento de Mandos",
+          "cbf_oficial_2026": "Assimetria (10 mandos vs 9 mandos)",
+          "modelo_proposto_fgv": "Turno e returno perfeito intra-conferência",
+          "impacto": "Equidade esportiva matemática"
+        },
+        {
+          "dimensao": "Custo Médio por Partida",
+          "cbf_oficial_2026": "R$ 160.766,43",
+          "modelo_proposto_fgv": "R$ 58.791,36 (-63,4%)",
+          "impacto": "Eficiência máxima através de turnês TTP-k encadeadas"
+        },
+        {
+          "dimensao": "Uso do Modal Rodoviário",
+          "cbf_oficial_2026": "28,5% rodoviário (71,5% aéreo)",
+          "modelo_proposto_fgv": "38,6% rodoviário (e 61,4% aéreo regional)",
+          "impacto": "Deslocamentos viários prioritários nos eixos Sul e Sudeste"
+        },
+        {
+          "dimensao": "Fórmula de Acesso à Série B",
+          "cbf_oficial_2026": "Dois quadrangulares de 4 clubes",
+          "modelo_proposto_fgv": "Play-ins G-5 regionais + Quartas de final nacionais",
+          "impacto": "Fase final emocionante sem partidas inúteis"
+        }
+      ]
+    },
+    "serie_d": {
+      "dimensoes": [
+        {
+          "dimensao": "Número de Clubes",
+          "cbf_oficial_2026": "96 clubes",
+          "modelo_proposto_fgv": "144 clubes (+50%)",
+          "impacto": "Inclusão de mais 48 polos futebolísticos em todos os estados"
+        },
+        {
+          "dimensao": "Mínimo de Jogos por Clube",
+          "cbf_oficial_2026": "10 jogos (32 clubes eliminados em junho/julho)",
+          "modelo_proposto_fgv": "10 a 14 jogos na 1ª fase (todos com calendário estendido)",
+          "impacto": "Redução de rescisões precoces de contratos de atletas"
+        },
+        {
+          "dimensao": "Total de Partidas no Torneio",
+          "cbf_oficial_2026": "610 partidas",
+          "modelo_proposto_fgv": "1.096 partidas (+79,7%)",
+          "impacto": "Volume dobrado com menor custo total"
+        },
+        {
+          "dimensao": "Formato da 1ª Fase",
+          "cbf_oficial_2026": "16 grupos de 6 times (regionalização frágil)",
+          "modelo_proposto_fgv": "18 Ligas Regionais compactas de raio limitado",
+          "impacto": "Ligas 100% rodoviárias na grande maioria das chaves"
+        },
+        {
+          "dimensao": "Chaveamento no Mata-mata",
+          "cbf_oficial_2026": "Regional até oitavas; Campanha Geral unificada nas quartas",
+          "modelo_proposto_fgv": "Playoffs Concêntricos 100% Regionais até as semifinais",
+          "impacto": "Elimina cruzamentos continentais prematuros de altíssimo custo"
+        },
+        {
+          "dimensao": "Uso do Modal Rodoviário",
+          "cbf_oficial_2026": "46,2% rodoviário (53,8% aéreo)",
+          "modelo_proposto_fgv": "75,9% rodoviário (24,1% aéreo)",
+          "impacto": "Migração expressiva para malha viária sustentável"
+        },
+        {
+          "dimensao": "Custo Total de Logística",
+          "cbf_oficial_2026": "R$ 44.892.163,14",
+          "modelo_proposto_fgv": "R$ 33.229.357,40 (-26,0%)",
+          "impacto": "Economia líquida direta de R$ 11,66 milhões para a CBF"
+        },
+        {
+          "dimensao": "Custo Médio por Partida",
+          "cbf_oficial_2026": "R$ 82.826,87",
+          "modelo_proposto_fgv": "R$ 30.318,76 (-63,4%)",
+          "impacto": "Mais que o dobro de jogos por um quarto do custo unitário"
+        }
+      ]
+    }
+  }
+}

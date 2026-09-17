@@ -145,8 +145,53 @@
         "destino_macro": "SUL-MS"
       }
     ],
-    "trocas_de_liga_c": [],
-    "ingressantes_d_estaduais": []
+    "trocas_de_liga_c": [
+      {
+        "clube": "TOMBENSE/minas_gerais",
+        "nome": "Tombense",
+        "cidade": "Tombos",
+        "uf": "MG",
+        "de": "SUDESTE",
+        "para": "NORTE-CENTRO",
+        "motivo": "Alívio de sobrecarga de clubes paulistas no Sudeste (que atingiu teto de 18); clube da Zona da Mata mineira alocado à conferência Norte-Centro."
+      },
+      {
+        "clube": "ATHLETIC/minas_gerais",
+        "nome": "Athletic",
+        "cidade": "São João del-Rei",
+        "uf": "MG",
+        "de": "SUDESTE",
+        "para": "NORTE-CENTRO",
+        "motivo": "Alívio de sobrecarga de clubes paulistas no Sudeste; clube do Campo das Vertentes mineiro alocado à conferência Norte-Centro."
+      },
+      {
+        "clube": "ALTOS/piaui",
+        "nome": "Altos",
+        "cidade": "Altos",
+        "uf": "PI",
+        "de": "NORTE-CENTRO",
+        "para": "NORDESTE",
+        "motivo": "Contra-compensação de fronteira: retorno ao Nordeste para manter a conferência Norte-Centro estritamente em 14 clubes."
+      },
+      {
+        "clube": "MOTO CLUB/maranhao",
+        "nome": "Moto Club",
+        "cidade": "São Luís",
+        "uf": "MA",
+        "de": "NORTE-CENTRO",
+        "para": "NORDESTE",
+        "motivo": "Contra-compensação de fronteira: migração para o Nordeste para manter a conferência Norte-Centro estritamente em 14 clubes."
+      }
+    ],
+    "ingressantes_d_estaduais": [],
+    "tamanhos_conferencias_c_proxima": {
+      "SUDESTE": 18,
+      "SUL": 14,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "serie_d_reclustered_count": 31,
+    "paridade_explicacao": "Sobrecarga de descensos em SP forçou a migração de 2 clubes mineiros (Tombense e Athletic) para o Norte-Centro. Em contra-partida, Altos (PI) e Moto Club (MA) retornaram ao Nordeste."
   },
   "serie_c": {
     "conferencias": {

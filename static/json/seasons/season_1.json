@@ -145,8 +145,26 @@
         "destino_macro": "SUL-MS"
       }
     ],
-    "trocas_de_liga_c": [],
-    "ingressantes_d_estaduais": []
+    "trocas_de_liga_c": [
+      {
+        "clube": "GRÊMIO PRUDENTE/sao_paulo",
+        "nome": "Grêmio Prudente",
+        "cidade": "Presidente Prudente",
+        "uf": "SP",
+        "de": "SUDESTE",
+        "para": "SUL",
+        "motivo": "Rebalanceamento de Paridade Par: a dinâmica esportiva deixou o Sudeste com 17 clubes (ímpar) e o Sul com 15 clubes (ímpar). O solver CP-SAT acionou o pivô de fronteira do Grêmio Prudente (extremo oeste paulista na divisa com PR/MS) para o cluster Sul-MS, nivelando ambas as conferências em 16 clubes e eliminando qualquer rodada de folga (zero bye weeks)."
+      }
+    ],
+    "ingressantes_d_estaduais": [],
+    "tamanhos_conferencias_c_proxima": {
+      "SUDESTE": 16,
+      "SUL": 16,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "serie_d_reclustered_count": 37,
+    "paridade_explicacao": "O Sudeste acumulou 17 clubes e o Sul 15 (ambos ímpares). Grêmio Prudente (SP) foi alocado ao Sul-MS, restabelecendo cardinalidade par de 16 clubes em ambas."
   },
   "serie_c": {
     "conferencias": {

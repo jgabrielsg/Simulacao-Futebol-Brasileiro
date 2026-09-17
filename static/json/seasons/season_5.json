@@ -146,7 +146,15 @@
       }
     ],
     "trocas_de_liga_c": [],
-    "ingressantes_d_estaduais": []
+    "ingressantes_d_estaduais": [],
+    "tamanhos_conferencias_c_proxima": {
+      "SUDESTE": 18,
+      "SUL": 14,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "serie_d_reclustered_count": 28,
+    "paridade_explicacao": "Conclusão oficial do Quinquênio de simulações. 100% de paridade par mantida nos 5 anos (zero bye weeks) e 8 migrações de Iso-Liga realizadas com sucesso."
   },
   "serie_c": {
     "conferencias": {

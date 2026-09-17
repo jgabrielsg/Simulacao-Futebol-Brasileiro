@@ -145,8 +145,44 @@
         "destino_macro": "SUL-MS"
       }
     ],
-    "trocas_de_liga_c": [],
-    "ingressantes_d_estaduais": []
+    "trocas_de_liga_c": [
+      {
+        "clube": "GRÊMIO PRUDENTE/sao_paulo",
+        "nome": "Grêmio Prudente",
+        "cidade": "Presidente Prudente",
+        "uf": "SP",
+        "de": "SUL",
+        "para": "SUDESTE",
+        "motivo": "Retorno ao Sudeste decorrente da expansão da conferência para 18 clubes (teto regulamentar) provocada pelo acúmulo de rebaixamentos da Série B (Fluminense, Vasco, América-MG)."
+      },
+      {
+        "clube": "COSTA RICA/mato_grosso_do_sul",
+        "nome": "Costa Rica",
+        "cidade": "Costa Rica",
+        "uf": "MS",
+        "de": "SUL",
+        "para": "NORTE-CENTRO",
+        "motivo": "Pivô de fronteira Centro-Sul (MS/GO/MT) para recompor a conferência Norte-Centro em 14 clubes após o acesso de Paysandu e Brasiliense à Série B."
+      },
+      {
+        "clube": "ALTOS/piaui",
+        "nome": "Altos",
+        "cidade": "Altos",
+        "uf": "PI",
+        "de": "NORDESTE",
+        "para": "NORTE-CENTRO",
+        "motivo": "Pivô de fronteira Nordeste/Norte (PI/MA/PA) para equalizar a conferência Norte-Centro em 14 clubes e garantir paridade par."
+      }
+    ],
+    "ingressantes_d_estaduais": [],
+    "tamanhos_conferencias_c_proxima": {
+      "SUDESTE": 18,
+      "SUL": 14,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "serie_d_reclustered_count": 45,
+    "paridade_explicacao": "O Sudeste expandiu para 18 clubes (teto máximo) devido a descensos concentrados da Série B. Costa Rica (MS) e Altos (PI) migraram para recompor o Norte-Centro em 14 clubes."
   },
   "serie_c": {
     "conferencias": {

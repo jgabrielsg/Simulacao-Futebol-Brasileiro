@@ -1,0 +1,1472 @@
+[
+  {
+    "temporada": 1,
+    "financeiro": {
+      "custo_total_c_brl": 33610398.0,
+      "custo_total_d_brl": 41265625.47,
+      "custo_total_piramide_brl": 74876023.47,
+      "total_jogos_c": 870,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 38632.64,
+      "custo_medio_jogo_d_brl": 36583.0,
+      "economia_turnes_c_brl": 56497017.0,
+      "economia_turnes_d_brl": 20390282.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 16,
+      "SUL": 14,
+      "NORDESTE": 16,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "PALMEIRAS/sao_paulo",
+      "serie_b": "AMÉRICA MINEIRO/minas_gerais",
+      "serie_c": "ALTOS/piaui"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "AMÉRICA MINEIRO/minas_gerais",
+        "ATLÉTICO GOIANIENSE/goias",
+        "CEARÁ/ceara",
+        "GRÊMIO NOVORIZONTINO/sao_paulo"
+      ],
+      "rebaixados_a_b": [
+        "BOTAFOGO/rio_de_janeiro",
+        "FLAMENGO/rio_de_janeiro",
+        "CRUZEIRO/minas_gerais",
+        "CORITIBA/parana"
+      ],
+      "promovidos_c_b": [
+        "NOVA IGUAÇU/rio_de_janeiro",
+        "ALTOS/piaui",
+        "ITUANO/sao_paulo",
+        "APARECIDENSE/goias"
+      ],
+      "rebaixados_b_c": [
+        "OPERÁRIO/parana",
+        "BOTAFOGO/sao_paulo",
+        "JUVENTUDE/rio_grande_do_sul",
+        "NÁUTICO/pernambuco"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "TAQUARITINGA/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "POUSO ALEGRE/minas_gerais",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "CAMBORIÚ/santa_catarina",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "BARRA/santa_catarina",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "LAGARTO/sergipe",
+          "origem_liga": "NORDESTE_LIGA_4",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "origem_liga": "NORDESTE_LIGA_1",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "TREM/amapa",
+          "origem_liga": "NORTE-CENTRO_LIGA_2",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "CASTANHAL/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_2",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "GUARANI/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "PORTUGUESA/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "FIGUEIRENSE/santa_catarina",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "YPIRANGA/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "BOTAFOGO/paraiba",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "SANTA CRUZ/pernambuco",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "CEOV OPERÁRIO/mato_grosso",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "UNIÃO ATLÉTICO/tocantins",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": []
+    }
+  },
+  {
+    "temporada": 2,
+    "financeiro": {
+      "custo_total_c_brl": 38919635.87,
+      "custo_total_d_brl": 38399961.46,
+      "custo_total_piramide_brl": 77319597.33,
+      "total_jogos_c": 840,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 46332.9,
+      "custo_medio_jogo_d_brl": 34042.52,
+      "economia_turnes_c_brl": 53306698.0,
+      "economia_turnes_d_brl": 15880859.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 15,
+      "SUL": 16,
+      "NORDESTE": 15,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "PALMEIRAS/sao_paulo",
+      "serie_b": "FORTALEZA/ceara",
+      "serie_c": "BRASILIENSE/distrito_federal"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "FORTALEZA/ceara",
+        "CUIABÁ/mato_grosso",
+        "PONTE PRETA/sao_paulo",
+        "AVAÍ/santa_catarina"
+      ],
+      "rebaixados_a_b": [
+        "SÃO PAULO/sao_paulo",
+        "SANTOS/sao_paulo",
+        "INTERNACIONAL/rio_grande_do_sul",
+        "VASCO DA GAMA/rio_de_janeiro"
+      ],
+      "promovidos_c_b": [
+        "BRASILIENSE/distrito_federal",
+        "FLORESTA/ceara",
+        "CAPITAL CF/distrito_federal",
+        "ABC/rio_grande_do_norte"
+      ],
+      "rebaixados_b_c": [
+        "SÃO BERNARDO/sao_paulo",
+        "CORITIBA/parana",
+        "BOTAFOGO/rio_de_janeiro",
+        "CRUZEIRO/minas_gerais"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "BELFORD ROXO/rio_de_janeiro",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "VITÓRIA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "PARANAVAÍ/parana",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "CIANORTE/parana",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "TIMON/piaui",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "AFOGADOS DA INGAZEIRA/pernambuco",
+          "origem_liga": "NORDESTE_LIGA_1",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "MIXTO/mato_grosso",
+          "origem_liga": "NORTE-CENTRO_LIGA_3",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "MACAPÁ/amapa",
+          "origem_liga": "NORTE-CENTRO_LIGA_4",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "PORTUGUESA/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "BOTAFOGO/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "JUVENTUDE/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "SÃO JOSÉ/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "AMÉRICA/rio_grande_do_norte",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "FERROVIÁRIO/ceara",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "CASTANHAL/para",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "de": "NORDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 3,
+    "financeiro": {
+      "custo_total_c_brl": 39145396.42,
+      "custo_total_d_brl": 37094034.65,
+      "custo_total_piramide_brl": 76239431.07,
+      "total_jogos_c": 842,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 46490.97,
+      "custo_medio_jogo_d_brl": 32884.78,
+      "economia_turnes_c_brl": 52409051.0,
+      "economia_turnes_d_brl": 17646859.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 15,
+      "SUL": 17,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "PONTE PRETA/sao_paulo",
+      "serie_b": "SPORT/pernambuco",
+      "serie_c": "CSA/alagoas"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "SPORT/pernambuco",
+        "CRICIÚMA/santa_catarina",
+        "GOIÁS/goias",
+        "CRB/alagoas"
+      ],
+      "rebaixados_a_b": [
+        "CHAPECOENSE/santa_catarina",
+        "GRÊMIO NOVORIZONTINO/sao_paulo",
+        "VITÓRIA/bahia",
+        "FLUMINENSE/rio_de_janeiro"
+      ],
+      "promovidos_c_b": [
+        "RETRÔ/pernambuco",
+        "SÃO BERNARDO/sao_paulo",
+        "AMAZONAS/amazonas",
+        "CSA/alagoas"
+      ],
+      "rebaixados_b_c": [
+        "SÃO PAULO/sao_paulo",
+        "VASCO DA GAMA/rio_de_janeiro",
+        "INTERNACIONAL/rio_grande_do_sul",
+        "SANTOS/sao_paulo"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "NOVA VENÉCIA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_3",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "URT/minas_gerais",
+          "origem_liga": "SUDESTE_LIGA_3",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "ÁGUIA NEGRA/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_1",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "AZURIZ FUTEBOL/parana",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "CAMPINENSE/paraiba",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "ASA/alagoas",
+          "origem_liga": "NORDESTE_LIGA_3",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "CASTANHAL/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "CRUZEIRO/minas_gerais",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "BOTAFOGO/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "CORITIBA/parana",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "OPERÁRIO/mato_grosso_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "CONFIANÇA/sergipe",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "NÁUTICO/pernambuco",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "MACAPÁ/amapa",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "MIXTO/mato_grosso",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "FERROVIÁRIA/sao_paulo",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "REAL NOROESTE/espirito_santo",
+          "de": "SUDESTE",
+          "para": "NORDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "TAQUARITINGA/sao_paulo",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 4,
+    "financeiro": {
+      "custo_total_c_brl": 37451586.83,
+      "custo_total_d_brl": 42784462.27,
+      "custo_total_piramide_brl": 80236049.1,
+      "total_jogos_c": 878,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 42655.57,
+      "custo_medio_jogo_d_brl": 37929.49,
+      "economia_turnes_c_brl": 56241866.0,
+      "economia_turnes_d_brl": 18090304.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 14,
+      "SUL": 18,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "ATLÉTICO MINEIRO/minas_gerais",
+      "serie_b": "GRÊMIO NOVORIZONTINO/sao_paulo",
+      "serie_c": "VOLTA REDONDA/rio_de_janeiro"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "GRÊMIO NOVORIZONTINO/sao_paulo",
+        "CHAPECOENSE/santa_catarina",
+        "ABC/rio_grande_do_norte",
+        "RETRÔ/pernambuco"
+      ],
+      "rebaixados_a_b": [
+        "SPORT/pernambuco",
+        "PONTE PRETA/sao_paulo",
+        "CRICIÚMA/santa_catarina",
+        "REMO/para"
+      ],
+      "promovidos_c_b": [
+        "ITABAIANA/sergipe",
+        "VOLTA REDONDA/rio_de_janeiro",
+        "PAYSANDU/para",
+        "DEMOCRATA/minas_gerais"
+      ],
+      "rebaixados_b_c": [
+        "NOVA IGUAÇU/rio_de_janeiro",
+        "FLUMINENSE/rio_de_janeiro",
+        "VITÓRIA/bahia",
+        "FLAMENGO/rio_de_janeiro"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "CABOFRIENSE/rio_de_janeiro",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "SERRA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "DOURADOS/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "AQUIDAUANENSE/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "MARANHÃO/maranhao",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "4 DE JULHO/piaui",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "ÁGUIA DE MARABÁ/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_2",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "CENTRO OESTE/goias",
+          "origem_liga": "NORTE-CENTRO_LIGA_6",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "VASCO DA GAMA/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "SÃO PAULO/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "BARRA/santa_catarina",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "OPERÁRIO/parana",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "INTERNACIONAL/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "AFOGADOS DA INGAZEIRA/pernambuco",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "JACUIPENSE/bahia",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "TUNA LUSO/para",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "NOVA VENÉCIA/espirito_santo",
+          "de": "SUDESTE",
+          "para": "NORDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "DEMOCRATA/minas_gerais",
+          "de": "SUDESTE",
+          "para": "NORDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "URT/minas_gerais",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 5,
+    "financeiro": {
+      "custo_total_c_brl": 38924085.5,
+      "custo_total_d_brl": 40425583.46,
+      "custo_total_piramide_brl": 79349668.96,
+      "total_jogos_c": 828,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 47009.77,
+      "custo_medio_jogo_d_brl": 35838.28,
+      "economia_turnes_c_brl": 55063913.0,
+      "economia_turnes_d_brl": 19941063.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 14,
+      "SUL": 17,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "ATHLETICO PARANAENSE/parana",
+      "serie_b": "SPORT/pernambuco",
+      "serie_c": "NOVA IGUAÇU/rio_de_janeiro"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "SPORT/pernambuco",
+        "PONTE PRETA/sao_paulo",
+        "VILA NOVA/goias",
+        "CRICIÚMA/santa_catarina"
+      ],
+      "rebaixados_a_b": [
+        "CHAPECOENSE/santa_catarina",
+        "MIRASSOL/sao_paulo",
+        "ABC/rio_grande_do_norte",
+        "RETRÔ/pernambuco"
+      ],
+      "promovidos_c_b": [
+        "OESTE/sao_paulo",
+        "COSTA RICA/mato_grosso_do_sul",
+        "JUAZEIRENSE/bahia",
+        "NOVA IGUAÇU/rio_de_janeiro"
+      ],
+      "rebaixados_b_c": [
+        "VOLTA REDONDA/rio_de_janeiro",
+        "AMAZONAS/amazonas",
+        "CAPITAL CF/distrito_federal",
+        "APARECIDENSE/goias"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "DESPORTIVA FERROVIÁRIA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "VOCEM/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_4",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "IVINHEMA/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "SÃO LUIZ/rio_grande_do_sul",
+          "origem_liga": "SUL-MS_LIGA_1",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "ATLÉTICO CEARENSE/ceara",
+          "origem_liga": "NORDESTE_LIGA_3",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "BAHIA DE FEIRA/bahia",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "ANAPOLINA/goias",
+          "origem_liga": "NORTE-CENTRO_LIGA_3",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "MOTO CLUB/maranhao",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "VILLA NOVA/minas_gerais",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "FLAMENGO/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "AZURIZ FUTEBOL/parana",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "AQUIDAUANENSE/mato_grosso_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "SERRA/espirito_santo",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "CAMPINENSE/paraiba",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "TAQUARITINGA/sao_paulo",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "CENTRO OESTE/goias",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "SERRA/espirito_santo",
+          "de": "SUDESTE",
+          "para": "NORDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "INTER DE LIMEIRA/sao_paulo",
+          "de": "SUDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 6,
+    "financeiro": {
+      "custo_total_c_brl": 44517819.55,
+      "custo_total_d_brl": 40340111.35,
+      "custo_total_piramide_brl": 84857930.9,
+      "total_jogos_c": 826,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 53895.67,
+      "custo_medio_jogo_d_brl": 35762.51,
+      "economia_turnes_c_brl": 56226152.0,
+      "economia_turnes_d_brl": 23108326.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 14,
+      "SUL": 16,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 15
+    },
+    "campeoes": {
+      "serie_a": "FORTALEZA/ceara",
+      "serie_b": "CSA/alagoas",
+      "serie_c": "BRUSQUE/santa_catarina"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "CSA/alagoas",
+        "MIRASSOL/sao_paulo",
+        "FLORESTA/ceara",
+        "REMO/para"
+      ],
+      "rebaixados_a_b": [
+        "SPORT/pernambuco",
+        "VILA NOVA/goias",
+        "CRB/alagoas",
+        "CRICIÚMA/santa_catarina"
+      ],
+      "promovidos_c_b": [
+        "TOMBENSE/minas_gerais",
+        "BRUSQUE/santa_catarina",
+        "AMAZONAS/amazonas",
+        "TOCANTINÓPOLIS/tocantins"
+      ],
+      "rebaixados_b_c": [
+        "RETRÔ/pernambuco",
+        "ITABAIANA/sergipe",
+        "DEMOCRATA/minas_gerais",
+        "COSTA RICA/mato_grosso_do_sul"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "ÁGUA SANTA/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "SERRA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_4",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "JUVENTUS JARAGUÁ/santa_catarina",
+          "origem_liga": "SUL-MS_LIGA_2",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "GUARANI V. AIRES/rio_grande_do_sul",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "FALCON/sergipe",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "MARACANÃ/ceara",
+          "origem_liga": "NORDESTE_LIGA_1",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "REAL BRASÍLIA/distrito_federal",
+          "origem_liga": "NORTE-CENTRO_LIGA_5",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "NACIONAL/amazonas",
+          "origem_liga": "NORTE-CENTRO_LIGA_6",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "RIO BRANCO/espirito_santo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "DESPORTIVA FERROVIÁRIA/espirito_santo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "CAMBORIÚ/santa_catarina",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "IVINHEMA/mato_grosso_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "4 DE JULHO/piaui",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "TIMON/piaui",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "MANAUARA/amazonas",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "URT/minas_gerais",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "CAPITAL CF/distrito_federal",
+          "de": "NORTE-CENTRO",
+          "para": "SUDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        },
+        {
+          "clube": "TOCANTINÓPOLIS/tocantins",
+          "de": "NORTE-CENTRO",
+          "para": "NORDESTE",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 7,
+    "financeiro": {
+      "custo_total_c_brl": 43641541.77,
+      "custo_total_d_brl": 39035443.87,
+      "custo_total_piramide_brl": 82676985.64,
+      "total_jogos_c": 826,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 52834.8,
+      "custo_medio_jogo_d_brl": 34605.89,
+      "economia_turnes_c_brl": 54749008.0,
+      "economia_turnes_d_brl": 22436653.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 14,
+      "SUL": 16,
+      "NORDESTE": 15,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "AMÉRICA MINEIRO/minas_gerais",
+      "serie_b": "CRB/alagoas",
+      "serie_c": "VOLTA REDONDA/rio_de_janeiro"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "CRB/alagoas",
+        "CRICIÚMA/santa_catarina",
+        "SPORT/pernambuco",
+        "PAYSANDU/para"
+      ],
+      "rebaixados_a_b": [
+        "AVAÍ/santa_catarina",
+        "CSA/alagoas",
+        "GRÊMIO NOVORIZONTINO/sao_paulo",
+        "FLORESTA/ceara"
+      ],
+      "promovidos_c_b": [
+        "BRASIL/rio_grande_do_sul",
+        "ITABAIANA/sergipe",
+        "VOLTA REDONDA/rio_de_janeiro",
+        "POUSO ALEGRE/minas_gerais"
+      ],
+      "rebaixados_b_c": [
+        "BRUSQUE/santa_catarina",
+        "ATHLETIC/minas_gerais",
+        "NOVA IGUAÇU/rio_de_janeiro",
+        "OESTE/sao_paulo"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "MARÍLIA/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "INTER DE BEBEDOURO/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "AZURIZ FUTEBOL/parana",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "SERC/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_1",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "IMPERATRIZ/maranhao",
+          "origem_liga": "NORDESTE_LIGA_1",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "TREZE/paraiba",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "PRINCESA/amazonas",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "UNIÃO ATLÉTICO/tocantins",
+          "origem_liga": "NORTE-CENTRO_LIGA_4",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "SANTOS/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "CABOFRIENSE/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "MARCÍLIO DIAS/santa_catarina",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "PARANAVAÍ/parana",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "NOVA VENÉCIA/espirito_santo",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "FALCON/sergipe",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "NACIONAL/amazonas",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "REAL BRASÍLIA/distrito_federal",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": []
+    }
+  },
+  {
+    "temporada": 8,
+    "financeiro": {
+      "custo_total_c_brl": 42100763.4,
+      "custo_total_d_brl": 40287766.06,
+      "custo_total_piramide_brl": 82388529.46,
+      "total_jogos_c": 826,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 50969.45,
+      "custo_medio_jogo_d_brl": 35716.1,
+      "economia_turnes_c_brl": 56842025.0,
+      "economia_turnes_d_brl": 19955089.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 15,
+      "SUL": 16,
+      "NORDESTE": 14,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "BAHIA/bahia",
+      "serie_b": "CSA/alagoas",
+      "serie_c": "BRUSQUE/santa_catarina"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "CSA/alagoas",
+        "VILA NOVA/goias",
+        "GRÊMIO NOVORIZONTINO/sao_paulo",
+        "CHAPECOENSE/santa_catarina"
+      ],
+      "rebaixados_a_b": [
+        "PAYSANDU/para",
+        "MIRASSOL/sao_paulo",
+        "REMO/para",
+        "PONTE PRETA/sao_paulo"
+      ],
+      "promovidos_c_b": [
+        "BRUSQUE/santa_catarina",
+        "RETRÔ/pernambuco",
+        "MARINGÁ/parana",
+        "MANAUS/amazonas"
+      ],
+      "rebaixados_b_c": [
+        "JUAZEIRENSE/bahia",
+        "ITABAIANA/sergipe",
+        "POUSO ALEGRE/minas_gerais",
+        "FLORESTA/ceara"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "NOVA VENÉCIA/espirito_santo",
+          "origem_liga": "SUDESTE_LIGA_2",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "BOA ESPORTE/minas_gerais",
+          "origem_liga": "SUDESTE_LIGA_4",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "NOVO HAMBURGO/rio_grande_do_sul",
+          "origem_liga": "SUL-MS_LIGA_2",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "AQUIDAUANENSE/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_1",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "4 DE JULHO/piaui",
+          "origem_liga": "NORDESTE_LIGA_4",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "JACUIPENSE/bahia",
+          "origem_liga": "NORDESTE_LIGA_2",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "PARAGOMINAS/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_3",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "GAZIN PORTO VELHO/rondonia",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "MARÍLIA/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "BELFORD ROXO/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "COSTA RICA/mato_grosso_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "JUVENTUS JARAGUÁ/santa_catarina",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "MARACANÃ/ceara",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "FLUMINENSE/piaui",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "ÁGUIA DE MARABÁ/para",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "CASTANHAL/para",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": []
+    }
+  },
+  {
+    "temporada": 9,
+    "financeiro": {
+      "custo_total_c_brl": 41126238.97,
+      "custo_total_d_brl": 37235906.15,
+      "custo_total_piramide_brl": 78362145.11,
+      "total_jogos_c": 826,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 49789.64,
+      "custo_medio_jogo_d_brl": 33010.56,
+      "economia_turnes_c_brl": 57200113.0,
+      "economia_turnes_d_brl": 16312571.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 16,
+      "SUL": 14,
+      "NORDESTE": 15,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "AMÉRICA MINEIRO/minas_gerais",
+      "serie_b": "AVAÍ/santa_catarina",
+      "serie_c": "NOVA IGUAÇU/rio_de_janeiro"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "AVAÍ/santa_catarina",
+        "REMO/para",
+        "PAYSANDU/para",
+        "ABC/rio_grande_do_norte"
+      ],
+      "rebaixados_a_b": [
+        "CRB/alagoas",
+        "GRÊMIO NOVORIZONTINO/sao_paulo",
+        "CUIABÁ/mato_grosso",
+        "CSA/alagoas"
+      ],
+      "promovidos_c_b": [
+        "NOVA IGUAÇU/rio_de_janeiro",
+        "GAZIN PORTO VELHO/rondonia",
+        "CAXIAS/rio_grande_do_sul",
+        "TREZE/paraiba"
+      ],
+      "rebaixados_b_c": [
+        "RETRÔ/pernambuco",
+        "ITUANO/sao_paulo",
+        "MARINGÁ/parana",
+        "ALTOS/piaui"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "SANTO ANDRÉ/sao_paulo",
+          "origem_liga": "SUDESTE_LIGA_4",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "BELFORD ROXO/rio_de_janeiro",
+          "origem_liga": "SUDESTE_LIGA_3",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "COSTA RICA/mato_grosso_do_sul",
+          "origem_liga": "SUL-MS_LIGA_1",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "LARANJA MECÂNICA/parana",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "CAMPINENSE/paraiba",
+          "origem_liga": "NORDESTE_LIGA_4",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "IAPE/maranhao",
+          "origem_liga": "NORDESTE_LIGA_1",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "NOVA MUTUM/mato_grosso",
+          "origem_liga": "NORTE-CENTRO_LIGA_1",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "ÁGUIA DE MARABÁ/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_4",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "FLUMINENSE/rio_de_janeiro",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "SERRA/espirito_santo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "ÁGUIA NEGRA/mato_grosso_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "NOVO HAMBURGO/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "VITÓRIA/bahia",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "4 DE JULHO/piaui",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "PARAGOMINAS/para",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "PRINCESA/amazonas",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "IMPERATRIZ/maranhao",
+          "de": "NORDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  },
+  {
+    "temporada": 10,
+    "financeiro": {
+      "custo_total_c_brl": 37819321.89,
+      "custo_total_d_brl": 39193751.08,
+      "custo_total_piramide_brl": 77013072.97,
+      "total_jogos_c": 826,
+      "total_jogos_d": 1128,
+      "custo_medio_jogo_c_brl": 45786.1,
+      "custo_medio_jogo_d_brl": 34746.23,
+      "economia_turnes_c_brl": 52410895.0,
+      "economia_turnes_d_brl": 20508647.0,
+      "pct_rodoviario_c": 68.4,
+      "pct_rodoviario_d": 100.0
+    },
+    "tamanhos_conferencias_c": {
+      "SUDESTE": 16,
+      "SUL": 14,
+      "NORDESTE": 15,
+      "NORTE-CENTRO": 14
+    },
+    "campeoes": {
+      "serie_a": "PALMEIRAS/sao_paulo",
+      "serie_b": "CRB/alagoas",
+      "serie_c": "MARINGÁ/parana"
+    },
+    "transicoes": {
+      "promovidos_b_a": [
+        "CRB/alagoas",
+        "PONTE PRETA/sao_paulo",
+        "CUIABÁ/mato_grosso",
+        "MIRASSOL/sao_paulo"
+      ],
+      "rebaixados_a_b": [
+        "AVAÍ/santa_catarina",
+        "ABC/rio_grande_do_norte",
+        "PAYSANDU/para",
+        "REMO/para"
+      ],
+      "promovidos_c_b": [
+        "MARINGÁ/parana",
+        "OESTE/sao_paulo",
+        "UNIÃO RONDONÓPOLIS/mato_grosso",
+        "ITUANO/sao_paulo"
+      ],
+      "rebaixados_b_c": [
+        "TREZE/paraiba",
+        "TOCANTINÓPOLIS/tocantins",
+        "GAZIN PORTO VELHO/rondonia",
+        "BRASIL/rio_grande_do_sul"
+      ],
+      "promovidos_d_c": [
+        {
+          "clube": "FLUMINENSE/rio_de_janeiro",
+          "origem_liga": "SUDESTE_LIGA_1",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "MAMORÉ/minas_gerais",
+          "origem_liga": "SUDESTE_LIGA_4",
+          "destino_conf": "SUDESTE"
+        },
+        {
+          "clube": "MONSOON/rio_grande_do_sul",
+          "origem_liga": "SUL-MS_LIGA_4",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "HERCÍLIO LUZ/santa_catarina",
+          "origem_liga": "SUL-MS_LIGA_3",
+          "destino_conf": "SUL"
+        },
+        {
+          "clube": "SERRA BRANCA/paraiba",
+          "origem_liga": "NORDESTE_LIGA_4",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "OLÍMPICO/sergipe",
+          "origem_liga": "NORDESTE_LIGA_3",
+          "destino_conf": "NORDESTE"
+        },
+        {
+          "clube": "IZABELENSE/para",
+          "origem_liga": "NORTE-CENTRO_LIGA_4",
+          "destino_conf": "NORTE-CENTRO"
+        },
+        {
+          "clube": "GAMA/distrito_federal",
+          "origem_liga": "NORTE-CENTRO_LIGA_5",
+          "destino_conf": "NORTE-CENTRO"
+        }
+      ],
+      "rebaixados_c_d": [
+        {
+          "clube": "ÁGUA SANTA/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "INTER DE BEBEDOURO/sao_paulo",
+          "origem_conf": "SUDESTE",
+          "destino_macro": "SUDESTE"
+        },
+        {
+          "clube": "GUARANI V. AIRES/rio_grande_do_sul",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "LARANJA MECÂNICA/parana",
+          "origem_conf": "SUL",
+          "destino_macro": "SUL-MS"
+        },
+        {
+          "clube": "ITABAIANA/sergipe",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "REAL NOROESTE/espirito_santo",
+          "origem_conf": "NORDESTE",
+          "destino_macro": "NORDESTE"
+        },
+        {
+          "clube": "UNIÃO ATLÉTICO/tocantins",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        },
+        {
+          "clube": "NOVA MUTUM/mato_grosso",
+          "origem_conf": "NORTE-CENTRO",
+          "destino_macro": "NORTE-CENTRO"
+        }
+      ],
+      "trocas_de_liga_c": [
+        {
+          "clube": "MARANHÃO/maranhao",
+          "de": "NORDESTE",
+          "para": "NORTE-CENTRO",
+          "motivo": "Rebalanceamento de Paridade (Faixa 14-18 / Iso-Liga)"
+        }
+      ]
+    }
+  }
+]
